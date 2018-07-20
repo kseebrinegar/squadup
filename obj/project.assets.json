@@ -11507,11 +11507,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/matthewmclennan/Code/squaduptemplate/squaduptemplate.csproj",
-      "projectName": "squaduptemplate",
-      "projectPath": "/Users/matthewmclennan/Code/squaduptemplate/squaduptemplate.csproj",
+      "projectUniqueName": "/Users/matthewmclennan/Code/squadup/squadup.csproj",
+      "projectName": "squadup",
+      "projectPath": "/Users/matthewmclennan/Code/squadup/squadup.csproj",
       "packagesPath": "/Users/matthewmclennan/.nuget/packages/",
-      "outputPath": "/Users/matthewmclennan/Code/squaduptemplate/obj/",
+      "outputPath": "/Users/matthewmclennan/Code/squadup/obj/",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
