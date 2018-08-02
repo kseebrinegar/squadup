@@ -10,9 +10,9 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/squadup/bin/Debug/netcoreapp2.1/squadup.dll",
+            "program": "${workspaceFolder}/bin/Debug/netcoreapp2.1/squadup.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/squadup",
+            "cwd": "${workspaceFolder}",
             "stopAtEntry": false,
             "internalConsoleOptions": "openOnSessionStart",
             "launchBrowser": {
