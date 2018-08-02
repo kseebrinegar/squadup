@@ -16,9 +16,9 @@ matrix:
       cache:
         directories:
           - "node_modules"
-        before_script: 
-          - "cd squadup/ClientApp"
-        script: 
-          - "npm install"
-          - "npm run build"
-          - "npm run test a"
+      before_script: 
+        - "cd squadup/ClientApp"
+      script: 
+        - npm install
+        - npm run build
+        - npm run test a
