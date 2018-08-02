@@ -10,5 +10,5 @@ script:
   - dotnet build
   - dotnet test squadup.Tests/
   - npm install squadup/ClientApp
-  - npmrunbuild.sh
-  - npmruntest.sh
+  - sh npmrunbuild.sh
+  - sh npmruntest.sh
