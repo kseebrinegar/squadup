@@ -1,0 +1,11 @@
+language: csharp
+
+install:
+  - dotnet restore
+  - dotnet restore squadup/
+  - dotnet restore squadup.Tests/
+
+script:
+  - dotnet build
+  - dotnet build squadup/
+  - dotnet test squadup.Tests/
