@@ -9,15 +9,3 @@ matrix:
     script:
       - dotnet build
       - dotnet test squadup.Tests/
-  
-    - language: node_js
-      node_js:
-        - "stable"
-      cache:
-        directories:
-          - "node_modules"
-      before_script: 
-        - "cd squadup/ClientApp"
-      script: 
-        - "npm install"
-        - "npm run build"
