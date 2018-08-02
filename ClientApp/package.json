@@ -11,7 +11,8 @@
     "redux": "^4.0.0"
   },
   "scripts": {
-    "start": "react-scripts-ts start",
+    "build-css": "node-sass --watch src/scss/main.scss -o src/scss",
+    "start": "concurrently \"react-scripts-ts start\" \"npm run build-css\"",
     "build": "react-scripts-ts build",
     "test": "react-scripts-ts test --env=jsdom",
     "eject": "react-scripts-ts eject"
@@ -23,8 +24,10 @@
     "@types/node": "^10.5.4",
     "@types/react": "^16.4.7",
     "@types/react-dom": "^16.0.6",
+    "concurrently": "^3.6.1",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
+    "node-sass": "^4.9.2",
     "react-test-renderer": "^16.4.1",
     "typescript": "^2.9.2"
   }
