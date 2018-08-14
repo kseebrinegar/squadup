@@ -2,6 +2,7 @@ import { applyMiddleware, combineReducers, compose, createStore } from "redux";
 import thunk from "redux-thunk";
 
 const composeEnhancers =
+    // tslint:disable-next-line:no-any
     (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const setStore = () => {
