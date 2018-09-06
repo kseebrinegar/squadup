@@ -1,0 +1,157 @@
+@import "../mixins/mixins.scss";
+@import "../vars/vars.scss";
+
+.module-background {
+    position: fixed;
+    z-index: 100;
+    background: rgba(0, 0, 0, 0.4);
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.module-big-popup,
+.module-small-popup {
+    position: relative;
+    background: white;
+    border-radius: 3px;
+    box-shadow: rgba(0, 0, 0, 0.4) 1px 7px 20px 2px;
+    @include center-container-x-and-y;
+
+    .close-icon {
+        position: absolute;
+        right: 1rem;
+        top: 1rem;
+    }
+}
+
+.module-small-popup {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    height: 35rem;
+    width: 70rem;
+
+    .module-small-popup-yes-or-no {
+        display: flex;
+    }
+
+    button {
+        width: 10rem;
+        margin: 3.5rem 3.5rem 0 3.5rem;
+
+        @include respond(mq-768) {
+            margin: 3rem 3rem 0 3rem;
+            width: 7rem;
+        }
+
+        @include respond(mq-1500) {
+            margin: 4rem 4rem 0 4rem;
+            width: 12rem;
+        }
+
+        @include respond(mq-1800) {
+            margin: 4.5rem 4.5rem 0 4.5rem;
+            width: 13rem;
+        }
+    }
+
+    @include respond(mq-768) {
+        height: 28rem;
+        width: 40rem;
+    }
+
+    @include respond(mq-480) {
+        width: 35rem;
+    }
+
+    @include respond(mq-1500) {
+        height: 42em;
+        width: 70rem;
+    }
+
+    @include respond(mq-1800) {
+        height: 48em;
+        width: 80rem;
+    }
+}
+
+.module-big-popup {
+    height: 500px;
+    width: 700px;
+    background-image: url("/images/banner-popup.jpg");
+    background-size: 175px;
+    background-repeat: no-repeat;
+
+    .input-container {
+        position: relative;
+    }
+
+    .signup .input-container {
+        width: 31.5rem;
+
+        @include respond(mq-768) {
+            width: 28rem;
+        }
+
+        @include respond(mq-480) {
+            width: 25.8rem;
+        }
+
+        @include respond(mq-1500) {
+            width: 35.5rem;
+        }
+
+        @include respond(mq-1800) {
+            width: 40.5rem;
+        }
+    }
+
+    .login .input-container {
+        width: 32rem;
+        position: relative;
+
+        @include respond(mq-768) {
+            width: 28.6rem;
+        }
+
+        @include respond(mq-480) {
+            width: 26.1rem;
+        }
+
+        @include respond(mq-1500) {
+            width: 36.8rem;
+        }
+
+        @include respond(mq-1800) {
+            width: 42rem;
+        }
+    }
+
+    @include respond(mq-768) {
+        height: 500px;
+        width: 400px;
+        background-image: none;
+    }
+
+    @include respond(mq-480) {
+        height: 450px;
+        max-width: 350px;
+        width: 100%;
+        background-image: none;
+    }
+
+    @include respond(mq-1500) {
+        height: 600px;
+        width: 840px;
+        background-size: 210px;
+    }
+
+    @include respond(mq-1800) {
+        height: 660px;
+        width: 925px;
+        background-size: 230px;
+    }
+}

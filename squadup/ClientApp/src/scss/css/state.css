@@ -1,0 +1,169 @@
+/* START .................................. MEDIA QUERIES */
+/* END .................................... MEDIA QUERIES */
+/*$light-grey: rgb(247, 247, 247);
+$dark-grey: rgb(207, 207, 207);
+$green-dark: rgb(40, 167, 69);
+$green-light: rgb(52, 208, 88);
+$light-dark: rgb(47, 47, 47);
+$dark-black: rgb(0, 0, 0);
+$new-messages-count: rgb(222, 16, 29)*/
+/* START....................... Pseudo-class State */
+button:focus {
+  outline: none; }
+
+button:active {
+  outline: none; }
+
+.btn-primary:hover {
+  border: 1px solid #1e7e34;
+  background-color: #1e7e34;
+  background-image: linear-gradient(-180deg, #27aa45 0% 0%, #1e7e34 90% 90%); }
+
+.btn-primary:active {
+  border: 1px solid #145523;
+  background-color: #145523;
+  background-image: linear-gradient(-180deg, #1e8034 0% 0%, #145523 90% 90%); }
+
+.btn-red:hover {
+  border: 1px solid #ae0d17;
+  background-color: #ae0d17;
+  background-image: linear-gradient(-180deg, #d21e15 0% 0%, #ae0d17 90% 90%); }
+
+.btn-red:active {
+  border: 1px solid #7f0911;
+  background-color: #7f0911;
+  background-image: linear-gradient(-180deg, #a31811 0% 0%, #7f0911 90% 90%); }
+
+.nav-list-item:hover .is-active-nav-link--hover {
+  height: 26px;
+  background-color: #28a745;
+  transition: 0.2s;
+  background-image: linear-gradient(-180deg, #34d058 0%, #28a745 90%); }
+
+.fa-bars:hover,
+.fa-envelope:hover,
+.fa-user:hover,
+.fa-sign-out-alt:hover {
+  color: #838383; }
+
+.close-icon:hover .close-icon-line1,
+.close-icon:hover .close-icon-line2 {
+  background: #838383; }
+
+.icon-container:hover .icon-info-dashboard,
+.icon-container:hover .icon-info-inbox,
+.icon-container:hover .icon-info-logout {
+  display: block; }
+
+.fa-bars:active,
+.fa-envelope:active,
+.fa-user:active,
+.fa-sign-out-alt:active,
+.fa-times:active {
+  color: dimgray; }
+
+.close-icon:active .close-icon-line1,
+.close-icon:active .close-icon-line2 {
+  background: dimgray; }
+
+@media (max-width: 768px) {
+  .nav-list-item:hover .is-active-nav-link--hover {
+    height: 5px; }
+  .nav-list-item:hover:first-child .is-active-nav-link--hover {
+    top: 60%; } }
+
+@media (max-width: 480px) {
+  .nav-list-item:hover .is-active-nav-link--hover {
+    height: 3px; } }
+
+@media (min-width: 1500px) {
+  .nav-list-item:hover .is-active-nav-link--hover {
+    height: 30px; } }
+
+@media (min-width: 1800px) {
+  .nav-list-item:hover .is-active-nav-link--hover {
+    height: 34px; } }
+
+/* END........................... Pseudo State */
+/* START.......................... Class State */
+.is-active-nav-link--hover, .is-active-nav-link, .is-active-nav-link--dark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  transform: translate(-50%, -50%); }
+
+.is-hidden {
+  display: none; }
+
+.is-shown {
+  display: block; }
+
+.is-active-nav-link--hover {
+  height: 0px;
+  transition: 0.4s; }
+
+.is-active-nav-link {
+  height: 26px;
+  background-color: #28a745;
+  transition: 1s;
+  background-image: linear-gradient(-180deg, #34d058 0% 0%, #28a745 90% 90%); }
+
+.is-active-nav-link--dark {
+  height: 26px;
+  background-color: #145523;
+  transition: 1s;
+  background-image: linear-gradient(-180deg, #1e8034 0% 0%, #145523 90% 90%); }
+
+@media (max-width: 768px) {
+  .is-active-nav-link {
+    height: 5px; }
+  .is-active-nav-link--dark {
+    height: 5px; }
+  .nav-list-item:first-child .is-active-nav-link,
+  .nav-list-item:first-child .is-active-nav-link--dark {
+    top: 60%; }
+  .is-expanded-header-drop-down-menu {
+    -webkit-transition: all 500ms cubic-bezier(0.455, 0.03, 0.515, 0.955);
+    -moz-transition: all 500ms cubic-bezier(0.455, 0.03, 0.515, 0.955);
+    -o-transition: all 500ms cubic-bezier(0.455, 0.03, 0.515, 0.955);
+    transition: all 500ms cubic-bezier(0.455, 0.03, 0.515, 0.955);
+    height: 24.6rem; }
+  .is-unexpanded-header-drop-down-menu {
+    -webkit-transition: all 500ms cubic-bezier(0.455, 0.03, 0.515, 0.955);
+    -moz-transition: all 500ms cubic-bezier(0.455, 0.03, 0.515, 0.955);
+    -o-transition: all 500ms cubic-bezier(0.455, 0.03, 0.515, 0.955);
+    transition: all 500ms cubic-bezier(0.455, 0.03, 0.515, 0.955);
+    height: 7.2rem; } }
+
+@media (max-width: 480px) {
+  .is-active-nav-link {
+    height: 3px; }
+  .is-active-nav-link--dark {
+    height: 3px; }
+  .is-expanded-header-drop-down-menu {
+    -webkit-transition: all 500ms cubic-bezier(0.455, 0.03, 0.515, 0.955);
+    -moz-transition: all 500ms cubic-bezier(0.455, 0.03, 0.515, 0.955);
+    -o-transition: all 500ms cubic-bezier(0.455, 0.03, 0.515, 0.955);
+    transition: all 500ms cubic-bezier(0.455, 0.03, 0.515, 0.955);
+    height: 23.2rem; }
+  .is-unexpanded-header-drop-down-menu {
+    -webkit-transition: all 500ms cubic-bezier(0.455, 0.03, 0.515, 0.955);
+    -moz-transition: all 500ms cubic-bezier(0.455, 0.03, 0.515, 0.955);
+    -o-transition: all 500ms cubic-bezier(0.455, 0.03, 0.515, 0.955);
+    transition: all 500ms cubic-bezier(0.455, 0.03, 0.515, 0.955);
+    height: 6.7rem; } }
+
+@media (min-width: 1500px) {
+  .is-active-nav-link {
+    height: 30px; }
+  .is-active-nav-link--dark {
+    height: 30px; } }
+
+@media (min-width: 1800px) {
+  .is-active-nav-link {
+    height: 34px; }
+  .is-active-nav-link--dark {
+    height: 34px; } }
+
+/* END............................ Class State */

@@ -8,20 +8,29 @@ import Page404 from "../components/pages/Page404";
 import PeoplePage from "../components/pages/people/PeoplePage";
 import ProjectsPage from "../components/pages/projects/ProjectsPage";
 
-class Router extends React.Component {
+class Router extends React.Component<{}, {}> {
     public render() {
         return (
             <React.Fragment>
-                <Header />
                 <BrowserRouter>
-                    <Switch>
-                        <Route path={"/events"} component={EventsPage} />
-                        <Route path={"/projects"} component={ProjectsPage} />
-                        <Route path={"/people"} component={PeoplePage} />
-                        <Route path={"/about"} component={AboutPage} />
-                        <Route path={"/"} exact={true} component={HomePage} />
-                        <Route path="/" component={Page404} />
-                    </Switch>
+                    <React.Fragment>
+                        <Header />
+                        <Switch>
+                            <Route path={"/events"} component={EventsPage} />
+                            <Route
+                                path={"/projects"}
+                                component={ProjectsPage}
+                            />
+                            <Route path={"/people"} component={PeoplePage} />
+                            <Route path={"/about"} component={AboutPage} />
+                            <Route
+                                path={"/"}
+                                exact={true}
+                                component={HomePage}
+                            />
+                            <Route path="/" component={Page404} />
+                        </Switch>
+                    </React.Fragment>
                 </BrowserRouter>
             </React.Fragment>
         );

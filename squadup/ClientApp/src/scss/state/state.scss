@@ -1,0 +1,251 @@
+@import "../mixins/mixins.scss";
+@import "../vars/vars.scss";
+
+/* START....................... Pseudo-class State */
+
+button:focus {
+    outline: none;
+}
+
+button:active {
+    outline: none;
+}
+
+.btn-primary:hover {
+    @include background-and-border-color(
+        darken($button-color-dk, 10%),
+        darken($button-color-dk, 10%)
+    );
+    @include linearGradient-background-primary(
+        darken($button-color-lt, 10%) 0%,
+        darken($button-color-dk, 10%) 90%
+    );
+}
+
+.btn-primary:active {
+    @include background-and-border-color(
+        darken($button-color-dk, 20%),
+        darken($button-color-dk, 20%)
+    );
+    @include linearGradient-background-primary(
+        darken($button-color-lt, 20%) 0%,
+        darken($button-color-dk, 20%) 90%
+    );
+}
+
+.btn-red:hover {
+    @include background-and-border-color(
+        darken($red-dk, 10%),
+        darken($red-dk, 10%)
+    );
+    @include linearGradient-background-primary(
+        darken($red-lt, 10%) 0%,
+        darken($red-dk, 10%) 90%
+    );
+}
+
+.btn-red:active {
+    @include background-and-border-color(
+        darken($red-dk, 20%),
+        darken($red-dk, 20%)
+    );
+    @include linearGradient-background-primary(
+        darken($red-lt, 20%) 0%,
+        darken($red-dk, 20%) 90%
+    );
+}
+
+.nav-list-item {
+    &:hover .is-active-nav-link--hover {
+        height: 26px;
+        background-color: $button-color-dk;
+        transition: 0.2s;
+        @include linearGradient-background-primary(
+            $button-color-lt,
+            $button-color-dk
+        );
+    }
+}
+
+.fa-bars:hover,
+.fa-envelope:hover,
+.fa-user:hover,
+.fa-sign-out-alt:hover {
+    color: darken($hamburger-icon-color, 30%);
+}
+
+.close-icon:hover .close-icon-line1,
+.close-icon:hover .close-icon-line2 {
+    background: darken($hamburger-icon-color, 30%);
+}
+
+.icon-container:hover .icon-info-dashboard,
+.icon-container:hover .icon-info-inbox,
+.icon-container:hover .icon-info-logout {
+    display: block;
+}
+
+.fa-bars:active,
+.fa-envelope:active,
+.fa-user:active,
+.fa-sign-out-alt:active,
+.fa-times:active {
+    color: darken($hamburger-icon-color, 40%);
+}
+
+.close-icon:active .close-icon-line1,
+.close-icon:active .close-icon-line2 {
+    background: darken($hamburger-icon-color, 40%);
+}
+
+@include respond(mq-768) {
+    .nav-list-item {
+        &:hover .is-active-nav-link--hover {
+            height: 5px;
+        }
+
+        &:hover:first-child .is-active-nav-link--hover {
+            top: 60%;
+        }
+    }
+}
+
+@include respond(mq-480) {
+    .nav-list-item {
+        &:hover .is-active-nav-link--hover {
+            height: 3px;
+        }
+    }
+}
+
+@include respond(mq-1500) {
+    .nav-list-item {
+        &:hover .is-active-nav-link--hover {
+            height: 30px;
+        }
+    }
+}
+
+@include respond(mq-1800) {
+    .nav-list-item {
+        &:hover .is-active-nav-link--hover {
+            height: 34px;
+        }
+    }
+}
+/* END........................... Pseudo State */
+
+/* START.......................... Class State */
+
+%nav-link-state {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    transform: translate(-50%, -50%);
+}
+
+.is-hidden {
+    display: none;
+}
+
+.is-shown {
+    display: block;
+}
+
+.is-active-nav-link--hover {
+    height: 0px;
+    transition: 0.4s;
+    @extend %nav-link-state;
+}
+
+.is-active-nav-link {
+    height: 26px;
+    background-color: $button-color-dk;
+    transition: 1s;
+    @extend %nav-link-state;
+    @include linearGradient-background-primary(
+        $button-color-lt 0%,
+        $button-color-dk 90%
+    );
+}
+
+.is-active-nav-link--dark {
+    height: 26px;
+    background-color: darken($button-color-dk, 20%);
+    transition: 1s;
+    @extend %nav-link-state;
+    @include linearGradient-background-primary(
+        darken($button-color-lt, 20%) 0%,
+        darken($button-color-dk, 20%) 90%
+    );
+}
+
+@include respond(mq-768) {
+    .is-active-nav-link {
+        height: 5px;
+    }
+
+    .is-active-nav-link--dark {
+        height: 5px;
+    }
+
+    .nav-list-item:first-child {
+        .is-active-nav-link,
+        .is-active-nav-link--dark {
+            top: 60%;
+        }
+    }
+
+    .is-expanded-header-drop-down-menu {
+        @include ease-in-out-quad;
+        height: 24.6rem;
+    }
+
+    .is-unexpanded-header-drop-down-menu {
+        @include ease-in-out-quad;
+        height: 7.2rem;
+    }
+}
+
+@include respond(mq-480) {
+    .is-active-nav-link {
+        height: 3px;
+    }
+
+    .is-active-nav-link--dark {
+        height: 3px;
+    }
+
+    .is-expanded-header-drop-down-menu {
+        @include ease-in-out-quad;
+        height: 23.2rem;
+    }
+
+    .is-unexpanded-header-drop-down-menu {
+        @include ease-in-out-quad;
+        height: 6.7rem;
+    }
+}
+
+@include respond(mq-1500) {
+    .is-active-nav-link {
+        height: 30px;
+    }
+
+    .is-active-nav-link--dark {
+        height: 30px;
+    }
+}
+
+@include respond(mq-1800) {
+    .is-active-nav-link {
+        height: 34px;
+    }
+
+    .is-active-nav-link--dark {
+        height: 34px;
+    }
+}
+
+/* END............................ Class State */

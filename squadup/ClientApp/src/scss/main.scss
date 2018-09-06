@@ -1,12 +1,7 @@
-@import "./reset.scss";
-@import "./variables.scss";
-@import "./mixins.scss";
+@import "./vars/vars.scss";
+@import "./mixins/mixins.scss";
 
-html {
-    font-size: 62.5%;
-}
-
-.header {
-    height: 7rem;
-    background: $light-black;
-}
+@import "./base/base.scss";
+@import "./modules/modules.scss";
+@import "./layout/layout.scss";
+@import "./state/state.scss";

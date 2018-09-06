@@ -1,0 +1,102 @@
+@import "../mixins/mixins.scss";
+@import "../vars/vars.scss";
+
+.btn-primary,
+.btn-red {
+    font-weight: 700;
+    border-radius: 3px;
+    letter-spacing: 1px;
+    cursor: pointer;
+}
+
+.btn-primary {
+    color: white;
+    @include background-and-border-color($button-color-dk, $button-color-dk);
+    @include linearGradient-background-primary(
+        $button-color-lt,
+        $button-color-dk
+    );
+}
+
+.btn-red {
+    color: white;
+    @include background-and-border-color($red-dk, $red-dk);
+    @include linearGradient-background-primary($red-lt, $red-dk);
+}
+
+.btn-sm {
+    padding: 0.5rem 1rem;
+    font-size: 1.2rem;
+}
+
+.btn-md {
+    padding: 0.75rem 1.5rem;
+    font-size: 1.4rem;
+}
+
+.btn-lg {
+    padding: 1rem 2rem;
+    font-size: 1.6rem;
+}
+
+@include respond(mq-480) {
+    .btn-sm {
+        padding: 0.3rem 0.5rem;
+        font-size: 1rem;
+    }
+
+    .btn-md {
+        padding: 0.5rem 1rem;
+        font-size: 1.2rem;
+    }
+
+    .btn-lg {
+        padding: 0.75rem 1.75rem;
+        font-size: 1.4rem;
+    }
+}
+
+@include respond(mq-768) {
+    .btn-sm {
+        font-size: 1rem;
+    }
+
+    .btn-md {
+        font-size: 1.2rem;
+    }
+
+    .btn-lg {
+        font-size: 1.4rem;
+    }
+}
+
+@include respond(mq-1500) {
+    .btn-sm {
+        font-size: 1.4rem;
+    }
+
+    .btn-md {
+        font-size: 1.6rem;
+    }
+
+    .btn-lg {
+        font-size: 1.8rem;
+    }
+}
+
+@include respond(mq-1800) {
+    .btn-sm {
+        padding: 0.7rem 1.5rem;
+        font-size: 1.6rem;
+    }
+
+    .btn-md {
+        padding: 1rem 2rem;
+        font-size: 1.8rem;
+    }
+
+    .btn-lg {
+        padding: 1.25rem 2.5rem;
+        font-size: 2rem;
+    }
+}
