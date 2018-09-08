@@ -1,7 +1,14 @@
 import * as React from "react";
 import Button from "../buttons/button";
 
-const moduleSmallPopUp = (props: any) => {
+interface SFCmoduleSmallPopUpProps {
+    toggleDisplaySmallPopUpModule: () => void;
+    clickEvent: () => void;
+}
+
+const moduleSmallPopUp: React.SFC<SFCmoduleSmallPopUpProps> = (
+    props
+): JSX.Element => {
     return (
         <div className="module-small-popup">
             <div

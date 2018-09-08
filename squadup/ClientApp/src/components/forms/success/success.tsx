@@ -1,10 +1,11 @@
 import * as React from "react";
-type propTypes = {
+
+interface SFCsuccessProps {
     isLoginNotiShown: boolean | [string, boolean];
     message: string;
-};
+}
 
-const success = (props: propTypes): JSX.Element => {
+const success: React.SFC<SFCsuccessProps> = (props): JSX.Element => {
     return (
         <div
             className={`success-noti-container ${

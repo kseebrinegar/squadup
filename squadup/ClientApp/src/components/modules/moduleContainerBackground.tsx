@@ -1,7 +1,12 @@
 import * as React from "react";
 
-const moduleContainerBackground = (props: any) => {
-    console.log(props);
+interface SFCmoduleContainerBackgroundProps {
+    toggleDisplayPopUpModule: boolean;
+}
+
+const moduleContainerBackground: React.SFC<
+    SFCmoduleContainerBackgroundProps
+> = (props): JSX.Element => {
     return (
         <div
             className={

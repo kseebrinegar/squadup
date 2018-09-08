@@ -59,7 +59,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
         );
     }
 
-    public darkenActiveNavLinkForPage(): void {
+    public darkenActiveNavLinkForPage = (): void => {
         const urlPath: string = window.location.pathname;
         this.setState(() => {
             return {
@@ -81,17 +81,19 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
                         : [true, false, false]
             };
         });
-    }
+    };
 
-    public manuallyChooseLoginOrSignUpForm(whatFormToClose: string): void {
+    public manuallyChooseLoginOrSignUpForm = (
+        whatFormToClose: string
+    ): void => {
         this.setState(() => {
             return {
                 loginOrSignUpForm: whatFormToClose
             };
         });
-    }
+    };
 
-    public activeNavLinkForPage(): void {
+    public activeNavLinkForPage = (): void => {
         const urlPath: string = window.location.pathname;
         this.setState(() => {
             return {
@@ -113,8 +115,8 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
                         : [true, false, false]
             };
         });
-    }
-    public removeActiveLink(): void {
+    };
+    public removeActiveLink = (): void => {
         this.setState(() => {
             return {
                 aboutLinkAffect: [true, false, false],
@@ -123,8 +125,8 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
                 projectsLinkAffect: [true, false, false]
             };
         });
-    }
-    public toggleNavDropDownMenu(): void {
+    };
+    public toggleNavDropDownMenu = (): void => {
         this.setState(prevState => {
             return {
                 toggleNavDropDownMenu:
@@ -134,8 +136,8 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
                         : this.dropDownMenuHiddenClass
             };
         });
-    }
-    public toggleDisplaySmallPopUpModule(): void {
+    };
+    public toggleDisplaySmallPopUpModule = (): void => {
         this.setState(prevState => {
             return {
                 toggleDisplaySmallPopUpModule: prevState.toggleDisplaySmallPopUpModule
@@ -143,8 +145,8 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
                     : true
             };
         });
-    }
-    public toggleDisplayBigPopUpModule(buttonClicked: string): void {
+    };
+    public toggleDisplayBigPopUpModule = (buttonClicked: string): void => {
         this.setState(prevState => {
             return {
                 toggleDisplayBigPopUpModule: prevState.toggleDisplayBigPopUpModule
@@ -154,15 +156,15 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
                     buttonClicked === "login" ? "signup" : "login"
             };
         });
-    }
-    public closeDisplayPopUpModule(): void {
+    };
+    public closeDisplayPopUpModule = (): void => {
         this.setState(() => {
             return {
                 toggleDisplayBigPopUpModule: false
             };
         });
-    }
-    public renderNavList(): JSX.Element[] {
+    };
+    public renderNavList = (): JSX.Element[] => {
         type NavListType = {
             url: string;
             name: string;
@@ -234,8 +236,8 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
                 </li>
             );
         });
-    }
-    public renderButtonsOrIconsIfLoggedIn(): JSX.Element {
+    };
+    public renderButtonsOrIconsIfLoggedIn = (): JSX.Element => {
         if (this.state.isUserLoggedIn) {
             return (
                 <div className="login-signup-and-icon-container">
@@ -309,12 +311,12 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
                 />
             </div>
         );
-    }
+    };
 
-    public logOut(): void {
+    public logOut = (): void => {
         this.toggleDisplaySmallPopUpModule();
         this.props.logOut();
-    }
+    };
 
     public componentWillReceiveProps(nextProps: {
         isUserLoggedIn: boolean;

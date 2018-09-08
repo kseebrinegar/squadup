@@ -132,7 +132,7 @@ class SignUpForm extends React.Component<IProps, IState> {
                         this.state.isFormShown ? "" : "is-hidden"
                     }`}
                 >
-                    <h3>SIGN UP</h3>
+                    <h3>FORGOT</h3>
                     <LoaderAnimation displayLoader={this.state.isLoaderShown} />
                     <Input
                         returnInputValueAndValidation={(

@@ -1,9 +1,13 @@
 import * as React from "react";
 import * as uuid from "uuid";
 
-const loaderAnimation = (props: {
+interface SFCloaderAnimationProps {
     displayLoader: boolean | [string, boolean];
-}) => {
+}
+
+const loaderAnimation: React.SFC<SFCloaderAnimationProps> = (
+    props
+): JSX.Element => {
     const renderBar = () => {
         let barArr = [];
 

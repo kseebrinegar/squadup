@@ -35,19 +35,19 @@ class Input extends React.Component<IProps, IState> {
         super(props);
     }
 
-    public displayErrors(
+    public displayErrors = (
         displayErrorsIfInValid: [boolean, boolean],
         errorMessage: string
-    ) {
+    ): void => {
         this.setState(() => {
             return {
                 inputErrorMessage: errorMessage,
                 isInputValid: displayErrorsIfInValid
             };
         });
-    }
+    };
 
-    public validateEmail(e: React.FormEvent<HTMLInputElement>): void {
+    public validateEmail = (e: React.FormEvent<HTMLInputElement>): void => {
         const inputLength = e.currentTarget.value.length;
         const isValid = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
             e.currentTarget.value
@@ -75,9 +75,9 @@ class Input extends React.Component<IProps, IState> {
 
         this.displayErrors([false, true], "");
         this.props.returnInputValueAndValidation([this.state.inputValue, true]);
-    }
+    };
 
-    public validatePassword(e: React.FormEvent<HTMLInputElement>): void {
+    public validatePassword = (e: React.FormEvent<HTMLInputElement>): void => {
         const inputLength = e.currentTarget.value.length;
 
         if (inputLength === 0) {
@@ -101,9 +101,9 @@ class Input extends React.Component<IProps, IState> {
 
         this.displayErrors([false, true], "");
         this.props.returnInputValueAndValidation([this.state.inputValue, true]);
-    }
+    };
 
-    public validateUserName(e: React.FormEvent<HTMLInputElement>): void {
+    public validateUserName = (e: React.FormEvent<HTMLInputElement>): void => {
         const inputLength = e.currentTarget.value.length;
         const isValid = /^[0-9a-zA-Z]+$/.test(e.currentTarget.value);
 
@@ -137,9 +137,9 @@ class Input extends React.Component<IProps, IState> {
 
         this.displayErrors([false, true], "");
         this.props.returnInputValueAndValidation([this.state.inputValue, true]);
-    }
+    };
 
-    public toggleInputLabel(e: React.FormEvent<HTMLInputElement>): void {
+    public toggleInputLabel = (e: React.FormEvent<HTMLInputElement>): void => {
         const inputLength = e.currentTarget.value.length;
         const inputVal = e.currentTarget.value;
 
@@ -152,9 +152,11 @@ class Input extends React.Component<IProps, IState> {
                 isInputValid: [false, false]
             };
         });
-    }
+    };
 
-    public chooseValidationType(e: React.FormEvent<HTMLInputElement>): void {
+    public chooseValidationType = (
+        e: React.FormEvent<HTMLInputElement>
+    ): void => {
         e.preventDefault();
         const { inputType } = this.props;
 
@@ -171,7 +173,7 @@ class Input extends React.Component<IProps, IState> {
             default:
                 return;
         }
-    }
+    };
 
     public componentWillReceiveProps(nextProps: {
         returnInputValueAndValidation: (

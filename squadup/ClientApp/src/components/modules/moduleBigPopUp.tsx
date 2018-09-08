@@ -1,6 +1,10 @@
 import * as React from "react";
-
-const moduleBigPopUp = (props: any) => {
+interface SFCmoduleBigPopUpProps {
+    clickEvent: () => void;
+}
+const moduleBigPopUp: React.SFC<SFCmoduleBigPopUpProps> = (
+    props
+): JSX.Element => {
     return (
         <div className="module-big-popup">
             <div

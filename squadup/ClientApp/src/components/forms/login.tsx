@@ -33,18 +33,18 @@ class loginForm extends React.Component<IProps, IState> {
         super(props);
     }
 
-    public changeInputState(
+    public changeInputState = (
         propName: string,
         inputOneValueAndIsValid: [string, boolean]
-    ): void {
+    ): void => {
         this.setState(() => {
             return {
                 [propName]: inputOneValueAndIsValid
             };
         });
-    }
+    };
 
-    public onSubmit(e: React.MouseEvent<HTMLButtonElement>): void {
+    public onSubmit = (e: React.MouseEvent<HTMLButtonElement>): void => {
         e.preventDefault();
         let isAllInputValuesTrue: boolean = true;
 
@@ -75,7 +75,7 @@ class loginForm extends React.Component<IProps, IState> {
                 inputTwoValueAndIsValid[0]
             );
         }
-    }
+    };
 
     public timerForLoader = (): void => {
         const timer1: number = window.setTimeout(() => {
