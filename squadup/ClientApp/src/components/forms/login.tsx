@@ -1,6 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators, Dispatch } from "redux";
+import { AppState } from "../../store/types";
 import auth from "../../actions/auth";
 import Button from "../buttons/button";
 import Input from "./inputs/inputs";
@@ -8,12 +9,7 @@ import LoaderAnimation from "../loaderAnimations/loaderAnimation";
 import Success from "./success/success";
 
 interface IState {
-    inputOneValueAndIsValid: [string, boolean];
-    inputTwoValueAndIsValid: [string, boolean];
-    isLoaderShown: boolean;
-    isFormShown: boolean;
-    isLoginNotiShown: boolean;
-    clearInputsOnChildComponent: boolean;
+    [propName: string]: boolean | [string, boolean];
 }
 
 interface IProps {
@@ -35,16 +31,12 @@ class loginForm extends React.Component<IProps, IState> {
 
     constructor(props: IProps) {
         super(props);
-        this.changeInputState = this.changeInputState.bind(this);
-        this.onSubmit = this.onSubmit.bind(this);
-        this.timerForLoader = this.timerForLoader.bind(this);
     }
 
     public changeInputState(
         propName: string,
         inputOneValueAndIsValid: [string, boolean]
-    ) {
-        // @ts-ignore
+    ): void {
         this.setState(() => {
             return {
                 [propName]: inputOneValueAndIsValid
@@ -52,7 +44,7 @@ class loginForm extends React.Component<IProps, IState> {
         });
     }
 
-    public onSubmit(e: any) {
+    public onSubmit(e: React.MouseEvent<HTMLButtonElement>): void {
         e.preventDefault();
         let isAllInputValuesTrue: boolean = true;
 
@@ -85,8 +77,8 @@ class loginForm extends React.Component<IProps, IState> {
         }
     }
 
-    public timerForLoader = () => {
-        const timer1 = setTimeout(() => {
+    public timerForLoader = (): void => {
+        const timer1: number = window.setTimeout(() => {
             this.setState(() => {
                 return {
                     inputOneValueAndIsValid: ["", false],
@@ -102,7 +94,12 @@ class loginForm extends React.Component<IProps, IState> {
         }, 1500);
     };
 
-    public componentWillReceiveProps(nextProps: any) {
+    public componentWillReceiveProps(nextProps: {
+        closeDisplayPopUpModule: Function;
+        manuallyChooseLoginOrSignUpForm: Function;
+        isUserLoggedIn: boolean;
+        logIn: Function;
+    }) {
         if (
             this.props.isUserLoggedIn != nextProps.isUserLoggedIn &&
             nextProps.isUserLoggedIn
@@ -119,7 +116,7 @@ class loginForm extends React.Component<IProps, IState> {
         }
     }
 
-    public render() {
+    public render(): JSX.Element {
         return (
             <React.Fragment>
                 <section className="signup-and-login login">
@@ -178,9 +175,12 @@ class loginForm extends React.Component<IProps, IState> {
                         />
                         <div className="signup-and-login-call-to-actions">
                             <Button
-                                clickEvent={(e: any) => {
+                                clickEvent={(
+                                    e: React.MouseEvent<HTMLButtonElement>
+                                ): void => {
                                     this.onSubmit(e);
                                 }}
+                                type={"button"}
                                 text={"SIGN IN"}
                                 classes={"btn-primary btn-md"}
                             />
@@ -213,7 +213,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     );
 };
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: AppState) => {
     return { isUserLoggedIn: state.auth };
 };
 

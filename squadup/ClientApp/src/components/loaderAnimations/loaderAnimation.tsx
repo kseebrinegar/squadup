@@ -1,7 +1,9 @@
 import * as React from "react";
 import * as uuid from "uuid";
 
-const loaderAnimation = (props: { displayLoader: boolean }) => {
+const loaderAnimation = (props: {
+    displayLoader: boolean | [string, boolean];
+}) => {
     const renderBar = () => {
         let barArr = [];
 

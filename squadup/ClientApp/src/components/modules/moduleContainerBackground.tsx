@@ -1,6 +1,7 @@
 import * as React from "react";
 
 const moduleContainerBackground = (props: any) => {
+    console.log(props);
     return (
         <div
             className={

@@ -1,9 +1,10 @@
 import axios from "axios";
+import { Dispatch } from "redux";
 
 const signUp = (username: string, password: string, email: string) => {
     console.log(username + " " + password + " " + email);
 
-    return function(dispatch: any) {
+    return (dispatch: Dispatch) => {
         axios.post("https://reqres.in/api/login", { email, password }).then(
             (res: any) => {
                 console.log(res.data);
@@ -13,14 +14,13 @@ const signUp = (username: string, password: string, email: string) => {
             },
             e => {
                 console.log(e);
-                console.log(`error: could not send payment.`);
             }
         );
     };
 };
 
 const logIn = (username: string, password: string) => {
-    return function(dispatch: any) {
+    return function(dispatch: Dispatch) {
         axios.post("https://reqres.in/api/login", { username, password }).then(
             (res: any) => {
                 console.log(res.data);
@@ -37,8 +37,7 @@ const logIn = (username: string, password: string) => {
 };
 
 const logOut = () => {
-    console.log("fuck");
-    return function(dispatch: any) {
+    return function(dispatch: Dispatch) {
         dispatch({
             type: "LOG_OUT"
         });
@@ -46,7 +45,7 @@ const logOut = () => {
 };
 
 const forgotPassword = () => {
-    console.log("forgotPassword");
+    // console.log("forgotPassword");
 };
 
 export default {

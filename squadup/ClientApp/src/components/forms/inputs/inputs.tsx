@@ -10,8 +10,8 @@ interface IState {
 
 interface IProps {
     returnInputValueAndValidation: any;
-    clearInputsOnChildComponent: boolean;
-    inputValueAndIsValid: [string, boolean];
+    clearInputsOnChildComponent: boolean | [string, boolean];
+    inputValueAndIsValid: boolean | [string, boolean];
     inputType: string;
     labelText: string;
     maxLength: number;
@@ -33,13 +33,6 @@ class Input extends React.Component<IProps, IState> {
 
     constructor(props: IProps) {
         super(props);
-        this.chooseValidationType = this.chooseValidationType.bind(this);
-        this.toggleInputLabel = this.toggleInputLabel.bind(this);
-        this.validateEmail = this.validateEmail.bind(this);
-        this.displayErrors = this.displayErrors.bind(this);
-        this.validateEmail = this.validateEmail.bind(this);
-        this.validatePassword = this.validatePassword.bind(this);
-        this.validateUserName = this.validateUserName.bind(this);
     }
 
     public displayErrors(
@@ -54,7 +47,7 @@ class Input extends React.Component<IProps, IState> {
         });
     }
 
-    public validateEmail(e: React.FormEvent<HTMLInputElement>) {
+    public validateEmail(e: React.FormEvent<HTMLInputElement>): void {
         const inputLength = e.currentTarget.value.length;
         const isValid = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
             e.currentTarget.value
@@ -84,7 +77,7 @@ class Input extends React.Component<IProps, IState> {
         this.props.returnInputValueAndValidation([this.state.inputValue, true]);
     }
 
-    public validatePassword(e: React.FormEvent<HTMLInputElement>) {
+    public validatePassword(e: React.FormEvent<HTMLInputElement>): void {
         const inputLength = e.currentTarget.value.length;
 
         if (inputLength === 0) {
@@ -110,7 +103,7 @@ class Input extends React.Component<IProps, IState> {
         this.props.returnInputValueAndValidation([this.state.inputValue, true]);
     }
 
-    public validateUserName(e: React.FormEvent<HTMLInputElement>) {
+    public validateUserName(e: React.FormEvent<HTMLInputElement>): void {
         const inputLength = e.currentTarget.value.length;
         const isValid = /^[0-9a-zA-Z]+$/.test(e.currentTarget.value);
 
@@ -146,7 +139,7 @@ class Input extends React.Component<IProps, IState> {
         this.props.returnInputValueAndValidation([this.state.inputValue, true]);
     }
 
-    public toggleInputLabel(e: React.FormEvent<HTMLInputElement>) {
+    public toggleInputLabel(e: React.FormEvent<HTMLInputElement>): void {
         const inputLength = e.currentTarget.value.length;
         const inputVal = e.currentTarget.value;
 
@@ -161,7 +154,7 @@ class Input extends React.Component<IProps, IState> {
         });
     }
 
-    public chooseValidationType(e: React.FormEvent<HTMLInputElement>) {
+    public chooseValidationType(e: React.FormEvent<HTMLInputElement>): void {
         e.preventDefault();
         const { inputType } = this.props;
 
@@ -180,7 +173,17 @@ class Input extends React.Component<IProps, IState> {
         }
     }
 
-    public componentWillReceiveProps(nextProps: any) {
+    public componentWillReceiveProps(nextProps: {
+        returnInputValueAndValidation: (
+            inputOneValueAndIsValid: [string, boolean]
+        ) => void;
+        clearInputsOnChildComponent: boolean;
+        inputValueAndIsValid: [string, boolean];
+        inputType: string;
+        labelText: string;
+        maxLength: number;
+        type: string;
+    }): void {
         if (nextProps.clearInputsOnChildComponent === true) {
             this.setState(() => {
                 return {

@@ -1,6 +1,12 @@
 import * as React from "react";
+type propType = {
+    clickEvent: (e: React.MouseEvent<HTMLButtonElement>) => void;
+    text: string;
+    type: string;
+    classes: string;
+};
 
-const button = (props: any) => {
+const button = (props: propType): JSX.Element => {
     return (
         <button
             onClick={props.clickEvent}

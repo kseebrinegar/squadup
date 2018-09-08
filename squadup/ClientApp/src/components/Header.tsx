@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as uuid from "uuid";
+import { AppState } from "../store/types";
 import { NavLink } from "react-router-dom";
 import { bindActionCreators, Dispatch } from "redux";
 import { connect } from "react-redux";
@@ -12,20 +13,22 @@ import SignUpForm from "./forms/signup";
 import LoginForm from "./forms/login";
 
 interface IHeaderState {
-    aboutLinkAffect: string;
-    eventsLinkAffect: string;
-    peopleLinkAffect: string;
-    projectsLinkAffect: string;
+    aboutLinkAffect: [boolean, boolean, boolean];
+    eventsLinkAffect: [boolean, boolean, boolean];
+    peopleLinkAffect: [boolean, boolean, boolean];
+    projectsLinkAffect: [boolean, boolean, boolean];
     loginOrSignUpForm: string;
     toggleNavDropDownMenu: string;
     toggleDisplayBigPopUpModule: boolean;
     toggleDisplaySmallPopUpModule: boolean;
     isUserLoggedIn: boolean;
 }
-export interface IHeaderProps {
+
+interface IHeaderProps {
     isUserLoggedIn: boolean;
     logOut: () => void;
 }
+
 class Header extends React.Component<IHeaderProps, IHeaderState> {
     private unActiveLinkClass: string = "is-active-nav-link--hover";
     private activeLinkClasses: string =
@@ -38,10 +41,10 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
         "is-expanded-header-drop-down-menu";
 
     public state: IHeaderState = {
-        aboutLinkAffect: this.unActiveLinkClass,
-        eventsLinkAffect: this.unActiveLinkClass,
-        peopleLinkAffect: this.unActiveLinkClass,
-        projectsLinkAffect: this.unActiveLinkClass,
+        aboutLinkAffect: [true, false, false],
+        eventsLinkAffect: [true, false, false],
+        peopleLinkAffect: [true, false, false],
+        projectsLinkAffect: [true, false, false],
         loginOrSignUpForm: "login",
         toggleNavDropDownMenu: this.dropDownMenuHiddenClass,
         toggleDisplayBigPopUpModule: false,
@@ -51,28 +54,9 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
 
     constructor(props: IHeaderProps) {
         super(props);
-
-        this.activeNavLinkForPage = this.activeNavLinkForPage.bind(this);
-        this.darkenActiveNavLinkForPage = this.darkenActiveNavLinkForPage.bind(
-            this
-        );
-        this.removeActiveLink = this.removeActiveLink.bind(this);
-        this.renderNavList = this.renderNavList.bind(this);
-        this.toggleNavDropDownMenu = this.toggleNavDropDownMenu.bind(this);
-        this.toggleDisplayBigPopUpModule = this.toggleDisplayBigPopUpModule.bind(
-            this
-        );
         this.toggleDisplaySmallPopUpModule = this.toggleDisplaySmallPopUpModule.bind(
             this
         );
-        this.renderButtonsOrIconsIfLoggedIn = this.renderButtonsOrIconsIfLoggedIn.bind(
-            this
-        );
-        this.closeDisplayPopUpModule = this.closeDisplayPopUpModule.bind(this);
-        this.manuallyChooseLoginOrSignUpForm = this.manuallyChooseLoginOrSignUpForm.bind(
-            this
-        );
-        this.logOut = this.logOut.bind(this);
     }
 
     public darkenActiveNavLinkForPage(): void {
@@ -81,25 +65,25 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
             return {
                 aboutLinkAffect:
                     urlPath === "/about"
-                        ? this.acitveDarkLinkClasses
-                        : this.unActiveLinkClass,
+                        ? [false, false, true]
+                        : [true, false, false],
                 eventsLinkAffect:
                     urlPath === "/events"
-                        ? this.acitveDarkLinkClasses
-                        : this.unActiveLinkClass,
+                        ? [false, false, true]
+                        : [true, false, false],
                 peopleLinkAffect:
                     urlPath === "/people"
-                        ? this.acitveDarkLinkClasses
-                        : this.unActiveLinkClass,
+                        ? [false, false, true]
+                        : [true, false, false],
                 projectsLinkAffect:
                     urlPath === "/projects"
-                        ? this.acitveDarkLinkClasses
-                        : this.unActiveLinkClass
+                        ? [false, false, true]
+                        : [true, false, false]
             };
         });
     }
 
-    public manuallyChooseLoginOrSignUpForm(whatFormToClose: string) {
+    public manuallyChooseLoginOrSignUpForm(whatFormToClose: string): void {
         this.setState(() => {
             return {
                 loginOrSignUpForm: whatFormToClose
@@ -113,34 +97,34 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
             return {
                 aboutLinkAffect:
                     urlPath === "/about"
-                        ? this.activeLinkClasses
-                        : this.unActiveLinkClass,
+                        ? [false, true, false]
+                        : [true, false, false],
                 eventsLinkAffect:
                     urlPath === "/events"
-                        ? this.activeLinkClasses
-                        : this.unActiveLinkClass,
+                        ? [false, true, false]
+                        : [true, false, false],
                 peopleLinkAffect:
                     urlPath === "/people"
-                        ? this.activeLinkClasses
-                        : this.unActiveLinkClass,
+                        ? [false, true, false]
+                        : [true, false, false],
                 projectsLinkAffect:
                     urlPath === "/projects"
-                        ? this.activeLinkClasses
-                        : this.unActiveLinkClass
+                        ? [false, true, false]
+                        : [true, false, false]
             };
         });
     }
-    public removeActiveLink() {
+    public removeActiveLink(): void {
         this.setState(() => {
             return {
-                aboutLinkAffect: this.unActiveLinkClass,
-                eventsLinkAffect: this.unActiveLinkClass,
-                peopleLinkAffect: this.unActiveLinkClass,
-                projectsLinkAffect: this.unActiveLinkClass
+                aboutLinkAffect: [true, false, false],
+                eventsLinkAffect: [true, false, false],
+                peopleLinkAffect: [true, false, false],
+                projectsLinkAffect: [true, false, false]
             };
         });
     }
-    public toggleNavDropDownMenu() {
+    public toggleNavDropDownMenu(): void {
         this.setState(prevState => {
             return {
                 toggleNavDropDownMenu:
@@ -151,7 +135,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
             };
         });
     }
-    public toggleDisplaySmallPopUpModule() {
+    public toggleDisplaySmallPopUpModule(): void {
         this.setState(prevState => {
             return {
                 toggleDisplaySmallPopUpModule: prevState.toggleDisplaySmallPopUpModule
@@ -160,7 +144,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
             };
         });
     }
-    public toggleDisplayBigPopUpModule(buttonClicked: string) {
+    public toggleDisplayBigPopUpModule(buttonClicked: string): void {
         this.setState(prevState => {
             return {
                 toggleDisplayBigPopUpModule: prevState.toggleDisplayBigPopUpModule
@@ -171,34 +155,71 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
             };
         });
     }
-    public closeDisplayPopUpModule() {
+    public closeDisplayPopUpModule(): void {
         this.setState(() => {
             return {
                 toggleDisplayBigPopUpModule: false
             };
         });
     }
-    public renderNavList(): any {
-        const navList = [
+    public renderNavList(): JSX.Element[] {
+        type NavListType = {
+            url: string;
+            name: string;
+            class: () => string;
+        }[];
+        const navList: NavListType = [
             {
                 url: "/events",
                 name: "Events",
-                state: this.state.eventsLinkAffect
+                class: () => {
+                    if (this.state.eventsLinkAffect[0]) {
+                        return this.unActiveLinkClass;
+                    } else if (this.state.eventsLinkAffect[1]) {
+                        return this.activeLinkClasses;
+                    } else {
+                        return this.acitveDarkLinkClasses;
+                    }
+                }
             },
             {
                 url: "/projects",
                 name: "Projects",
-                state: this.state.projectsLinkAffect
+                class: () => {
+                    if (this.state.projectsLinkAffect[0]) {
+                        return this.unActiveLinkClass;
+                    } else if (this.state.projectsLinkAffect[1]) {
+                        return this.activeLinkClasses;
+                    } else {
+                        return this.acitveDarkLinkClasses;
+                    }
+                }
             },
             {
                 url: "/people",
                 name: "People",
-                state: this.state.peopleLinkAffect
+                class: () => {
+                    if (this.state.peopleLinkAffect[0]) {
+                        return this.unActiveLinkClass;
+                    } else if (this.state.peopleLinkAffect[1]) {
+                        return this.activeLinkClasses;
+                    } else {
+                        return this.acitveDarkLinkClasses;
+                    }
+                }
             },
             {
                 url: "/about",
                 name: "About",
-                state: this.state.aboutLinkAffect
+                class: () => {
+                    if (this.state.aboutLinkAffect[0]) {
+                        return this.unActiveLinkClass;
+                    } else if (this.state.aboutLinkAffect[1]) {
+                        return this.activeLinkClasses;
+                    } else {
+                        return this.acitveDarkLinkClasses;
+                    }
+                }
             }
         ];
         return navList.map(item => {
@@ -209,12 +230,12 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
                     className="nav-list-item"
                 >
                     <NavLink to={item.url}>{item.name}</NavLink>
-                    <div className={item.state} />
+                    <div className={item.class()} />
                 </li>
             );
         });
     }
-    public renderButtonsOrIconsIfLoggedIn() {
+    public renderButtonsOrIconsIfLoggedIn(): JSX.Element {
         if (this.state.isUserLoggedIn) {
             return (
                 <div className="login-signup-and-icon-container">
@@ -290,12 +311,15 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
         );
     }
 
-    public logOut() {
+    public logOut(): void {
         this.toggleDisplaySmallPopUpModule();
         this.props.logOut();
     }
 
-    public componentWillReceiveProps(nextProps: any) {
+    public componentWillReceiveProps(nextProps: {
+        isUserLoggedIn: boolean;
+        logOut: Function;
+    }): void {
         if (this.state.isUserLoggedIn != nextProps.isUserLoggedIn) {
             this.setState({
                 isUserLoggedIn: nextProps.isUserLoggedIn
@@ -306,7 +330,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
     public componentDidMount() {
         this.activeNavLinkForPage();
     }
-    public render() {
+    public render(): JSX.Element {
         return (
             <React.Fragment>
                 <ModuleContainerBackground
@@ -394,20 +418,17 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
     }
 }
 
-const mapDispatchToProps = (dispatch: Dispatch) => {
-    return bindActionCreators(
+const mapDispatchToProps = (dispatch: Dispatch) =>
+    bindActionCreators(
         {
             logOut: auth.logOut
         },
         dispatch
     );
-};
 
-const mapStateToProps = (state: any) => {
-    return {
-        isUserLoggedIn: state.auth
-    };
-};
+const mapStateToProps = (state: AppState) => ({
+    isUserLoggedIn: state.auth
+});
 
 export default connect(
     mapStateToProps,

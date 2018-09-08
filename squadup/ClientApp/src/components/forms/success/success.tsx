@@ -1,6 +1,10 @@
 import * as React from "react";
+type propTypes = {
+    isLoginNotiShown: boolean | [string, boolean];
+    message: string;
+};
 
-const success = (props: any) => {
+const success = (props: propTypes): JSX.Element => {
     return (
         <div
             className={`success-noti-container ${

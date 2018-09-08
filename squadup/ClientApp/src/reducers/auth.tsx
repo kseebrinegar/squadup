@@ -1,6 +1,6 @@
-const authToken = localStorage.getItem("authToken") ? true : false;
+const authToken: boolean = localStorage.getItem("authToken") ? true : false;
 
-export default (state = authToken, action: any) => {
+export default (state: boolean = authToken, action: { type: string }) => {
     switch (action.type) {
         case "LOG_IN":
             localStorage.setItem("authToken", "");
