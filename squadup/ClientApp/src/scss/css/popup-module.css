@@ -80,6 +80,20 @@ $new-messages-count: rgb(222, 16, 29)*/
   background-repeat: no-repeat; }
   .module-big-popup .input-container {
     position: relative; }
+  .module-big-popup .forgotpassword .input-container {
+    width: 28.8rem; }
+    @media (max-width: 768px) {
+      .module-big-popup .forgotpassword .input-container {
+        width: 25.6rem; } }
+    @media (max-width: 480px) {
+      .module-big-popup .forgotpassword .input-container {
+        width: 23.4rem; } }
+    @media (min-width: 1500px) {
+      .module-big-popup .forgotpassword .input-container {
+        width: 32.9rem; } }
+    @media (min-width: 1800px) {
+      .module-big-popup .forgotpassword .input-container {
+        width: 37.5rem; } }
   .module-big-popup .signup .input-container {
     width: 31.5rem; }
     @media (max-width: 768px) {

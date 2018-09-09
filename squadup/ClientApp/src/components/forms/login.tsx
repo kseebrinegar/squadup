@@ -16,7 +16,9 @@ interface IProps {
     closeDisplayPopUpModule: () => void;
     logIn: (username: string, password: string) => void;
     isUserLoggedIn: boolean;
-    manuallyChooseLoginOrSignUpForm: () => void;
+    manuallyChooseLoginOrSignUpOrForgotPasswordForm: (
+        whatFormChoose: string
+    ) => void;
 }
 
 class loginForm extends React.Component<IProps, IState> {
@@ -96,7 +98,7 @@ class loginForm extends React.Component<IProps, IState> {
 
     public componentWillReceiveProps(nextProps: {
         closeDisplayPopUpModule: Function;
-        manuallyChooseLoginOrSignUpForm: Function;
+        manuallyChooseLoginOrSignUpOrForgotPasswordForm: Function;
         isUserLoggedIn: boolean;
         logIn: Function;
     }) {
@@ -119,7 +121,7 @@ class loginForm extends React.Component<IProps, IState> {
     public render(): JSX.Element {
         return (
             <React.Fragment>
-                <section className="signup-and-login login">
+                <section className="signup-and-login-and-forgotpassword login">
                     <Success
                         isLoginNotiShown={this.state.isLoginNotiShown}
                         message={"You're now logged in."}
@@ -173,7 +175,7 @@ class loginForm extends React.Component<IProps, IState> {
                             maxLength={20}
                             type={"password"}
                         />
-                        <div className="signup-and-login-call-to-actions">
+                        <div className="signup-and-login-and-forgotpassword-call-to-actions">
                             <Button
                                 clickEvent={(
                                     e: React.MouseEvent<HTMLButtonElement>
@@ -187,15 +189,26 @@ class loginForm extends React.Component<IProps, IState> {
                             <p>
                                 Are you new to SquadUp?{" "}
                                 <span
-                                    onClick={
-                                        this.props
-                                            .manuallyChooseLoginOrSignUpForm
-                                    }
+                                    onClick={() => {
+                                        this.props.manuallyChooseLoginOrSignUpOrForgotPasswordForm(
+                                            "signup"
+                                        );
+                                    }}
                                 >
                                     Sign up
                                 </span>{" "}
                             </p>
-                            <p className="forgot-password">FORGOT PASSWORD?</p>
+                            <p className="forgot-password">
+                                <span
+                                    onClick={() => {
+                                        this.props.manuallyChooseLoginOrSignUpOrForgotPasswordForm(
+                                            "forgotpassword"
+                                        );
+                                    }}
+                                >
+                                    FORGOT PASSWORD?
+                                </span>
+                            </p>
                         </div>
                     </form>
                 </section>

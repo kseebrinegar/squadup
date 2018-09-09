@@ -1,19 +1,19 @@
-import axios from "axios";
 import { Dispatch } from "redux";
+import axios from "axios";
 
 const signUp = (username: string, password: string, email: string) => {
-    console.log(username + " " + password + " " + email);
+    // console.log(username + " " + password + " " + email);
 
     return (dispatch: Dispatch) => {
         axios.post("https://reqres.in/api/login", { email, password }).then(
-            (res: any) => {
-                console.log(res.data);
+            (res: unknown) => {
+                // console.log(res);
                 dispatch({
                     type: "SIGN_UP"
                 });
             },
             e => {
-                console.log(e);
+                // console.log(e);
             }
         );
     };
@@ -22,16 +22,13 @@ const signUp = (username: string, password: string, email: string) => {
 const logIn = (username: string, password: string) => {
     return function(dispatch: Dispatch) {
         axios.post("https://reqres.in/api/login", { username, password }).then(
-            (res: any) => {
-                console.log(res.data);
+            (res: unknown) => {
+                // console.log(res);
                 dispatch({
                     type: "LOG_IN"
                 });
             },
-            e => {
-                console.log(e);
-                console.log(`error: could not send payment.`);
-            }
+            () => {}
         );
     };
 };
@@ -44,13 +41,8 @@ const logOut = () => {
     };
 };
 
-const forgotPassword = () => {
-    // console.log("forgotPassword");
-};
-
 export default {
     signUp,
     logIn,
-    logOut,
-    forgotPassword
+    logOut
 };

@@ -9,7 +9,9 @@ interface IState {
 }
 
 interface IProps {
-    returnInputValueAndValidation: any;
+    returnInputValueAndValidation: (
+        inputOneValueAndIsValid: [string, boolean]
+    ) => void;
     clearInputsOnChildComponent: boolean | [string, boolean];
     inputValueAndIsValid: boolean | [string, boolean];
     inputType: string;

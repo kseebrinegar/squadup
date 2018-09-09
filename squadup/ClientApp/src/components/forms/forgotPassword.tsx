@@ -1,8 +1,5 @@
 import * as React from "react";
-import { connect } from "react-redux";
-import { bindActionCreators, Dispatch } from "redux";
-import { AppState } from "../../store/types";
-import auth from "../../actions/auth";
+import axios from "axios";
 import Button from "../buttons/button";
 import Input from "./inputs/inputs";
 import Success from "./success/success";
@@ -14,20 +11,18 @@ interface IState {
 
 interface IProps {
     closeDisplayPopUpModule: () => void;
-    signUp: (username: string, password: string, email: string) => void;
-    isUserLoggedIn: boolean;
-    manuallyChooseLoginOrSignUpForm: () => void;
+    manuallyChooseLoginOrSignUpOrForgotPasswordForm: (
+        whatFormChoosen: string
+    ) => void;
 }
 
-class SignUpForm extends React.Component<IProps, IState> {
+class ForgotPasswordForm extends React.Component<IProps, IState> {
     public state: IState = {
         isLoaderShown: false,
         isFormShown: true,
         isLoginNotiShown: false,
         clearInputsOnChildComponent: false,
-        inputOneValueAndIsValid: ["", false],
-        inputTwoValueAndIsValid: ["", false],
-        inputThreeValueAndIsValid: ["", false]
+        inputOneValueAndIsValid: ["", false]
     };
 
     constructor(props: IProps) {
@@ -62,77 +57,73 @@ class SignUpForm extends React.Component<IProps, IState> {
         }
 
         if (isAllInputValuesTrue) {
-            const {
-                inputOneValueAndIsValid,
-                inputTwoValueAndIsValid,
-                inputThreeValueAndIsValid
-            } = this.state;
+            const { inputOneValueAndIsValid } = this.state;
 
             this.setState(() => {
                 return { isLoaderShown: true };
             });
 
-            this.props.signUp(
-                inputOneValueAndIsValid[0],
-                inputTwoValueAndIsValid[0],
-                inputThreeValueAndIsValid[0]
-            );
+            this.sendEmail(inputOneValueAndIsValid[0]);
         }
     };
+
+    public sendEmail(emailValue: string) {
+        // console.log(emailValue);
+        const email: string = "sydney@fife";
+        const password: string = "pistol";
+        axios
+            .post("https://reqres.in/api/register", {
+                email,
+                password
+            })
+            .then(
+                (res: unknown) => {
+                    // console.log(res.data);
+                    this.timerForLoader();
+                    this.setState(() => {
+                        return {
+                            isLoginNotiShown: true,
+                            clearInputsOnChildComponent: true,
+                            isLoaderShown: false,
+                            isFormShown: false
+                        };
+                    });
+                },
+                e => {
+                    // console.log(e);
+                }
+            );
+    }
 
     public timerForLoader = (): void => {
         const timer1: number = window.setTimeout(() => {
             this.setState(() => {
                 return {
                     inputOneValueAndIsValid: ["", false],
-                    inputTwoValueAndIsValid: ["", false],
-                    inputThreeValueAndIsValid: ["", false],
                     isLoaderShown: false,
                     isFormShown: true,
                     isLoginNotiShown: false,
                     clearInputsOnChildComponent: false
                 };
             });
-            this.props.closeDisplayPopUpModule();
+
             clearInterval(timer1);
         }, 1500);
     };
 
-    public componentWillReceiveProps(nextProps: {
-        closeDisplayPopUpModule: Function;
-        manuallyChooseLoginOrSignUpForm: Function;
-        isUserLoggedIn: boolean;
-        signUp: Function;
-    }): void {
-        if (
-            this.props.isUserLoggedIn != nextProps.isUserLoggedIn &&
-            nextProps.isUserLoggedIn
-        ) {
-            this.timerForLoader();
-            this.setState(() => {
-                return {
-                    isLoginNotiShown: true,
-                    clearInputsOnChildComponent: true,
-                    isLoaderShown: false,
-                    isFormShown: false
-                };
-            });
-        }
-    }
-
     public render(): JSX.Element {
         return (
-            <section className="signup-and-login signup">
+            <section className="signup-and-login-and-forgotpassword forgotpassword">
                 <Success
                     isLoginNotiShown={this.state.isLoginNotiShown}
-                    message={"You created an account."}
+                    message={"Check Email for link."}
                 />
                 <form
                     className={`form ${
                         this.state.isFormShown ? "" : "is-hidden"
                     }`}
                 >
-                    <h3>FORGOT</h3>
+                    <h3>Forgot Password</h3>
                     <LoaderAnimation displayLoader={this.state.isLoaderShown} />
                     <Input
                         returnInputValueAndValidation={(
@@ -149,68 +140,30 @@ class SignUpForm extends React.Component<IProps, IState> {
                         inputValueAndIsValid={
                             this.state.inputOneValueAndIsValid
                         }
-                        inputType={"username"}
-                        labelText={"CHOOSE A USERNAME"}
-                        maxLength={20}
-                        type={"text"}
-                    />
-                    <Input
-                        returnInputValueAndValidation={(
-                            inputOneValueAndIsValid: [string, boolean]
-                        ) => {
-                            this.changeInputState(
-                                "inputTwoValueAndIsValid",
-                                inputOneValueAndIsValid
-                            );
-                        }}
-                        clearInputsOnChildComponent={
-                            this.state.clearInputsOnChildComponent
-                        }
-                        inputValueAndIsValid={
-                            this.state.inputOneValueAndIsValid
-                        }
-                        inputType={"password"}
-                        labelText={"MAKE A PASSWORD"}
-                        maxLength={20}
-                        type={"password"}
-                    />
-                    <Input
-                        returnInputValueAndValidation={(
-                            inputOneValueAndIsValid: [string, boolean]
-                        ) => {
-                            this.changeInputState(
-                                "inputThreeValueAndIsValid",
-                                inputOneValueAndIsValid
-                            );
-                        }}
-                        clearInputsOnChildComponent={
-                            this.state.clearInputsOnChildComponent
-                        }
-                        inputValueAndIsValid={
-                            this.state.inputOneValueAndIsValid
-                        }
                         inputType={"email"}
                         labelText={"ENTER YOUR EMAIL"}
                         maxLength={320}
                         type={"text"}
                     />
-                    <div className="signup-and-login-call-to-actions">
+                    <div className="signup-and-login-and-forgotpassword-call-to-actions">
                         <Button
                             clickEvent={(
                                 e: React.MouseEvent<HTMLButtonElement>
                             ) => {
                                 this.onSubmit(e);
                             }}
-                            text={"SIGN UP"}
+                            text={"EMAIL ME"}
                             type={"button"}
                             classes={"btn-primary btn-md"}
                         />
                         <p>
-                            Already have an account?{" "}
+                            Ready to try again?{" "}
                             <span
-                                onClick={
-                                    this.props.manuallyChooseLoginOrSignUpForm
-                                }
+                                onClick={() => {
+                                    this.props.manuallyChooseLoginOrSignUpOrForgotPasswordForm(
+                                        "login"
+                                    );
+                                }}
                             >
                                 Login
                             </span>{" "}
@@ -222,19 +175,4 @@ class SignUpForm extends React.Component<IProps, IState> {
     }
 }
 
-const mapDispatchToProps = (dispatch: Dispatch) =>
-    bindActionCreators(
-        {
-            signUp: auth.signUp
-        },
-        dispatch
-    );
-
-const mapStateToProps = (state: AppState) => ({
-    isUserLoggedIn: state.auth
-});
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(SignUpForm);
+export default ForgotPasswordForm;

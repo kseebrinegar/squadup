@@ -89,6 +89,26 @@
         position: relative;
     }
 
+    .forgotpassword .input-container {
+        width: 28.8rem;
+
+        @include respond(mq-768) {
+            width: 25.6rem;
+        }
+
+        @include respond(mq-480) {
+            width: 23.4rem;
+        }
+
+        @include respond(mq-1500) {
+            width: 32.9rem;
+        }
+
+        @include respond(mq-1800) {
+            width: 37.5rem;
+        }
+    }
+
     .signup .input-container {
         width: 31.5rem;
 

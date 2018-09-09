@@ -11,13 +11,14 @@ import ModuleBigPopUp from "./modules/moduleBigPopUp";
 import ModuleSmallPopUp from "./modules/moduleSmallPopUp";
 import SignUpForm from "./forms/signup";
 import LoginForm from "./forms/login";
+import ForgotPassword from "./forms/forgotPassword";
 
 interface IHeaderState {
     aboutLinkAffect: [boolean, boolean, boolean];
     eventsLinkAffect: [boolean, boolean, boolean];
     peopleLinkAffect: [boolean, boolean, boolean];
     projectsLinkAffect: [boolean, boolean, boolean];
-    loginOrSignUpForm: string;
+    loginOrSignUpOrForgotPasswordForm: string;
     toggleNavDropDownMenu: string;
     toggleDisplayBigPopUpModule: boolean;
     toggleDisplaySmallPopUpModule: boolean;
@@ -45,7 +46,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
         eventsLinkAffect: [true, false, false],
         peopleLinkAffect: [true, false, false],
         projectsLinkAffect: [true, false, false],
-        loginOrSignUpForm: "login",
+        loginOrSignUpOrForgotPasswordForm: "login",
         toggleNavDropDownMenu: this.dropDownMenuHiddenClass,
         toggleDisplayBigPopUpModule: false,
         toggleDisplaySmallPopUpModule: false,
@@ -83,12 +84,12 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
         });
     };
 
-    public manuallyChooseLoginOrSignUpForm = (
+    public manuallyChooseLoginOrSignUpOrForgotPasswordForm = (
         whatFormToClose: string
     ): void => {
         this.setState(() => {
             return {
-                loginOrSignUpForm: whatFormToClose
+                loginOrSignUpOrForgotPasswordForm: whatFormToClose
             };
         });
     };
@@ -152,8 +153,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
                 toggleDisplayBigPopUpModule: prevState.toggleDisplayBigPopUpModule
                     ? false
                     : true,
-                loginOrSignUpForm:
-                    buttonClicked === "login" ? "signup" : "login"
+                loginOrSignUpOrForgotPasswordForm: buttonClicked
             };
         });
     };
@@ -303,7 +303,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
                 />
                 <Button
                     clickEvent={() => {
-                        this.toggleDisplayBigPopUpModule("signin");
+                        this.toggleDisplayBigPopUpModule("signup");
                     }}
                     text={"SIGN UP"}
                     type={"button"}
@@ -316,6 +316,55 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
     public logOut = (): void => {
         this.toggleDisplaySmallPopUpModule();
         this.props.logOut();
+    };
+
+    public chooseFormToShow = (): JSX.Element => {
+        if (this.state.loginOrSignUpOrForgotPasswordForm === "signup") {
+            return (
+                <SignUpForm
+                    closeDisplayPopUpModule={() => {
+                        this.closeDisplayPopUpModule();
+                    }}
+                    manuallyChooseLoginOrSignUpOrForgotPasswordForm={(
+                        whatFormToClose: string
+                    ) => {
+                        this.manuallyChooseLoginOrSignUpOrForgotPasswordForm(
+                            whatFormToClose
+                        );
+                    }}
+                />
+            );
+        } else if (this.state.loginOrSignUpOrForgotPasswordForm === "login") {
+            return (
+                <LoginForm
+                    closeDisplayPopUpModule={() => {
+                        this.closeDisplayPopUpModule();
+                    }}
+                    manuallyChooseLoginOrSignUpOrForgotPasswordForm={(
+                        whatFormToClose: string
+                    ) => {
+                        this.manuallyChooseLoginOrSignUpOrForgotPasswordForm(
+                            whatFormToClose
+                        );
+                    }}
+                />
+            );
+        } else {
+            return (
+                <ForgotPassword
+                    closeDisplayPopUpModule={() => {
+                        this.closeDisplayPopUpModule();
+                    }}
+                    manuallyChooseLoginOrSignUpOrForgotPasswordForm={(
+                        whatFormToClose: string
+                    ) => {
+                        this.manuallyChooseLoginOrSignUpOrForgotPasswordForm(
+                            whatFormToClose
+                        );
+                    }}
+                />
+            );
+        }
     };
 
     public componentWillReceiveProps(nextProps: {
@@ -345,29 +394,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
                             this.toggleDisplayBigPopUpModule("login");
                         }}
                     >
-                        {this.state.loginOrSignUpForm === "login" ? (
-                            <SignUpForm
-                                closeDisplayPopUpModule={() => {
-                                    this.closeDisplayPopUpModule();
-                                }}
-                                manuallyChooseLoginOrSignUpForm={() => {
-                                    this.manuallyChooseLoginOrSignUpForm(
-                                        "signup"
-                                    );
-                                }}
-                            />
-                        ) : (
-                            <LoginForm
-                                closeDisplayPopUpModule={() => {
-                                    this.closeDisplayPopUpModule();
-                                }}
-                                manuallyChooseLoginOrSignUpForm={() => {
-                                    this.manuallyChooseLoginOrSignUpForm(
-                                        "login"
-                                    );
-                                }}
-                            />
-                        )}
+                        {this.chooseFormToShow()}
                     </ModuleBigPopUp>
                 </ModuleContainerBackground>
                 <ModuleContainerBackground

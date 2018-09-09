@@ -29,7 +29,7 @@
     }
 }
 
-.signup-and-login {
+.signup-and-login-and-forgotpassword {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -115,7 +115,7 @@ input:focus ~ .input-border-effect {
     width: 100%;
 }
 
-.signup-and-login-call-to-actions {
+.signup-and-login-and-forgotpassword-call-to-actions {
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
@@ -152,7 +152,7 @@ input:focus ~ .input-border-effect {
 }
 
 @include respond(mq-768) {
-    .signup-and-login-call-to-actions {
+    .signup-and-login-and-forgotpassword-call-to-actions {
         p {
             font-size: 1rem;
             margin-left: 1.9rem;
@@ -162,7 +162,7 @@ input:focus ~ .input-border-effect {
             font-size: 1.4rem;
         }
     }
-    .signup-and-login {
+    .signup-and-login-and-forgotpassword {
         transform: translate(-50%, -50%);
 
         .input {
@@ -205,7 +205,7 @@ input:focus ~ .input-border-effect {
 }
 
 @include respond(mq-480) {
-    .signup-and-login-call-to-actions {
+    .signup-and-login-and-forgotpassword-call-to-actions {
         p {
             font-size: 0.8rem;
         }
@@ -215,7 +215,7 @@ input:focus ~ .input-border-effect {
         }
     }
 
-    .signup-and-login {
+    .signup-and-login-and-forgotpassword {
         .input {
             margin: 1rem 0;
         }
@@ -257,7 +257,7 @@ input:focus ~ .input-border-effect {
 }
 
 @include respond(mq-1500) {
-    .signup-and-login {
+    .signup-and-login-and-forgotpassword {
         .input {
             margin: 1.75rem 0;
         }
@@ -274,7 +274,7 @@ input:focus ~ .input-border-effect {
         }
     }
 
-    .signup-and-login-call-to-actions {
+    .signup-and-login-and-forgotpassword-call-to-actions {
         p {
             font-size: 1.4rem;
             margin-left: 2.5rem;
@@ -322,7 +322,7 @@ input:focus ~ .input-border-effect {
 }
 
 @include respond(mq-1800) {
-    .signup-and-login-call-to-actions {
+    .signup-and-login-and-forgotpassword-call-to-actions {
         p {
             font-size: 1.6rem;
             margin-left: 3rem;

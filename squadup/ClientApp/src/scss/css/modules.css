@@ -565,6 +565,20 @@ $new-messages-count: rgb(222, 16, 29)*/
   background-repeat: no-repeat; }
   .module-big-popup .input-container {
     position: relative; }
+  .module-big-popup .forgotpassword .input-container {
+    width: 28.8rem; }
+    @media (max-width: 768px) {
+      .module-big-popup .forgotpassword .input-container {
+        width: 25.6rem; } }
+    @media (max-width: 480px) {
+      .module-big-popup .forgotpassword .input-container {
+        width: 23.4rem; } }
+    @media (min-width: 1500px) {
+      .module-big-popup .forgotpassword .input-container {
+        width: 32.9rem; } }
+    @media (min-width: 1800px) {
+      .module-big-popup .forgotpassword .input-container {
+        width: 37.5rem; } }
   .module-big-popup .signup .input-container {
     width: 31.5rem; }
     @media (max-width: 768px) {
@@ -638,18 +652,18 @@ $new-messages-count: rgb(222, 16, 29)*/
 .success-noti-container p {
   text-align: center; }
 
-.signup-and-login {
+.signup-and-login-and-forgotpassword {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-30%, -50%); }
-  .signup-and-login .input {
+  .signup-and-login-and-forgotpassword .input {
     margin: 1.5rem 0; }
-  .signup-and-login h3 {
+  .signup-and-login-and-forgotpassword h3 {
     margin-bottom: 1.5rem; }
-  .signup-and-login button {
+  .signup-and-login-and-forgotpassword button {
     margin-top: 2rem; }
-  .signup-and-login .icon-container {
+  .signup-and-login-and-forgotpassword .icon-container {
     position: absolute;
     right: 0;
     top: 3.8rem; }
@@ -705,44 +719,44 @@ input:focus ~ .input-border-effect {
   color: #24292e;
   width: 100%; }
 
-.signup-and-login-call-to-actions {
+.signup-and-login-and-forgotpassword-call-to-actions {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline; }
-  .signup-and-login-call-to-actions p {
+  .signup-and-login-and-forgotpassword-call-to-actions p {
     font-size: 12px;
     margin-left: 2rem; }
-  .signup-and-login-call-to-actions .forgot-password {
+  .signup-and-login-and-forgotpassword-call-to-actions .forgot-password {
     margin-top: 2rem;
     margin-left: 0; }
-  .signup-and-login-call-to-actions span,
-  .signup-and-login-call-to-actions .forgot-password {
+  .signup-and-login-and-forgotpassword-call-to-actions span,
+  .signup-and-login-and-forgotpassword-call-to-actions .forgot-password {
     color: #27aa45;
     cursor: pointer; }
-  .signup-and-login-call-to-actions span:hover,
-  .signup-and-login-call-to-actions .forgot-password:hover {
+  .signup-and-login-and-forgotpassword-call-to-actions span:hover,
+  .signup-and-login-and-forgotpassword-call-to-actions .forgot-password:hover {
     color: #22953d; }
-  .signup-and-login-call-to-actions span:active,
-  .signup-and-login-call-to-actions .forgot-password:active {
+  .signup-and-login-and-forgotpassword-call-to-actions span:active,
+  .signup-and-login-and-forgotpassword-call-to-actions .forgot-password:active {
     color: #1e8034; }
-  .signup-and-login-call-to-actions .forgot-password {
+  .signup-and-login-and-forgotpassword-call-to-actions .forgot-password {
     font-size: 1.6rem; }
 
 @media (max-width: 768px) {
-  .signup-and-login-call-to-actions p {
+  .signup-and-login-and-forgotpassword-call-to-actions p {
     font-size: 1rem;
     margin-left: 1.9rem; }
-  .signup-and-login-call-to-actions .forgot-password {
+  .signup-and-login-and-forgotpassword-call-to-actions .forgot-password {
     font-size: 1.4rem; }
-  .signup-and-login {
+  .signup-and-login-and-forgotpassword {
     transform: translate(-50%, -50%); }
-    .signup-and-login .input {
+    .signup-and-login-and-forgotpassword .input {
       margin: 1.25rem 0; }
-    .signup-and-login h3 {
+    .signup-and-login-and-forgotpassword h3 {
       margin-bottom: 1rem; }
-    .signup-and-login button {
+    .signup-and-login-and-forgotpassword button {
       margin-top: 1.75rem; }
-    .signup-and-login .icon-container {
+    .signup-and-login-and-forgotpassword .icon-container {
       top: 3.2rem; }
   .error-message {
     font-size: 1rem;
@@ -758,17 +772,17 @@ input:focus ~ .input-border-effect {
     bottom: 2.3rem; } }
 
 @media (max-width: 480px) {
-  .signup-and-login-call-to-actions p {
+  .signup-and-login-and-forgotpassword-call-to-actions p {
     font-size: 0.8rem; }
-  .signup-and-login-call-to-actions .forgot-password {
+  .signup-and-login-and-forgotpassword-call-to-actions .forgot-password {
     font-size: 1.2rem; }
-  .signup-and-login .input {
+  .signup-and-login-and-forgotpassword .input {
     margin: 1rem 0; }
-  .signup-and-login h3 {
+  .signup-and-login-and-forgotpassword h3 {
     margin-bottom: 1rem; }
-  .signup-and-login button {
+  .signup-and-login-and-forgotpassword button {
     margin-top: 1.5rem; }
-  .signup-and-login .icon-container {
+  .signup-and-login-and-forgotpassword .icon-container {
     top: 3.1rem; }
   .error-message {
     font-size: 0.8rem;
@@ -784,22 +798,22 @@ input:focus ~ .input-border-effect {
     bottom: 1.8rem; } }
 
 @media (min-width: 1500px) {
-  .signup-and-login .input {
+  .signup-and-login-and-forgotpassword .input {
     margin: 1.75rem 0; }
-  .signup-and-login h3 {
+  .signup-and-login-and-forgotpassword h3 {
     margin-bottom: 1.75rem; }
-  .signup-and-login button {
+  .signup-and-login-and-forgotpassword button {
     margin-top: 2.25rem; }
-  .signup-and-login .icon-container {
+  .signup-and-login-and-forgotpassword .icon-container {
     top: 4rem; }
-  .signup-and-login-call-to-actions p {
+  .signup-and-login-and-forgotpassword-call-to-actions p {
     font-size: 1.4rem;
     margin-left: 2.5rem; }
-  .signup-and-login-call-to-actions .forgot-password {
+  .signup-and-login-and-forgotpassword-call-to-actions .forgot-password {
     margin-top: 2.5rem; }
-  .signup-and-login-call-to-actions span {
+  .signup-and-login-and-forgotpassword-call-to-actions span {
     padding-left: 0.5rem; }
-  .signup-and-login-call-to-actions .forgot-password {
+  .signup-and-login-and-forgotpassword-call-to-actions .forgot-password {
     font-size: 1.8rem; }
   .input {
     padding: 2.25rem 0rem 1.25rem 0rem; }
@@ -818,7 +832,7 @@ input:focus ~ .input-border-effect {
     bottom: 3.1rem; } }
 
 @media (min-width: 1800px) {
-  .signup-and-login-call-to-actions p {
+  .signup-and-login-and-forgotpassword-call-to-actions p {
     font-size: 1.6rem;
     margin-left: 3rem; }
   .forgot-password {
