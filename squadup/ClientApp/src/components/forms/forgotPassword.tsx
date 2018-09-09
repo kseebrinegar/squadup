@@ -57,17 +57,20 @@ class ForgotPasswordForm extends React.Component<IProps, IState> {
         }
 
         if (isAllInputValuesTrue) {
-            const { inputOneValueAndIsValid } = this.state;
+            // const { inputOneValueAndIsValid } = this.state;
 
             this.setState(() => {
-                return { isLoaderShown: true };
+                return {
+                    isLoaderShown: true
+                };
             });
 
-            this.sendEmail(inputOneValueAndIsValid[0]);
+            this.sendEmail();
+            // this.sendEmail(inputOneValueAndIsValid[0]);
         }
     };
 
-    public sendEmail(emailValue: string) {
+    public sendEmail() {
         // console.log(emailValue);
         const email: string = "sydney@fife";
         const password: string = "pistol";
@@ -77,8 +80,7 @@ class ForgotPasswordForm extends React.Component<IProps, IState> {
                 password
             })
             .then(
-                (res: unknown) => {
-                    // console.log(res.data);
+                () => {
                     this.timerForLoader();
                     this.setState(() => {
                         return {
@@ -89,9 +91,7 @@ class ForgotPasswordForm extends React.Component<IProps, IState> {
                         };
                     });
                 },
-                e => {
-                    // console.log(e);
-                }
+                () => {}
             );
     }
 

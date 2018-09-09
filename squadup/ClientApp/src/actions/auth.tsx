@@ -1,29 +1,30 @@
 import { Dispatch } from "redux";
 import axios from "axios";
 
-const signUp = (username: string, password: string, email: string) => {
-    // console.log(username + " " + password + " " + email);
-
+const signUp = () => {
+    const email: string = "test";
+    const password: string = "test";
     return (dispatch: Dispatch) => {
         axios.post("https://reqres.in/api/login", { email, password }).then(
-            (res: unknown) => {
+            () => {
                 // console.log(res);
                 dispatch({
                     type: "SIGN_UP"
                 });
             },
-            e => {
+            () => {
                 // console.log(e);
             }
         );
     };
 };
 
-const logIn = (username: string, password: string) => {
+const logIn = () => {
+    const email: string = "test";
+    const password: string = "test";
     return function(dispatch: Dispatch) {
-        axios.post("https://reqres.in/api/login", { username, password }).then(
-            (res: unknown) => {
-                // console.log(res);
+        axios.post("https://reqres.in/api/login", { email, password }).then(
+            () => {
                 dispatch({
                     type: "LOG_IN"
                 });

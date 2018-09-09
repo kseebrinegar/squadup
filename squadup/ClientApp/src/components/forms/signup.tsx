@@ -14,7 +14,8 @@ interface IState {
 
 interface IProps {
     closeDisplayPopUpModule: () => void;
-    signUp: (username: string, password: string, email: string) => void;
+    //  signUp: (username: string, password: string, email: string) => void;
+    signUp: () => void;
     isUserLoggedIn: boolean;
     manuallyChooseLoginOrSignUpOrForgotPasswordForm: (
         whatFormChoosen: string
@@ -64,21 +65,22 @@ class SignUpForm extends React.Component<IProps, IState> {
         }
 
         if (isAllInputValuesTrue) {
-            const {
+            /* const {
                 inputOneValueAndIsValid,
                 inputTwoValueAndIsValid,
                 inputThreeValueAndIsValid
-            } = this.state;
+            } = this.state;*/
 
             this.setState(() => {
                 return { isLoaderShown: true };
             });
 
-            this.props.signUp(
-                inputOneValueAndIsValid[0],
+            this.props
+                .signUp
+                /*inputOneValueAndIsValid[0],
                 inputTwoValueAndIsValid[0],
-                inputThreeValueAndIsValid[0]
-            );
+                inputThreeValueAndIsValid[0]*/
+                ();
         }
     };
 
