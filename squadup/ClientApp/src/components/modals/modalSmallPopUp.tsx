@@ -4,6 +4,7 @@ import Button from "../buttons/button";
 interface SFCmodalSmallPopUpProps {
     toggleDisplaySmallPopUpModal: () => void;
     clickEvent: () => void;
+    headerText: string;
 }
 
 const moduleSmallPopUp: React.SFC<SFCmodalSmallPopUpProps> = (
@@ -18,7 +19,7 @@ const moduleSmallPopUp: React.SFC<SFCmodalSmallPopUpProps> = (
                 <div className="close-icon-line1" />
                 <div className="close-icon-line2" />
             </div>
-            <h3>Are you sure you wanna log out?</h3>
+            <h3>{props.headerText}</h3>
             <div className="module-small-popup-yes-or-no">
                 <Button
                     clickEvent={props.clickEvent}

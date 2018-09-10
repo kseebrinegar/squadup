@@ -415,6 +415,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
                         toggleDisplaySmallPopUpModal={() => {
                             this.toggleDisplaySmallPopUpModal();
                         }}
+                        headerText={"Are you sure you wanna log out?"}
                         clickEvent={() => {
                             this.logOut();
                         }}
