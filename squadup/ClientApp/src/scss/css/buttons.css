@@ -1,0 +1,77 @@
+/* START .................................. MEDIA QUERIES */
+/* END .................................... MEDIA QUERIES */
+/*$light-grey: rgb(247, 247, 247);
+$dark-grey: rgb(207, 207, 207);
+$green-dark: rgb(40, 167, 69);
+$green-light: rgb(52, 208, 88);
+$light-dark: rgb(47, 47, 47);
+$dark-black: rgb(0, 0, 0);
+$new-messages-count: rgb(222, 16, 29)*/
+.btn-primary,
+.btn-red {
+  font-weight: 700;
+  border-radius: 3px;
+  letter-spacing: 1px;
+  cursor: pointer; }
+
+.btn-primary {
+  color: white;
+  border: 1px solid #28a745;
+  background-color: #28a745;
+  background-image: linear-gradient(-180deg, #34d058 0%, #28a745 90%); }
+
+.btn-red {
+  color: white;
+  border: 1px solid #de101d;
+  background-color: #de101d;
+  background-image: linear-gradient(-180deg, #ea3930 0%, #de101d 90%); }
+
+.btn-sm {
+  padding: 0.5rem 1rem;
+  font-size: 1.2rem; }
+
+.btn-md {
+  padding: 0.75rem 1.5rem;
+  font-size: 1.4rem; }
+
+.btn-lg {
+  padding: 1rem 2rem;
+  font-size: 1.6rem; }
+
+@media (max-width: 480px) {
+  .btn-sm {
+    padding: 0.3rem 0.5rem;
+    font-size: 1rem; }
+  .btn-md {
+    padding: 0.5rem 1rem;
+    font-size: 1.2rem; }
+  .btn-lg {
+    padding: 0.75rem 1.75rem;
+    font-size: 1.4rem; } }
+
+@media (max-width: 768px) {
+  .btn-sm {
+    font-size: 1rem; }
+  .btn-md {
+    font-size: 1.2rem; }
+  .btn-lg {
+    font-size: 1.4rem; } }
+
+@media (min-width: 1500px) {
+  .btn-sm {
+    font-size: 1.4rem; }
+  .btn-md {
+    font-size: 1.6rem; }
+  .btn-lg {
+    font-size: 1.8rem; } }
+
+@media (min-width: 1800px) {
+  .btn-sm {
+    padding: 0.7rem 1.5rem;
+    font-size: 1.6rem; }
+  .btn-md {
+    padding: 1rem 2rem;
+    font-size: 1.8rem; }
+  .btn-lg {
+    padding: 1.25rem 2.5rem;
+    font-size: 2rem; } }

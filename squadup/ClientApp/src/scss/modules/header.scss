@@ -1,0 +1,33 @@
+@import "../mixins/mixins.scss";
+@import "../vars/vars.scss";
+
+#header {
+    width: 100%;
+    background-color: $header-color-background;
+    z-index: 10;
+    @include section-padding(1rem, 1rem);
+}
+
+@include respond(mq-768) {
+    #header {
+        @include section-padding(1rem, 1.5rem, 1.5rem, 1.5rem);
+    }
+}
+
+@include respond(mq-480) {
+    #header {
+        @include section-padding(1rem, 0.5rem, 1rem, 1rem);
+    }
+}
+
+@include respond(mq-1500) {
+    #header {
+        @include section-padding(1rem, 1rem, 5rem, 5rem);
+    }
+}
+
+@include respond(mq-1800) {
+    #header {
+        @include section-padding(1.2rem, 1.2rem, 7.5rem, 7.5rem);
+    }
+}

@@ -1,0 +1,146 @@
+/* START .................................. MEDIA QUERIES */
+/* END .................................... MEDIA QUERIES */
+/*$light-grey: rgb(247, 247, 247);
+$dark-grey: rgb(207, 207, 207);
+$green-dark: rgb(40, 167, 69);
+$green-light: rgb(52, 208, 88);
+$light-dark: rgb(47, 47, 47);
+$dark-black: rgb(0, 0, 0);
+$new-messages-count: rgb(222, 16, 29)*/
+.module-background {
+  position: fixed;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.4);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0; }
+
+.module-big-popup,
+.module-small-popup {
+  position: relative;
+  background: white;
+  border-radius: 3px;
+  box-shadow: rgba(0, 0, 0, 0.4) 1px 7px 20px 2px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); }
+  .module-big-popup .close-icon,
+  .module-small-popup .close-icon {
+    position: absolute;
+    right: 1rem;
+    top: 1rem; }
+
+.module-small-popup {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  height: 35rem;
+  width: 70rem; }
+  .module-small-popup .module-small-popup-yes-or-no {
+    display: flex; }
+  .module-small-popup button {
+    width: 10rem;
+    margin: 3.5rem 3.5rem 0 3.5rem; }
+    @media (max-width: 768px) {
+      .module-small-popup button {
+        margin: 3rem 3rem 0 3rem;
+        width: 7rem; } }
+    @media (min-width: 1500px) {
+      .module-small-popup button {
+        margin: 4rem 4rem 0 4rem;
+        width: 12rem; } }
+    @media (min-width: 1800px) {
+      .module-small-popup button {
+        margin: 4.5rem 4.5rem 0 4.5rem;
+        width: 13rem; } }
+  @media (max-width: 768px) {
+    .module-small-popup {
+      height: 28rem;
+      width: 40rem; } }
+  @media (max-width: 480px) {
+    .module-small-popup {
+      width: 35rem; } }
+  @media (min-width: 1500px) {
+    .module-small-popup {
+      height: 42em;
+      width: 70rem; } }
+  @media (min-width: 1800px) {
+    .module-small-popup {
+      height: 48em;
+      width: 80rem; } }
+
+.module-big-popup {
+  height: 500px;
+  width: 700px;
+  background-image: url("/images/banner-popup.jpg");
+  background-size: 175px;
+  background-repeat: no-repeat; }
+  .module-big-popup .input-container {
+    position: relative; }
+  .module-big-popup .forgotpassword .input-container {
+    width: 28.8rem; }
+    @media (max-width: 768px) {
+      .module-big-popup .forgotpassword .input-container {
+        width: 25.6rem; } }
+    @media (max-width: 480px) {
+      .module-big-popup .forgotpassword .input-container {
+        width: 23.4rem; } }
+    @media (min-width: 1500px) {
+      .module-big-popup .forgotpassword .input-container {
+        width: 32.9rem; } }
+    @media (min-width: 1800px) {
+      .module-big-popup .forgotpassword .input-container {
+        width: 37.5rem; } }
+  .module-big-popup .signup .input-container {
+    width: 31.5rem; }
+    @media (max-width: 768px) {
+      .module-big-popup .signup .input-container {
+        width: 28rem; } }
+    @media (max-width: 480px) {
+      .module-big-popup .signup .input-container {
+        width: 25.8rem; } }
+    @media (min-width: 1500px) {
+      .module-big-popup .signup .input-container {
+        width: 35.5rem; } }
+    @media (min-width: 1800px) {
+      .module-big-popup .signup .input-container {
+        width: 40.5rem; } }
+  .module-big-popup .login .input-container {
+    width: 32rem;
+    position: relative; }
+    @media (max-width: 768px) {
+      .module-big-popup .login .input-container {
+        width: 28.6rem; } }
+    @media (max-width: 480px) {
+      .module-big-popup .login .input-container {
+        width: 26.1rem; } }
+    @media (min-width: 1500px) {
+      .module-big-popup .login .input-container {
+        width: 36.8rem; } }
+    @media (min-width: 1800px) {
+      .module-big-popup .login .input-container {
+        width: 42rem; } }
+  @media (max-width: 768px) {
+    .module-big-popup {
+      height: 500px;
+      width: 400px;
+      background-image: none; } }
+  @media (max-width: 480px) {
+    .module-big-popup {
+      height: 450px;
+      max-width: 350px;
+      width: 100%;
+      background-image: none; } }
+  @media (min-width: 1500px) {
+    .module-big-popup {
+      height: 600px;
+      width: 840px;
+      background-size: 210px; } }
+  @media (min-width: 1800px) {
+    .module-big-popup {
+      height: 660px;
+      width: 925px;
+      background-size: 230px; } }

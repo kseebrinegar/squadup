@@ -1,0 +1,145 @@
+@import "../mixins/mixins.scss";
+@import "../vars/vars.scss";
+
+#header {
+    position: fixed;
+    overflow: hidden;
+    @include flex-layout($flex-wrap: wrap);
+
+    .nav-list {
+        @include flex-layout($justify-content: space-between);
+
+        @include respond(mq-768) {
+            @include flex-layout($flex-direction: column);
+        }
+    }
+
+    @include flex-layout(
+        $justify-content: space-between,
+        $flex-wrap: wrap,
+        $align-items: center
+    );
+}
+
+.nav {
+    a {
+        position: relative;
+        display: block;
+    }
+
+    .nav-list-item {
+        position: relative;
+    }
+}
+
+.hamburger-icon {
+    display: none;
+}
+
+.icon-container {
+    position: relative;
+}
+
+.icon-info-inbox {
+    left: -50%;
+    transform: translateX(6%);
+    top: 125%;
+}
+
+.icon-info-logout {
+    left: -50%;
+    transform: translateX(-8%);
+    top: 125%;
+}
+
+.icon-info-dashboard {
+    left: -50%;
+    transform: translateX(-16%);
+    top: 125%;
+}
+
+.new-messages-count {
+    position: absolute;
+}
+
+.icon-info-dashboard,
+.icon-info-inbox,
+.icon-info-logout {
+    position: absolute;
+    display: none;
+}
+
+.signup-and-login:after {
+    clear: both;
+    content: "";
+    display: block;
+}
+
+.login-signup-and-icon-container {
+    @include flex-layout($justify-content: space-between);
+
+    .user-icon {
+        display: block;
+    }
+}
+
+@include respond(mq-768) {
+    .login-signup-and-icon-container {
+        flex-grow: 1;
+        @include flex-layout($display: flex, $justify-content: flex-end);
+    }
+    .hamburger-icon {
+        display: block;
+    }
+    .nav {
+        order: 1;
+    }
+}
+
+@include respond(mq-480) {
+    .icon-info-inbox {
+        transform: translateX(8%);
+    }
+
+    .icon-info-logout {
+        left: -50%;
+        transform: translateX(-7%);
+        top: 125%;
+    }
+
+    .icon-info-dashboard {
+        transform: translateX(-18%);
+    }
+}
+
+@include respond(mq-1500) {
+    .icon-info-inbox {
+        transform: translateX(2%);
+    }
+
+    .icon-info-logout {
+        left: -50%;
+        transform: translateX(-10%);
+        top: 125%;
+    }
+
+    .icon-info-dashboard {
+        transform: translateX(-19.5%);
+    }
+}
+
+@include respond(mq-1800) {
+    .icon-info-inbox {
+        transform: translateX(-3%);
+    }
+
+    .icon-info-logout {
+        left: -50%;
+        transform: translateX(-11%);
+        top: 125%;
+    }
+    .icon-info-dashboard {
+        left: -50%;
+        transform: translateX(-20%);
+    }
+}

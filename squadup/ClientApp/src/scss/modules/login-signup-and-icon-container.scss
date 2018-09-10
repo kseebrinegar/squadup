@@ -1,0 +1,79 @@
+@import "../mixins/mixins.scss";
+@import "../vars/vars.scss";
+
+.login-signup-and-icon-container {
+    button {
+        width: 8rem;
+    }
+
+    button:first-child {
+        margin-right: 2rem;
+    }
+
+    .envelope-icon {
+        margin-right: 2rem;
+        text-align: right;
+    }
+
+    .user-icon {
+        margin-right: 2rem;
+    }
+}
+
+@include respond(mq-768) {
+    .login-signup-and-icon-container {
+        margin-right: 5rem;
+
+        button {
+            width: 7.2rem;
+        }
+
+        button:first-child {
+            margin-right: 1.5rem;
+        }
+
+        .user-icon,
+        .envelope-icon {
+            margin-right: 1.5rem;
+        }
+    }
+}
+
+@include respond(mq-480) {
+    .login-signup-and-icon-container {
+        margin-right: 2.5rem;
+
+        button {
+            width: 6.2rem;
+        }
+    }
+}
+
+@include respond(mq-1500) {
+    .login-signup-and-icon-container {
+        button {
+            width: 8.7rem;
+        }
+
+        button:first-child {
+            margin-right: 2.5rem;
+        }
+
+        .envelope-icon {
+            //margin-left: 14.7rem;
+            margin-right: 2.5rem;
+        }
+
+        .user-icon {
+            margin-right: 2.5rem;
+        }
+    }
+}
+
+@include respond(mq-1800) {
+    .login-signup-and-icon-container {
+        button {
+            width: 10.43rem;
+        }
+    }
+}

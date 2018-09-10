@@ -1,0 +1,29 @@
+@import "../mixins/mixins.scss";
+.logo {
+    display: block;
+    width: 4rem;
+}
+
+@include respond(mq-768) {
+    .logo {
+        width: 4rem;
+    }
+}
+
+@include respond(mq-480) {
+    .logo {
+        width: 3.5rem;
+    }
+}
+
+@include respond(mq-1500) {
+    .logo {
+        width: 4.5rem;
+    }
+}
+
+@include respond(mq-1800) {
+    .logo {
+        width: 5rem;
+    }
+}
