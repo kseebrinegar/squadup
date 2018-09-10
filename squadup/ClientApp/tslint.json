@@ -6,6 +6,6 @@
     "defaultSeverity": "warning",
     "rules": {
         "no-any": true,
-        "no-console": true
+        "no-console": false
     }
 }

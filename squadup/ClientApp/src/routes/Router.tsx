@@ -1,5 +1,7 @@
 import * as React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { connect } from "react-redux";
+import { AppState } from "../store/types";
 import Header from "../components/Header";
 import AboutPage from "../components/pages/about/AboutPage";
 import EventsPage from "../components/pages/events/EventsPage";
@@ -7,8 +9,37 @@ import HomePage from "../components/pages/home/HomePage";
 import Page404 from "../components/pages/Page404";
 import PeoplePage from "../components/pages/people/PeoplePage";
 import ProjectsPage from "../components/pages/projects/ProjectsPage";
+// import DashboardPage from "../components/pages/dashboard/DashbaordPage";
 
-class Router extends React.Component<{}, {}> {
+/*const PrivateRoute = (props: any) => {
+    const { isUserLoggedIn } = props;
+    console.log(isUserLoggedIn);
+    return (
+        <Route
+            {...props}
+            render={() => {
+                isUserLoggedIn === true ? (
+                    <div>asdasdasd</div>
+                ) : (
+                    <Redirect to="/events" />
+                );
+            }}
+        />
+    );
+    return <div>sad</div>;
+};
+
+<PrivateRoute
+    path="/dashboard"
+    Component={DashboardPage}
+    isUserLoggedIn={this.props.isUserLoggedIn}
+/>*/
+
+interface IProps {
+    isUserLoggedIn: boolean;
+}
+
+class Router extends React.Component<IProps, {}> {
     public render() {
         return (
             <React.Fragment>
@@ -16,7 +47,11 @@ class Router extends React.Component<{}, {}> {
                     <React.Fragment>
                         <Header />
                         <Switch>
-                            <Route path={"/events"} component={EventsPage} />
+                            <Route
+                                path={"/events"}
+                                component={EventsPage}
+                                isUserLoggedIn={this.props.isUserLoggedIn}
+                            />
                             <Route
                                 path={"/projects"}
                                 component={ProjectsPage}
@@ -37,4 +72,8 @@ class Router extends React.Component<{}, {}> {
     }
 }
 
-export default Router;
+const mapStateToProps = (state: AppState) => ({
+    isUserLoggedIn: state.auth
+});
+
+export default connect(mapStateToProps)(Router);
