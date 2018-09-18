@@ -4,7 +4,7 @@ import App from "./App";
 import { Provider } from "react-redux";
 import configureStore from "./store/configureStore";
 
-it("renders without crashing", () => {
+test("renders without crashing", () => {
     const div = document.createElement("div");
     const store = configureStore();
     ReactDOM.render(

@@ -11,8 +11,8 @@ const modalContainerBackground: React.SFC<SFCmodalContainerBackgroundProps> = (
         <div
             className={
                 props.toggleDisplayPopUpModal
-                    ? `module-background is-shown`
-                    : `module-background is-hidden`
+                    ? `modal-background is-shown`
+                    : `modal-background is-hidden`
             }
         >
             {props.children}

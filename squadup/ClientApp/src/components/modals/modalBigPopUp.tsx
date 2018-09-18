@@ -6,7 +6,7 @@ const modalBigPopUp: React.SFC<SFCmodalBigPopUpProps> = (
     props
 ): JSX.Element => {
     return (
-        <div className="module-big-popup">
+        <div className="modal-big-popup">
             <div
                 className="icon-container close-icon"
                 onClick={props.clickEvent}

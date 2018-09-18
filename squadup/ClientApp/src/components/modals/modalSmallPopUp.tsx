@@ -11,7 +11,7 @@ const moduleSmallPopUp: React.SFC<SFCmodalSmallPopUpProps> = (
     props
 ): JSX.Element => {
     return (
-        <div className="module-small-popup">
+        <div className="modal-small-popup">
             <div
                 className="icon-container close-icon"
                 onClick={props.toggleDisplaySmallPopUpModal}
@@ -20,7 +20,7 @@ const moduleSmallPopUp: React.SFC<SFCmodalSmallPopUpProps> = (
                 <div className="close-icon-line2" />
             </div>
             <h3>{props.headerText}</h3>
-            <div className="module-small-popup-yes-or-no">
+            <div className="modal-small-popup-yes-or-no">
                 <Button
                     clickEvent={props.clickEvent}
                     text={"Yes"}

@@ -14,14 +14,14 @@ import ProjectsPage from "../components/pages/projects/ProjectsPage";
 /*const PrivateRoute = (props: any) => {
     const { isUserLoggedIn } = props;
     console.log(isUserLoggedIn);
-    return (
+    /*return (
         <Route
             {...props}
             render={() => {
                 isUserLoggedIn === true ? (
-                    <div>asdasdasd</div>
+                    <div style={{ marginTop: "500px" }}>asdasdasd</div>
                 ) : (
-                    <Redirect to="/events" />
+                    <Redirect to="/" />
                 );
             }}
         />
@@ -29,7 +29,7 @@ import ProjectsPage from "../components/pages/projects/ProjectsPage";
     return <div>sad</div>;
 };
 
-<PrivateRoute
+/*<PrivateRoute
     path="/dashboard"
     Component={DashboardPage}
     isUserLoggedIn={this.props.isUserLoggedIn}
@@ -47,11 +47,7 @@ class Router extends React.Component<IProps, {}> {
                     <React.Fragment>
                         <Header />
                         <Switch>
-                            <Route
-                                path={"/events"}
-                                component={EventsPage}
-                                isUserLoggedIn={this.props.isUserLoggedIn}
-                            />
+                            <Route path={"/events"} component={EventsPage} />
                             <Route
                                 path={"/projects"}
                                 component={ProjectsPage}

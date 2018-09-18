@@ -9,9 +9,9 @@ import auth from "../actions/auth";
 import ModalContainerBackground from "./modals/modalContainerBackground";
 import ModalBigPopUp from "./modals/modalBigPopUp";
 import ModalSmallPopUp from "./modals/modalSmallPopUp";
-import SignUpForm from "./forms/signup";
-import LoginForm from "./forms/login";
-import ForgotPassword from "./forms/forgotPassword";
+import SignUpForm from "./forms/authForms/signup";
+import LoginForm from "./forms/authForms/login";
+import ForgotPassword from "./forms/authForms/forgotPassword";
 
 interface IHeaderState {
     aboutLinkAffect: [boolean, boolean, boolean];
@@ -19,7 +19,7 @@ interface IHeaderState {
     peopleLinkAffect: [boolean, boolean, boolean];
     projectsLinkAffect: [boolean, boolean, boolean];
     loginOrSignUpOrForgotPasswordForm: string;
-    toggleNavDropDownMenu: string;
+    toggleNavDropDownMenu: boolean;
     toggleDisplayBigPopUpModal: boolean;
     toggleDisplaySmallPopUpModal: boolean;
     isUserLoggedIn: boolean;
@@ -31,23 +31,13 @@ interface IHeaderProps {
 }
 
 class Header extends React.Component<IHeaderProps, IHeaderState> {
-    private unActiveLinkClass: string = "is-active-nav-link--hover";
-    private activeLinkClasses: string =
-        "is-active-nav-link is-active-nav-link--hover";
-    private acitveDarkLinkClasses: string =
-        "is-active-nav-link--dark is-active-nav-link--hover";
-    private dropDownMenuHiddenClass: string =
-        "is-unexpanded-header-drop-down-menu";
-    private dropDownMenuShownClass: string =
-        "is-expanded-header-drop-down-menu";
-
     public state: IHeaderState = {
         aboutLinkAffect: [true, false, false],
         eventsLinkAffect: [true, false, false],
         peopleLinkAffect: [true, false, false],
         projectsLinkAffect: [true, false, false],
         loginOrSignUpOrForgotPasswordForm: "login",
-        toggleNavDropDownMenu: this.dropDownMenuHiddenClass,
+        toggleNavDropDownMenu: false,
         toggleDisplayBigPopUpModal: false,
         toggleDisplaySmallPopUpModal: false,
         isUserLoggedIn: this.props.isUserLoggedIn
@@ -132,11 +122,9 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
     public toggleNavDropDownMenu = (): void => {
         this.setState(prevState => {
             return {
-                toggleNavDropDownMenu:
-                    prevState.toggleNavDropDownMenu ===
-                    this.dropDownMenuHiddenClass
-                        ? this.dropDownMenuShownClass
-                        : this.dropDownMenuHiddenClass
+                toggleNavDropDownMenu: prevState.toggleNavDropDownMenu
+                    ? false
+                    : true
             };
         });
     };
@@ -176,17 +164,22 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
             name: string;
             class: () => string;
         }[];
+        const unActiveLinkClass: string = "is-active-nav-link--hover";
+        const activeLinkClasses: string =
+            "is-active-nav-link is-active-nav-link--hover";
+        const acitveDarkLinkClasses: string =
+            "is-active-nav-link--dark is-active-nav-link--hover";
         const navList: NavListType = [
             {
                 url: "/events",
                 name: "Events",
                 class: () => {
                     if (this.state.eventsLinkAffect[0]) {
-                        return this.unActiveLinkClass;
+                        return unActiveLinkClass;
                     } else if (this.state.eventsLinkAffect[1]) {
-                        return this.activeLinkClasses;
+                        return activeLinkClasses;
                     } else {
-                        return this.acitveDarkLinkClasses;
+                        return acitveDarkLinkClasses;
                     }
                 }
             },
@@ -195,11 +188,11 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
                 name: "Projects",
                 class: () => {
                     if (this.state.projectsLinkAffect[0]) {
-                        return this.unActiveLinkClass;
+                        return unActiveLinkClass;
                     } else if (this.state.projectsLinkAffect[1]) {
-                        return this.activeLinkClasses;
+                        return activeLinkClasses;
                     } else {
-                        return this.acitveDarkLinkClasses;
+                        return acitveDarkLinkClasses;
                     }
                 }
             },
@@ -208,11 +201,11 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
                 name: "People",
                 class: () => {
                     if (this.state.peopleLinkAffect[0]) {
-                        return this.unActiveLinkClass;
+                        return unActiveLinkClass;
                     } else if (this.state.peopleLinkAffect[1]) {
-                        return this.activeLinkClasses;
+                        return activeLinkClasses;
                     } else {
-                        return this.acitveDarkLinkClasses;
+                        return acitveDarkLinkClasses;
                     }
                 }
             },
@@ -221,11 +214,11 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
                 name: "About",
                 class: () => {
                     if (this.state.aboutLinkAffect[0]) {
-                        return this.unActiveLinkClass;
+                        return unActiveLinkClass;
                     } else if (this.state.aboutLinkAffect[1]) {
-                        return this.activeLinkClasses;
+                        return activeLinkClasses;
                     } else {
-                        return this.acitveDarkLinkClasses;
+                        return acitveDarkLinkClasses;
                     }
                 }
             }
@@ -424,7 +417,11 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
 
                 <header
                     id="header"
-                    className={this.state.toggleNavDropDownMenu}
+                    className={
+                        this.state.toggleNavDropDownMenu
+                            ? "is-expanded-header-drop-down-menu"
+                            : "is-unexpanded-header-drop-down-menu"
+                    }
                 >
                     <NavLink to="/" className="logo-container">
                         <img
