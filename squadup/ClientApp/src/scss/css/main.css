@@ -16,6 +16,7 @@ $dark-black: rgb(0, 0, 0);
 $new-messages-count: rgb(222, 16, 29)*/
 * {
     box-sizing: border-box;
+    background: white;
 }
 
 html,
