@@ -39,5 +39,3 @@ const moduleSmallPopUp: React.SFC<SFCmodalSmallPopUpProps> = (
 };
 
 export default moduleSmallPopUp;
-
-/*test*/
