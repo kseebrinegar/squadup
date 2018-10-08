@@ -19,7 +19,7 @@ interface IProps {
         whatFormChoose: string
     ) => void;
 }
-
+//@ts-ignore
 const authFormContainer = (WrappedContainer: any) => {
     class AuthFormContainer extends React.Component<IProps, IState> {
         public state: IState = {
@@ -93,7 +93,6 @@ const authFormContainer = (WrappedContainer: any) => {
         };
 
         public sendEmail() {
-            // console.log(emailValue);
             const email: string = "sydney@fife";
             const password: string = "pistol";
             axios
