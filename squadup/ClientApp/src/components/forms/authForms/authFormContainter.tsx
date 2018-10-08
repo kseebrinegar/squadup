@@ -19,8 +19,8 @@ interface IProps {
         whatFormChoose: string
     ) => void;
 }
-//@ts-ignore
-const authFormContainer = (WrappedContainer: any) => {
+// @ts-ignore
+const authFormContainer = WrappedContainer => {
     class AuthFormContainer extends React.Component<IProps, IState> {
         public state: IState = {
             isLoaderShown: false,
