@@ -1,5 +1,5 @@
 import * as React from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { AppState } from "../store/types";
 import Header from "../components/Header";
@@ -9,31 +9,32 @@ import HomePage from "../components/pages/home/HomePage";
 import Page404 from "../components/pages/Page404";
 import PeoplePage from "../components/pages/people/PeoplePage";
 import ProjectsPage from "../components/pages/projects/ProjectsPage";
-// import DashboardPage from "../components/pages/dashboard/DashbaordPage";
+import DashboardPage from "../components/pages/dashboard/DashbaordPage";
 
-/*const PrivateRoute = (props: any) => {
-    const { isUserLoggedIn } = props;
-    console.log(isUserLoggedIn);
-    /*return (
+interface IAuthRoute {
+    Component: React.ComponentClass<{}, {}>;
+    isUserLoggedIn: boolean;
+    path: string;
+}
+
+const PrivateRoute = ({
+    Component,
+    isUserLoggedIn,
+    ...rest
+}: IAuthRoute): JSX.Element => {
+    return (
         <Route
-            {...props}
-            render={() => {
-                isUserLoggedIn === true ? (
-                    <div style={{ marginTop: "500px" }}>asdasdasd</div>
+            {...rest}
+            render={(props): JSX.Element => {
+                return isUserLoggedIn === true ? (
+                    <Component {...props} />
                 ) : (
                     <Redirect to="/" />
                 );
             }}
         />
     );
-    return <div>sad</div>;
 };
-
-/*<PrivateRoute
-    path="/dashboard"
-    Component={DashboardPage}
-    isUserLoggedIn={this.props.isUserLoggedIn}
-/>*/
 
 interface IProps {
     isUserLoggedIn: boolean;
@@ -47,6 +48,11 @@ class Router extends React.Component<IProps, {}> {
                     <React.Fragment>
                         <Header />
                         <Switch>
+                            <PrivateRoute
+                                path="/dashboard"
+                                Component={DashboardPage}
+                                isUserLoggedIn={this.props.isUserLoggedIn}
+                            />
                             <Route path={"/events"} component={EventsPage} />
                             <Route
                                 path={"/projects"}
