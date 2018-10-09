@@ -1,12 +1,12 @@
 import * as React from "react";
-interface SFCmoduleBigPopUpProps {
+interface SFCmodalBigPopUpProps {
     clickEvent: () => void;
 }
-const moduleBigPopUp: React.SFC<SFCmoduleBigPopUpProps> = (
+const modalBigPopUp: React.SFC<SFCmodalBigPopUpProps> = (
     props
 ): JSX.Element => {
     return (
-        <div className="module-big-popup">
+        <div className="modal-big-popup">
             <div
                 className="icon-container close-icon"
                 onClick={props.clickEvent}
@@ -19,4 +19,4 @@ const moduleBigPopUp: React.SFC<SFCmoduleBigPopUpProps> = (
     );
 };
 
-export default moduleBigPopUp;
+export default modalBigPopUp;

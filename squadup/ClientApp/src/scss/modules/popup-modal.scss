@@ -1,7 +1,7 @@
 @import "../mixins/mixins.scss";
 @import "../vars/vars.scss";
 
-.module-background {
+.modal-background {
     position: fixed;
     z-index: 100;
     background: rgba(0, 0, 0, 0.4);
@@ -11,8 +11,8 @@
     bottom: 0;
 }
 
-.module-big-popup,
-.module-small-popup {
+.modal-big-popup,
+.modal-small-popup {
     position: relative;
     background: white;
     border-radius: 3px;
@@ -26,7 +26,7 @@
     }
 }
 
-.module-small-popup {
+.modal-small-popup {
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -34,7 +34,7 @@
     height: 35rem;
     width: 70rem;
 
-    .module-small-popup-yes-or-no {
+    .modal-small-popup-yes-or-no {
         display: flex;
     }
 
@@ -78,7 +78,7 @@
     }
 }
 
-.module-big-popup {
+.modal-big-popup {
     height: 500px;
     width: 700px;
     background-image: url("/images/banner-popup.jpg");

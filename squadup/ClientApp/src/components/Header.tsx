@@ -6,12 +6,12 @@ import { bindActionCreators, Dispatch } from "redux";
 import { connect } from "react-redux";
 import Button from "./buttons/button";
 import auth from "../actions/auth";
-import ModuleContainerBackground from "./modules/moduleContainerBackground";
-import ModuleBigPopUp from "./modules/moduleBigPopUp";
-import ModuleSmallPopUp from "./modules/moduleSmallPopUp";
-import SignUpForm from "./forms/signup";
-import LoginForm from "./forms/login";
-import ForgotPassword from "./forms/forgotPassword";
+import ModalContainerBackground from "./modals/modalContainerBackground";
+import ModalBigPopUp from "./modals/modalBigPopUp";
+import ModalSmallPopUp from "./modals/modalSmallPopUp";
+import SignUpForm from "./forms/authForms/signup";
+import LoginForm from "./forms/authForms/login";
+import ForgotPassword from "./forms/authForms/forgotPassword";
 
 interface IHeaderState {
     aboutLinkAffect: [boolean, boolean, boolean];
@@ -19,9 +19,9 @@ interface IHeaderState {
     peopleLinkAffect: [boolean, boolean, boolean];
     projectsLinkAffect: [boolean, boolean, boolean];
     loginOrSignUpOrForgotPasswordForm: string;
-    toggleNavDropDownMenu: string;
-    toggleDisplayBigPopUpModule: boolean;
-    toggleDisplaySmallPopUpModule: boolean;
+    toggleNavDropDownMenu: boolean;
+    toggleDisplayBigPopUpModal: boolean;
+    toggleDisplaySmallPopUpModal: boolean;
     isUserLoggedIn: boolean;
 }
 
@@ -31,31 +31,21 @@ interface IHeaderProps {
 }
 
 class Header extends React.Component<IHeaderProps, IHeaderState> {
-    private unActiveLinkClass: string = "is-active-nav-link--hover";
-    private activeLinkClasses: string =
-        "is-active-nav-link is-active-nav-link--hover";
-    private acitveDarkLinkClasses: string =
-        "is-active-nav-link--dark is-active-nav-link--hover";
-    private dropDownMenuHiddenClass: string =
-        "is-unexpanded-header-drop-down-menu";
-    private dropDownMenuShownClass: string =
-        "is-expanded-header-drop-down-menu";
-
     public state: IHeaderState = {
         aboutLinkAffect: [true, false, false],
         eventsLinkAffect: [true, false, false],
         peopleLinkAffect: [true, false, false],
         projectsLinkAffect: [true, false, false],
         loginOrSignUpOrForgotPasswordForm: "login",
-        toggleNavDropDownMenu: this.dropDownMenuHiddenClass,
-        toggleDisplayBigPopUpModule: false,
-        toggleDisplaySmallPopUpModule: false,
+        toggleNavDropDownMenu: false,
+        toggleDisplayBigPopUpModal: false,
+        toggleDisplaySmallPopUpModal: false,
         isUserLoggedIn: this.props.isUserLoggedIn
     };
 
     constructor(props: IHeaderProps) {
         super(props);
-        this.toggleDisplaySmallPopUpModule = this.toggleDisplaySmallPopUpModule.bind(
+        this.toggleDisplaySmallPopUpModal = this.toggleDisplaySmallPopUpModal.bind(
             this
         );
     }
@@ -117,6 +107,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
             };
         });
     };
+
     public removeActiveLink = (): void => {
         this.setState(() => {
             return {
@@ -127,60 +118,68 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
             };
         });
     };
+
     public toggleNavDropDownMenu = (): void => {
         this.setState(prevState => {
             return {
-                toggleNavDropDownMenu:
-                    prevState.toggleNavDropDownMenu ===
-                    this.dropDownMenuHiddenClass
-                        ? this.dropDownMenuShownClass
-                        : this.dropDownMenuHiddenClass
-            };
-        });
-    };
-    public toggleDisplaySmallPopUpModule = (): void => {
-        this.setState(prevState => {
-            return {
-                toggleDisplaySmallPopUpModule: prevState.toggleDisplaySmallPopUpModule
+                toggleNavDropDownMenu: prevState.toggleNavDropDownMenu
                     ? false
                     : true
             };
         });
     };
-    public toggleDisplayBigPopUpModule = (buttonClicked: string): void => {
+
+    public toggleDisplaySmallPopUpModal = (): void => {
         this.setState(prevState => {
             return {
-                toggleDisplayBigPopUpModule: prevState.toggleDisplayBigPopUpModule
+                toggleDisplaySmallPopUpModal: prevState.toggleDisplaySmallPopUpModal
+                    ? false
+                    : true
+            };
+        });
+    };
+
+    public toggleDisplayBigPopUpModal = (buttonClicked: string): void => {
+        this.setState(prevState => {
+            return {
+                toggleDisplayBigPopUpModal: prevState.toggleDisplayBigPopUpModal
                     ? false
                     : true,
                 loginOrSignUpOrForgotPasswordForm: buttonClicked
             };
         });
     };
-    public closeDisplayPopUpModule = (): void => {
+
+    public closeDisplayPopUpModal = (): void => {
         this.setState(() => {
             return {
-                toggleDisplayBigPopUpModule: false
+                toggleDisplayBigPopUpModal: false
             };
         });
     };
+
     public renderNavList = (): JSX.Element[] => {
         type NavListType = {
             url: string;
             name: string;
             class: () => string;
         }[];
+        const unActiveLinkClass: string = "is-active-nav-link--hover";
+        const activeLinkClasses: string =
+            "is-active-nav-link is-active-nav-link--hover";
+        const acitveDarkLinkClasses: string =
+            "is-active-nav-link--dark is-active-nav-link--hover";
         const navList: NavListType = [
             {
                 url: "/events",
                 name: "Events",
                 class: () => {
                     if (this.state.eventsLinkAffect[0]) {
-                        return this.unActiveLinkClass;
+                        return unActiveLinkClass;
                     } else if (this.state.eventsLinkAffect[1]) {
-                        return this.activeLinkClasses;
+                        return activeLinkClasses;
                     } else {
-                        return this.acitveDarkLinkClasses;
+                        return acitveDarkLinkClasses;
                     }
                 }
             },
@@ -189,11 +188,11 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
                 name: "Projects",
                 class: () => {
                     if (this.state.projectsLinkAffect[0]) {
-                        return this.unActiveLinkClass;
+                        return unActiveLinkClass;
                     } else if (this.state.projectsLinkAffect[1]) {
-                        return this.activeLinkClasses;
+                        return activeLinkClasses;
                     } else {
-                        return this.acitveDarkLinkClasses;
+                        return acitveDarkLinkClasses;
                     }
                 }
             },
@@ -202,11 +201,11 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
                 name: "People",
                 class: () => {
                     if (this.state.peopleLinkAffect[0]) {
-                        return this.unActiveLinkClass;
+                        return unActiveLinkClass;
                     } else if (this.state.peopleLinkAffect[1]) {
-                        return this.activeLinkClasses;
+                        return activeLinkClasses;
                     } else {
-                        return this.acitveDarkLinkClasses;
+                        return acitveDarkLinkClasses;
                     }
                 }
             },
@@ -215,11 +214,11 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
                 name: "About",
                 class: () => {
                     if (this.state.aboutLinkAffect[0]) {
-                        return this.unActiveLinkClass;
+                        return unActiveLinkClass;
                     } else if (this.state.aboutLinkAffect[1]) {
-                        return this.activeLinkClasses;
+                        return activeLinkClasses;
                     } else {
-                        return this.acitveDarkLinkClasses;
+                        return acitveDarkLinkClasses;
                     }
                 }
             }
@@ -237,6 +236,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
             );
         });
     };
+
     public renderButtonsOrIconsIfLoggedIn = (): JSX.Element => {
         if (this.state.isUserLoggedIn) {
             return (
@@ -273,7 +273,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
                     </div>
                     <div
                         className="icon-container sign-out-icon"
-                        onClick={this.toggleDisplaySmallPopUpModule}
+                        onClick={this.toggleDisplaySmallPopUpModal}
                     >
                         <NavLink
                             to="/"
@@ -295,7 +295,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
             <div className="login-signup-and-icon-container">
                 <Button
                     clickEvent={() => {
-                        this.toggleDisplayBigPopUpModule("login");
+                        this.toggleDisplayBigPopUpModal("login");
                     }}
                     text={"LOG IN"}
                     type={"button"}
@@ -303,7 +303,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
                 />
                 <Button
                     clickEvent={() => {
-                        this.toggleDisplayBigPopUpModule("signup");
+                        this.toggleDisplayBigPopUpModal("signup");
                     }}
                     text={"SIGN UP"}
                     type={"button"}
@@ -314,7 +314,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
     };
 
     public logOut = (): void => {
-        this.toggleDisplaySmallPopUpModule();
+        this.toggleDisplaySmallPopUpModal();
         this.props.logOut();
     };
 
@@ -323,7 +323,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
             return (
                 <SignUpForm
                     closeDisplayPopUpModule={() => {
-                        this.closeDisplayPopUpModule();
+                        this.closeDisplayPopUpModal();
                     }}
                     manuallyChooseLoginOrSignUpOrForgotPasswordForm={(
                         whatFormToClose: string
@@ -338,7 +338,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
             return (
                 <LoginForm
                     closeDisplayPopUpModule={() => {
-                        this.closeDisplayPopUpModule();
+                        this.closeDisplayPopUpModal();
                     }}
                     manuallyChooseLoginOrSignUpOrForgotPasswordForm={(
                         whatFormToClose: string
@@ -353,7 +353,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
             return (
                 <ForgotPassword
                     closeDisplayPopUpModule={() => {
-                        this.closeDisplayPopUpModule();
+                        this.closeDisplayPopUpModal();
                     }}
                     manuallyChooseLoginOrSignUpOrForgotPasswordForm={(
                         whatFormToClose: string
@@ -381,39 +381,47 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
     public componentDidMount() {
         this.activeNavLinkForPage();
     }
+
     public render(): JSX.Element {
         return (
             <React.Fragment>
-                <ModuleContainerBackground
-                    toggleDisplayPopUpModule={
-                        this.state.toggleDisplayBigPopUpModule
+                <ModalContainerBackground
+                    toggleDisplayPopUpModal={
+                        this.state.toggleDisplayBigPopUpModal
                     }
                 >
-                    <ModuleBigPopUp
+                    <ModalBigPopUp
                         clickEvent={() => {
-                            this.toggleDisplayBigPopUpModule("login");
+                            this.toggleDisplayBigPopUpModal("login");
                         }}
                     >
                         {this.chooseFormToShow()}
-                    </ModuleBigPopUp>
-                </ModuleContainerBackground>
-                <ModuleContainerBackground
-                    toggleDisplayPopUpModule={
-                        this.state.toggleDisplaySmallPopUpModule
+                    </ModalBigPopUp>
+                </ModalContainerBackground>
+
+                <ModalContainerBackground
+                    toggleDisplayPopUpModal={
+                        this.state.toggleDisplaySmallPopUpModal
                     }
                 >
-                    <ModuleSmallPopUp
-                        toggleDisplaySmallPopUpModule={() => {
-                            this.toggleDisplaySmallPopUpModule();
+                    <ModalSmallPopUp
+                        toggleDisplaySmallPopUpModal={() => {
+                            this.toggleDisplaySmallPopUpModal();
                         }}
+                        headerText={"Are you sure you wanna log out?"}
                         clickEvent={() => {
                             this.logOut();
                         }}
                     />
-                </ModuleContainerBackground>
+                </ModalContainerBackground>
+
                 <header
                     id="header"
-                    className={this.state.toggleNavDropDownMenu}
+                    className={
+                        this.state.toggleNavDropDownMenu
+                            ? "is-expanded-header-drop-down-menu"
+                            : "is-unexpanded-header-drop-down-menu"
+                    }
                 >
                     <NavLink to="/" className="logo-container">
                         <img
