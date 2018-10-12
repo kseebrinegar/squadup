@@ -20,8 +20,23 @@ $new-messages-count: rgb(222, 16, 29)*/
   cursor: pointer; }
 
 .sidebar-nav {
-  margin-top: 2.5rem; }
-  .sidebar-nav a {
+  margin-top: 2.5rem;
+  align-self: flex-end;
+  margin-right: 0.5rem; }
+  @media (max-width: 480px) {
+    .sidebar-nav {
+      margin-right: 1.4rem; } }
+  @media (min-width: 1500px) {
+    .sidebar-nav {
+      margin-top: 3.5rem;
+      margin-right: 3.2rem; } }
+  @media (min-width: 1800px) {
+    .sidebar-nav {
+      margin-top: 5rem;
+      margin-right: 7.3rem; } }
+  .sidebar-nav a,
+  .sidebar-nav p {
+    cursor: pointer;
     color: black;
     z-index: 1;
     font-size: 1.6rem;
@@ -29,20 +44,69 @@ $new-messages-count: rgb(222, 16, 29)*/
     width: 100%;
     font-weight: 700; }
     @media (max-width: 480px) {
-      .sidebar-nav a {
+      .sidebar-nav a,
+      .sidebar-nav p {
         font-size: 1.4rem; } }
     @media (min-width: 1500px) {
-      .sidebar-nav a {
-        font-size: 1.8rem; } }
-    .sidebar-nav a span {
+      .sidebar-nav a,
+      .sidebar-nav p {
+        font-size: 1.8rem;
+        padding: 2rem 0; } }
+    .sidebar-nav a span,
+    .sidebar-nav p span {
       padding-left: 2.2rem; }
+      @media (max-width: 480px) {
+        .sidebar-nav a span,
+        .sidebar-nav p span {
+          padding-left: 2rem; } }
+      @media (min-width: 1500px) {
+        .sidebar-nav a span,
+        .sidebar-nav p span {
+          padding-left: 2.5rem; } }
   .sidebar-nav .sidebar-nav-item {
     width: 100%;
     padding: 0.5rem 0; }
+    @media (min-width: 1500px) {
+      .sidebar-nav .sidebar-nav-item {
+        padding: 1rem 0; } }
   .sidebar-nav .sidebar-nav-item:first-child {
     padding: 0 0 0.5rem 0; }
+    @media (min-width: 1500px) {
+      .sidebar-nav .sidebar-nav-item:first-child {
+        padding: 0 0 1rem 0; } }
   .sidebar-nav .sidebar-nav-item:last-child {
     padding: 0.5rem 0 0 0; }
+    @media (min-width: 1500px) {
+      .sidebar-nav .sidebar-nav-item:last-child {
+        padding: 1rem 0 0 0; } }
+  .sidebar-nav .inbox-nav {
+    height: 0;
+    overflow: hidden;
+    padding: 0;
+    transition: height 0.3s ease-out; }
+    .sidebar-nav .inbox-nav .inbox-nav-item a {
+      font-size: 1.2rem;
+      font-weight: 300;
+      cursor: pointer;
+      padding: 0;
+      display: block;
+      padding: 0.5rem 1rem !important; }
+      @media (max-width: 480px) {
+        .sidebar-nav .inbox-nav .inbox-nav-item a {
+          font-size: 1rem; } }
+      @media (min-width: 1500px) {
+        .sidebar-nav .inbox-nav .inbox-nav-item a {
+          font-size: 1.4rem; } }
+  .sidebar-nav .inbox-nav--unexpanded {
+    height: 0rem; }
+  .sidebar-nav .inbox-nav--expanded {
+    height: 11.2rem; }
+    @media (max-width: 480px) {
+      .sidebar-nav .inbox-nav--expanded {
+        height: 10rem; } }
+    @media (min-width: 1500px) {
+      .sidebar-nav .inbox-nav--expanded {
+        height: 12.2rem; } }
 
 @media (max-width: 768px) {
   .nav {

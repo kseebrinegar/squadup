@@ -32,10 +32,21 @@
     flex-direction: column;
     align-items: center;
     transform: translateX(0rem);
+    transition: "transform 0.3s ease-out";
 
     @include respond(mq-768) {
         transition: 0.3s ease-out;
         margin-left: 5rem;
+    }
+
+    @include respond(mq-1500) {
+        width: 27.7rem;
+        padding-top: 5rem;
+    }
+
+    @include respond(mq-1800) {
+        width: 35.3rem;
+        padding-top: 7.4rem;
     }
 
     -webkit-box-shadow: rgba(0, 0, 0, 0.4) 1px 7px 20px 2px;
@@ -45,16 +56,41 @@
 
     .users-img-container {
         margin-bottom: 0.5rem;
+
+        @include respond(mq-1500) {
+            margin-bottom: 1rem;
+        }
+
+        @include respond(mq-1800) {
+            margin-bottom: 1.5rem;
+        }
+
         img {
             width: 15rem;
             display: block;
             border-radius: 3px;
+
+            @include respond(mq-1500) {
+                width: 17.5rem;
+            }
+
+            @include respond(mq-1800) {
+                width: 20rem;
+            }
         }
     }
 
     .sidebar-nav-icons-container {
         display: flex;
         margin-top: 2.5rem;
+
+        @include respond(mq-1500) {
+            margin-top: 3.5rem;
+        }
+
+        @include respond(mq-1800) {
+            margin-top: 5rem;
+        }
 
         .icon-container:not(:last-child) {
             margin-right: 2rem;
@@ -63,6 +99,18 @@
         @include respond(mq-768) {
             .icon-container:not(:last-child) {
                 margin-right: 1.5rem;
+            }
+        }
+
+        @include respond(mq-1500) {
+            .icon-container:not(:last-child) {
+                margin-right: 2.5rem;
+            }
+        }
+
+        @include respond(mq-1500) {
+            .icon-container:not(:last-child) {
+                margin-right: 3rem;
             }
         }
     }

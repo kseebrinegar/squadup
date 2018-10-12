@@ -68,7 +68,9 @@ button:active {
 }
 
 .fa:hover,
-.sidebar-nav-item:hover a {
+.sidebar-nav-item:hover > a,
+.sidebar-nav-item:hover > p,
+.inbox-nav-item:hover > a {
     color: darken($hamburger-icon-color, 30%);
 }
 
@@ -91,7 +93,9 @@ button:active {
 .fa-envelope:active,
 .fa-user:active,
 .fa-sign-out-alt:active,
-.fa-times:active {
+.fa-times:active,
+.sidebar-nav-item:active > a,
+.inbox-nav-item:active > a {
     color: darken($hamburger-icon-color, 40%);
 }
 

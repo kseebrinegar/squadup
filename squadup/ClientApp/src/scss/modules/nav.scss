@@ -19,11 +19,26 @@
 
 .sidebar-nav {
     margin-top: 2.5rem;
+    align-self: flex-end;
+    margin-right: 0.5rem;
 
-    @include respond(mq-768) {
+    @include respond(mq-480) {
+        margin-right: 1.4rem;
     }
 
-    a {
+    @include respond(mq-1500) {
+        margin-top: 3.5rem;
+        margin-right: 3.2rem;
+    }
+
+    @include respond(mq-1800) {
+        margin-top: 5rem;
+        margin-right: 7.3rem;
+    }
+
+    a,
+    p {
+        cursor: pointer;
         color: black;
         z-index: 1;
         font-size: 1.6rem;
@@ -37,24 +52,87 @@
 
         @include respond(mq-1500) {
             font-size: 1.8rem;
+            padding: 2rem 0;
         }
 
         span {
             padding-left: 2.2rem;
+
+            @include respond(mq-480) {
+                padding-left: 2rem;
+            }
+
+            @include respond(mq-1500) {
+                padding-left: 2.5rem;
+            }
         }
     }
 
     .sidebar-nav-item {
         width: 100%;
         padding: 0.5rem 0;
+
+        @include respond(mq-1500) {
+            padding: 1rem 0;
+        }
     }
 
     .sidebar-nav-item:first-child {
         padding: 0 0 0.5rem 0;
+
+        @include respond(mq-1500) {
+            padding: 0 0 1rem 0;
+        }
     }
 
     .sidebar-nav-item:last-child {
         padding: 0.5rem 0 0 0;
+
+        @include respond(mq-1500) {
+            padding: 1rem 0 0 0;
+        }
+    }
+
+    .inbox-nav {
+        height: 0;
+        overflow: hidden;
+        padding: 0;
+        transition: height 0.3s ease-out;
+
+        .inbox-nav-item {
+            a {
+                font-size: 1.2rem;
+                font-weight: 300;
+                cursor: pointer;
+                padding: 0;
+                display: block;
+                padding: 0.5rem 1rem !important;
+
+                @include respond(mq-480) {
+                    font-size: 1rem;
+                }
+
+                @include respond(mq-1500) {
+                    font-size: 1.4rem;
+                }
+            }
+        }
+    }
+
+    .inbox-nav--unexpanded {
+        height: 0rem;
+    }
+
+    .inbox-nav--expanded {
+        height: 11.2rem;
+
+        @include respond(mq-480) {
+            height: 10rem;
+        }
+
+        @include respond(mq-1500) {
+            height: 12.2rem;
+        }
     }
 }
 

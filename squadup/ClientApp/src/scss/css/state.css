@@ -41,7 +41,9 @@ button:active {
   background-image: linear-gradient(-180deg, #34d058 0%, #28a745 90%); }
 
 .fa:hover,
-.sidebar-nav-item:hover a {
+.sidebar-nav-item:hover > a,
+.sidebar-nav-item:hover > p,
+.inbox-nav-item:hover > a {
   color: #838383; }
 
 .close-icon:hover .close-icon-line1,
@@ -61,7 +63,9 @@ button:active {
 .fa-envelope:active,
 .fa-user:active,
 .fa-sign-out-alt:active,
-.fa-times:active {
+.fa-times:active,
+.sidebar-nav-item:active > a,
+.inbox-nav-item:active > a {
   color: dimgray; }
 
 .close-icon:active .close-icon-line1,

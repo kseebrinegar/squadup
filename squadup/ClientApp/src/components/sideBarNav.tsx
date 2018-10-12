@@ -11,7 +11,7 @@ interface IProps {}
 class SideBarNav extends React.Component<IProps, IState> {
     public state: IState = {
         isSideBarHidden: false,
-        isInboxNavHidden: false
+        isInboxNavHidden: true
     };
 
     constructor(props: IProps) {
@@ -47,12 +47,6 @@ class SideBarNav extends React.Component<IProps, IState> {
     }
 
     public render(): JSX.Element {
-        const sideBarsCurrentPosition = this.state.isSideBarHidden
-            ? "translateX(-20rem)"
-            : "translateX(0rem)";
-        const carrotIconsDirection = this.state.isInboxNavHidden
-            ? "fa-caret-up"
-            : "fa-caret-down";
         return (
             <div className="sidebar-outer-container">
                 <div className="sidebar-inner-container">
@@ -69,8 +63,9 @@ class SideBarNav extends React.Component<IProps, IState> {
                     </div>
                     <div
                         style={{
-                            transform: sideBarsCurrentPosition,
-                            transition: "transform 0.5s ease-out"
+                            transform: this.state.isSideBarHidden
+                                ? "translateX(-20rem)"
+                                : "translateX(0rem)"
                         }}
                         className="sidebar"
                     >
@@ -129,38 +124,43 @@ class SideBarNav extends React.Component<IProps, IState> {
                                 <li className="sidebar-nav-item">
                                     <Link to="">Profile</Link>
                                 </li>
-                                <li className="sidebar-nav-item">
-                                    <Link
-                                        onClick={this.toggleInboxNav}
-                                        to="/dashboard"
-                                    >
+                                <li className="sidebar-nav-item sidebar-nav-inbox-item">
+                                    <a onClick={this.toggleInboxNav}>
                                         Inbox
                                         <span
-                                            className={`fa fa-fw ${carrotIconsDirection}`}
+                                            className={`fa fa-fw ${
+                                                this.state.isInboxNavHidden
+                                                    ? "fa-caret-down"
+                                                    : "fa-caret-up"
+                                            }`}
                                             aria-hidden="true"
                                         />
-                                    </Link>
-                                    <nav className="inbox-nav">
-                                        <ul className="inbox-nav-items">
-                                            <li className="inbox-nav-items">
-                                                <Link to="">All Messages</Link>
-                                            </li>
-                                            <li className="inbox-nav-items">
-                                                <Link to="">
-                                                    Private Messages
-                                                </Link>
-                                            </li>
-                                            <li className="inbox-nav-items">
-                                                <Link to="">Team Messages</Link>
-                                            </li>
-                                            <li className="inbox-nav-items">
-                                                <Link to="">Applications</Link>
-                                            </li>
-                                            <li className="inbox-nav-items">
-                                                <Link to="">Invatations</Link>
-                                            </li>
-                                        </ul>
-                                    </nav>
+                                    </a>
+                                </li>
+                                <li
+                                    className={`${
+                                        this.state.isInboxNavHidden
+                                            ? "inbox-nav--unexpanded"
+                                            : "inbox-nav--expanded"
+                                    } inbox-nav sidebar-nav-item`}
+                                >
+                                    <ul className="inbox-nav-items">
+                                        <li className="inbox-nav-item">
+                                            <Link to="">All Messages</Link>
+                                        </li>
+                                        <li className="inbox-nav-item">
+                                            <Link to="">Private Messages</Link>
+                                        </li>
+                                        <li className="inbox-nav-item">
+                                            <Link to="">Team Messages</Link>
+                                        </li>
+                                        <li className="inbox-nav-item">
+                                            <Link to="">Applications</Link>
+                                        </li>
+                                        <li className="inbox-nav-item">
+                                            <Link to="">Invatations</Link>
+                                        </li>
+                                    </ul>
                                 </li>
                                 <li className="sidebar-nav-item">
                                     <Link to="">Following</Link>
