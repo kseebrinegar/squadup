@@ -1,6 +1,12 @@
 @import "../mixins/mixins.scss";
 @import "../vars/vars.scss";
 
+.icon-counter {
+    font-size: 1rem;
+    text-align: center;
+    padding-top: 0.5rem;
+}
+
 .icon-container {
     position: relative;
     p,
@@ -98,9 +104,40 @@
     left: -11px;
 }
 
+.sign-out-icon .icon-info-logout {
+    left: -11px;
+}
+
+.icon-info-likes,
+.icon-info-views,
+.icon-info-following,
+.icon-info-projects {
+    display: none;
+}
+
+.heart-icon .icon-info-likes {
+    left: -11px;
+}
+
+.eye-icon .icon-info-views {
+    left: -12px;
+}
+
+.user-plus-icon .icon-info-following {
+    left: -22px;
+}
+
+.object-group-icon .icon-info-projects {
+    left: -19px;
+}
+
 .icon-info-dashboard,
 .icon-info-inbox,
-.icon-info-logout {
+.icon-info-logout,
+.icon-info-likes,
+.icon-info-views,
+.icon-info-following,
+.icon-info-projects {
     z-index: 10;
     position: absolute;
     p {
@@ -180,7 +217,11 @@
 
     .icon-info-dashboard,
     .icon-info-inbox,
-    .icon-info-logout {
+    .icon-info-logout,
+    .icon-info-likes,
+    .icon-info-views,
+    .icon-info-following,
+    .icon-info-projects {
         p {
             padding: 0.2rem 0.4rem;
         }
@@ -194,6 +235,22 @@
 
     .user-icon .icon-info-dashboard {
         left: -12px;
+    }
+
+    .heart-icon .icon-info-likes {
+        left: -10px;
+    }
+
+    .eye-icon .icon-info-views {
+        left: -11px;
+    }
+
+    .user-plus-icon .icon-info-following {
+        left: -21px;
+    }
+
+    .object-group-icon .icon-info-projects {
+        left: -18px;
     }
 }
 
@@ -222,7 +279,11 @@
 
     .icon-info-dashboard,
     .icon-info-inbox,
-    .icon-info-logout {
+    .icon-info-logout,
+    .icon-info-likes,
+    .icon-info-views,
+    .icon-info-following,
+    .icon-info-projects {
         p {
             color: white;
             font-size: 1.2rem;
@@ -252,6 +313,22 @@
     .sign-out-icon .icon-info-logout {
         left: -15px;
     }
+
+    .heart-icon .icon-info-likes {
+        left: -14.5px;
+    }
+
+    .eye-icon .icon-info-views {
+        left: -15.5px;
+    }
+
+    .user-plus-icon .icon-info-following {
+        left: -26px;
+    }
+
+    .object-group-icon .icon-info-projects {
+        left: -23px;
+    }
 }
 
 @include respond(mq-1800) {
@@ -279,7 +356,11 @@
 
     .icon-info-dashboard,
     .icon-info-inbox,
-    .icon-info-logout {
+    .icon-info-logout,
+    .icon-info-likes,
+    .icon-info-views,
+    .icon-info-following,
+    .icon-info-projects {
         p {
             color: white;
             font-size: 1.4rem;
@@ -296,5 +377,21 @@
     .close-icon {
         height: 3.3rem;
         width: 3.3rem;
+    }
+
+    .heart-icon .icon-info-likes {
+        left: -16.5px;
+    }
+
+    .eye-icon .icon-info-views {
+        left: -19px;
+    }
+
+    .user-plus-icon .icon-info-following {
+        left: -32px;
+    }
+
+    .object-group-icon .icon-info-projects {
+        left: -28px;
     }
 }

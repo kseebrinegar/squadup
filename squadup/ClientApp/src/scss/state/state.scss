@@ -67,10 +67,8 @@ button:active {
     }
 }
 
-.fa-bars:hover,
-.fa-envelope:hover,
-.fa-user:hover,
-.fa-sign-out-alt:hover {
+.fa:hover,
+.sidebar-nav-item:hover a {
     color: darken($hamburger-icon-color, 30%);
 }
 
@@ -81,7 +79,11 @@ button:active {
 
 .icon-container:hover .icon-info-dashboard,
 .icon-container:hover .icon-info-inbox,
-.icon-container:hover .icon-info-logout {
+.icon-container:hover .icon-info-logout,
+.icon-container:hover .icon-info-likes,
+.icon-container:hover .icon-info-views,
+.icon-container:hover .icon-info-following,
+.icon-container:hover .icon-info-projects {
     display: block;
 }
 

@@ -1,0 +1,32 @@
+.sidebar {
+  height: 100vh;
+  width: 200px;
+  padding-top: 2rem;
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.4) 1px 7px 20px 2px;
+  -moz-box-shadow: rgba(0, 0, 0, 0.4) 1px 7px 20px 2px;
+  box-shadow: rgba(0, 0, 0, 0.4) 1px 7px 20px 2px;
+  background: #289645;
+  background: -moz-linear-gradient(left, #289645 0%, #289645 9%, #28a745 40%, #40f96b 100%);
+  background: -webkit-gradient(left top, right top, color-stop(0%, #289645), color-stop(9%, #289645), color-stop(40%, #28a745), color-stop(100%, #40f96b));
+  background: -webkit-linear-gradient(left, #289645 0%, #289645 9%, #28a745 40%, #40f96b 100%);
+  background: -o-linear-gradient(left, #289645 0%, #289645 9%, #28a745 40%, #40f96b 100%);
+  background: -ms-linear-gradient(left, #289645 0%, #289645 9%, #28a745 40%, #40f96b 100%);
+  background: linear-gradient(to right, #289645 0%, #289645 9%, #28a745 40%, #40f96b 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#289645', endColorstr='#40f96b', GradientType=1 ); }
+  .sidebar .users-img-container {
+    margin-bottom: 1rem; }
+    .sidebar .users-img-container img {
+      width: 15rem;
+      display: block;
+      border-radius: 3px; }
+  .sidebar .sidebar-users-name {
+    color: white; }
+  .sidebar .sidebar-nav-icons-container {
+    display: flex;
+    margin-top: 2.5rem; }
+    .sidebar .sidebar-nav-icons-container .icon-container:not(:last-child) {
+      margin-right: 2rem; }

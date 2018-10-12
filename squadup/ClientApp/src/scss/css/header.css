@@ -1,0 +1,46 @@
+/* START .................................. MEDIA QUERIES */
+/* END .................................... MEDIA QUERIES */
+/*$light-grey: rgb(247, 247, 247);
+$dark-grey: rgb(207, 207, 207);
+$green-dark: rgb(40, 167, 69);
+$green-light: rgb(52, 208, 88);
+$light-dark: rgb(47, 47, 47);
+$dark-black: rgb(0, 0, 0);
+$new-messages-count: rgb(222, 16, 29)*/
+#header {
+  width: 100%;
+  background-color: #24292e;
+  z-index: 101;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  padding-right: 2.5rem;
+  padding-left: 2.5rem;
+  border-bottom: 1px solid #34d058; }
+
+@media (max-width: 768px) {
+  #header {
+    padding-top: 1rem;
+    padding-bottom: 1.5rem;
+    padding-right: 1.5rem;
+    padding-left: 1.5rem; } }
+
+@media (max-width: 480px) {
+  #header {
+    padding-top: 1rem;
+    padding-bottom: 0.5rem;
+    padding-right: 1rem;
+    padding-left: 1rem; } }
+
+@media (min-width: 1500px) {
+  #header {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    padding-right: 5rem;
+    padding-left: 5rem; } }
+
+@media (min-width: 1800px) {
+  #header {
+    padding-top: 1.2rem;
+    padding-bottom: 1.2rem;
+    padding-right: 7.5rem;
+    padding-left: 7.5rem; } }

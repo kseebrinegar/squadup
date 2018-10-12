@@ -32,11 +32,12 @@ $new-messages-count: rgb(222, 16, 29)*/
 #header {
   width: 100%;
   background-color: #24292e;
-  z-index: 10;
+  z-index: 101;
   padding-top: 1rem;
   padding-bottom: 1rem;
   padding-right: 2.5rem;
-  padding-left: 2.5rem; }
+  padding-left: 2.5rem;
+  border-bottom: 1px solid #34d058; }
 
 @media (max-width: 768px) {
   #header {
@@ -86,6 +87,31 @@ $new-messages-count: rgb(222, 16, 29)*/
   width: 28.5rem;
   margin-left: 7.5rem;
   cursor: pointer; }
+
+.sidebar-nav {
+  margin-top: 2.5rem; }
+  .sidebar-nav a {
+    color: black;
+    z-index: 1;
+    font-size: 1.6rem;
+    padding: 1rem 0;
+    width: 100%;
+    font-weight: 700; }
+    @media (max-width: 480px) {
+      .sidebar-nav a {
+        font-size: 1.4rem; } }
+    @media (min-width: 1500px) {
+      .sidebar-nav a {
+        font-size: 1.8rem; } }
+    .sidebar-nav a span {
+      padding-left: 2.2rem; }
+  .sidebar-nav .sidebar-nav-item {
+    width: 100%;
+    padding: 0.5rem 0; }
+  .sidebar-nav .sidebar-nav-item:first-child {
+    padding: 0 0 0.5rem 0; }
+  .sidebar-nav .sidebar-nav-item:last-child {
+    padding: 0.5rem 0 0 0; }
 
 @media (max-width: 768px) {
   .nav {
@@ -260,6 +286,11 @@ $green-light: rgb(52, 208, 88);
 $light-dark: rgb(47, 47, 47);
 $dark-black: rgb(0, 0, 0);
 $new-messages-count: rgb(222, 16, 29)*/
+.icon-counter {
+  font-size: 1rem;
+  text-align: center;
+  padding-top: 0.5rem; }
+
 .icon-container {
   position: relative; }
   .icon-container p,
@@ -338,14 +369,43 @@ $new-messages-count: rgb(222, 16, 29)*/
 .sign-out-icon .icon-info-logout {
   left: -11px; }
 
+.sign-out-icon .icon-info-logout {
+  left: -11px; }
+
+.icon-info-likes,
+.icon-info-views,
+.icon-info-following,
+.icon-info-projects {
+  display: none; }
+
+.heart-icon .icon-info-likes {
+  left: -11px; }
+
+.eye-icon .icon-info-views {
+  left: -12px; }
+
+.user-plus-icon .icon-info-following {
+  left: -22px; }
+
+.object-group-icon .icon-info-projects {
+  left: -19px; }
+
 .icon-info-dashboard,
 .icon-info-inbox,
-.icon-info-logout {
+.icon-info-logout,
+.icon-info-likes,
+.icon-info-views,
+.icon-info-following,
+.icon-info-projects {
   z-index: 10;
   position: absolute; }
   .icon-info-dashboard p,
   .icon-info-inbox p,
-  .icon-info-logout p {
+  .icon-info-logout p,
+  .icon-info-likes p,
+  .icon-info-views p,
+  .icon-info-following p,
+  .icon-info-projects p {
     color: white;
     font-size: 1rem;
     border-radius: 0.3rem;
@@ -353,7 +413,11 @@ $new-messages-count: rgb(222, 16, 29)*/
     padding: 0.3rem 0.6rem; }
   .icon-info-dashboard .icon-triangle,
   .icon-info-inbox .icon-triangle,
-  .icon-info-logout .icon-triangle {
+  .icon-info-logout .icon-triangle,
+  .icon-info-likes .icon-triangle,
+  .icon-info-views .icon-triangle,
+  .icon-info-following .icon-triangle,
+  .icon-info-projects .icon-triangle {
     width: 0;
     height: 0;
     right: -50%;
@@ -404,16 +468,32 @@ $new-messages-count: rgb(222, 16, 29)*/
     font-size: 14px !important; }
   .icon-info-dashboard p,
   .icon-info-inbox p,
-  .icon-info-logout p {
+  .icon-info-logout p,
+  .icon-info-likes p,
+  .icon-info-views p,
+  .icon-info-following p,
+  .icon-info-projects p {
     padding: 0.2rem 0.4rem; }
   .icon-info-dashboard .icon-triangle,
   .icon-info-inbox .icon-triangle,
-  .icon-info-logout .icon-triangle {
+  .icon-info-logout .icon-triangle,
+  .icon-info-likes .icon-triangle,
+  .icon-info-views .icon-triangle,
+  .icon-info-following .icon-triangle,
+  .icon-info-projects .icon-triangle {
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
     border-bottom: 5px solid #de101d; }
   .user-icon .icon-info-dashboard {
-    left: -12px; } }
+    left: -12px; }
+  .heart-icon .icon-info-likes {
+    left: -10px; }
+  .eye-icon .icon-info-views {
+    left: -11px; }
+  .user-plus-icon .icon-info-following {
+    left: -21px; }
+  .object-group-icon .icon-info-projects {
+    left: -18px; } }
 
 @media (min-width: 1500px) {
   .icon-white-lg,
@@ -432,13 +512,21 @@ $new-messages-count: rgb(222, 16, 29)*/
       font-size: 1.1rem; }
   .icon-info-dashboard p,
   .icon-info-inbox p,
-  .icon-info-logout p {
+  .icon-info-logout p,
+  .icon-info-likes p,
+  .icon-info-views p,
+  .icon-info-following p,
+  .icon-info-projects p {
     color: white;
     font-size: 1.2rem;
     padding: 0.4rem 0.8rem; }
   .icon-info-dashboard .icon-triangle,
   .icon-info-inbox .icon-triangle,
-  .icon-info-logout .icon-triangle {
+  .icon-info-logout .icon-triangle,
+  .icon-info-likes .icon-triangle,
+  .icon-info-views .icon-triangle,
+  .icon-info-following .icon-triangle,
+  .icon-info-projects .icon-triangle {
     border-left: 7px solid transparent;
     border-right: 7px solid transparent;
     border-bottom: 7px solid #de101d; }
@@ -450,7 +538,15 @@ $new-messages-count: rgb(222, 16, 29)*/
   .user-icon .icon-info-dashboard {
     left: -15px; }
   .sign-out-icon .icon-info-logout {
-    left: -15px; } }
+    left: -15px; }
+  .heart-icon .icon-info-likes {
+    left: -14.5px; }
+  .eye-icon .icon-info-views {
+    left: -15.5px; }
+  .user-plus-icon .icon-info-following {
+    left: -26px; }
+  .object-group-icon .icon-info-projects {
+    left: -23px; } }
 
 @media (min-width: 1800px) {
   .icon-white-lg,
@@ -469,19 +565,35 @@ $new-messages-count: rgb(222, 16, 29)*/
       font-size: 1.3rem; }
   .icon-info-dashboard p,
   .icon-info-inbox p,
-  .icon-info-logout p {
+  .icon-info-logout p,
+  .icon-info-likes p,
+  .icon-info-views p,
+  .icon-info-following p,
+  .icon-info-projects p {
     color: white;
     font-size: 1.4rem;
     padding: 0.5rem 1rem; }
   .icon-info-dashboard .icon-triangle,
   .icon-info-inbox .icon-triangle,
-  .icon-info-logout .icon-triangle {
+  .icon-info-logout .icon-triangle,
+  .icon-info-likes .icon-triangle,
+  .icon-info-views .icon-triangle,
+  .icon-info-following .icon-triangle,
+  .icon-info-projects .icon-triangle {
     border-left: 8px solid transparent;
     border-right: 8px solid transparent;
     border-bottom: 8px solid #de101d; }
   .close-icon {
     height: 3.3rem;
-    width: 3.3rem; } }
+    width: 3.3rem; }
+  .heart-icon .icon-info-likes {
+    left: -16.5px; }
+  .eye-icon .icon-info-views {
+    left: -19px; }
+  .user-plus-icon .icon-info-following {
+    left: -32px; }
+  .object-group-icon .icon-info-projects {
+    left: -28px; } }
 
 /* START .................................. MEDIA QUERIES */
 /* END .................................... MEDIA QUERIES */
@@ -965,3 +1077,73 @@ div.spinner div.bar11 {
 div.spinner div.bar12 {
   -webkit-transform: rotate(330deg) translate(0, -130%);
   -webkit-animation-delay: -0.0833s; }
+
+.dashboard {
+  height: 1000px;
+  width: 100%;
+  padding-top: 7.3rem; }
+  @media (max-width: 768px) {
+    .dashboard {
+      padding-top: 7.2rem; } }
+  @media (max-width: 480px) {
+    .dashboard {
+      padding-top: 6.7rem; } }
+  @media (min-width: 1500px) {
+    .dashboard {
+      padding-top: 8rem; } }
+  @media (min-width: 1800px) {
+    .dashboard {
+      padding-top: 9.1rem; } }
+
+.sidebar-outer-container {
+  position: fixed;
+  z-index: 50; }
+
+.sidebar-inner-container {
+  position: relative; }
+
+.sidebar-toggle-container {
+  width: 5rem;
+  height: 100vh;
+  z-index: 1;
+  position: absolute;
+  background: #24292e;
+  padding-top: 2rem;
+  justify-content: center;
+  align-items: flex-start;
+  display: none; }
+  @media (max-width: 768px) {
+    .sidebar-toggle-container {
+      display: flex; } }
+
+.sidebar {
+  height: 100vh;
+  width: 20rem;
+  padding-top: 2.25rem;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: translateX(0rem);
+  -webkit-box-shadow: rgba(0, 0, 0, 0.4) 1px 7px 20px 2px;
+  -moz-box-shadow: rgba(0, 0, 0, 0.4) 1px 7px 20px 2px;
+  box-shadow: rgba(0, 0, 0, 0.4) 1px 7px 20px 2px;
+  background: #d2d2d2; }
+  @media (max-width: 768px) {
+    .sidebar {
+      transition: 0.3s ease-out;
+      margin-left: 5rem; } }
+  .sidebar .users-img-container {
+    margin-bottom: 0.5rem; }
+    .sidebar .users-img-container img {
+      width: 15rem;
+      display: block;
+      border-radius: 3px; }
+  .sidebar .sidebar-nav-icons-container {
+    display: flex;
+    margin-top: 2.5rem; }
+    .sidebar .sidebar-nav-icons-container .icon-container:not(:last-child) {
+      margin-right: 2rem; }
+    @media (max-width: 768px) {
+      .sidebar .sidebar-nav-icons-container .icon-container:not(:last-child) {
+        margin-right: 1.5rem; } }

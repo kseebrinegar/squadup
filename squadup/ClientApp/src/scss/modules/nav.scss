@@ -16,6 +16,48 @@
         cursor: pointer;
     }
 }
+
+.sidebar-nav {
+    margin-top: 2.5rem;
+
+    @include respond(mq-768) {
+    }
+
+    a {
+        color: black;
+        z-index: 1;
+        font-size: 1.6rem;
+        padding: 1rem 0;
+        width: 100%;
+        font-weight: 700;
+
+        @include respond(mq-480) {
+            font-size: 1.4rem;
+        }
+
+        @include respond(mq-1500) {
+            font-size: 1.8rem;
+        }
+
+        span {
+            padding-left: 2.2rem;
+        }
+    }
+
+    .sidebar-nav-item {
+        width: 100%;
+        padding: 0.5rem 0;
+    }
+
+    .sidebar-nav-item:first-child {
+        padding: 0 0 0.5rem 0;
+    }
+
+    .sidebar-nav-item:last-child {
+        padding: 0.5rem 0 0 0;
+    }
+}
+
 @include respond(mq-768) {
     .nav {
         width: 100%;

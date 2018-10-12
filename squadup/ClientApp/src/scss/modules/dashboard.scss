@@ -1,0 +1,21 @@
+.dashboard {
+    height: 1000px;
+    width: 100%;
+    padding-top: 7.3rem;
+
+    @include respond(mq-768) {
+        padding-top: 7.2rem;
+    }
+
+    @include respond(mq-480) {
+        padding-top: 6.7rem;
+    }
+
+    @include respond(mq-1500) {
+        padding-top: 8rem;
+    }
+
+    @include respond(mq-1800) {
+        padding-top: 9.1rem;
+    }
+}
