@@ -260,7 +260,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
 
                     <div className="icon-container user-icon">
                         <NavLink
-                            to="/"
+                            to="/dashboard"
                             className="icon-white-md fa fa-fw fa-user"
                             aria-hidden="true"
                         >
@@ -275,13 +275,10 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
                         className="icon-container sign-out-icon"
                         onClick={this.toggleDisplaySmallPopUpModal}
                     >
-                        <NavLink
-                            to="/"
+                        <p
                             className="icon-white-md fa fa-fw fa-sign-out-alt"
                             aria-hidden="true"
-                        >
-                            {" "}
-                        </NavLink>
+                        />
                         <div className="icon-info icon-info-logout">
                             <div className="icon-triangle" />
                             <p>Logout</p>

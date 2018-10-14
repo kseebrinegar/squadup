@@ -120,11 +120,13 @@
     }
 
     .inbox-nav--unexpanded {
-        height: 0rem;
+        height: 0;
+        transition: height 0.3s ease-out;
     }
 
     .inbox-nav--expanded {
         height: 11.2rem;
+        transition: height 0.3s ease-out;
 
         @include respond(mq-480) {
             height: 10rem;

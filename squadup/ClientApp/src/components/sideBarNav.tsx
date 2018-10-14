@@ -1,12 +1,19 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
 
+import * as uuid from "uuid";
+
+import UploadUserAndProjectImgContainer from "./images/uploadUserAndProjectImgContainer";
+import ProjectAndUserImg from "./images/projectAndUserImg";
+import UserAndProjectImgCta from "./images/userAndProjectImgCta";
+
 interface IState {
-    isSideBarHidden: boolean;
-    isInboxNavHidden: boolean;
+    [propName: string]: boolean;
 }
 
 interface IProps {}
+
+type navList = Record<string, string | number>[];
 
 class SideBarNav extends React.Component<IProps, IState> {
     public state: IState = {
@@ -18,23 +25,94 @@ class SideBarNav extends React.Component<IProps, IState> {
         super(props);
     }
 
-    public toggleSideBar = () => {
+    public toggleSideBarAndNav = (propName: keyof IState): void => {
         this.setState(prevState => {
-            return {
-                isSideBarHidden: prevState.isSideBarHidden ? false : true
-            };
+            return { [propName]: prevState[propName] ? false : true };
         });
     };
 
-    public toggleInboxNav = () => {
-        this.setState(prevState => {
-            return {
-                isInboxNavHidden: prevState.isInboxNavHidden ? false : true
-            };
+    public renderInboxNavList = (): JSX.Element[] => {
+        const navListData: navList = [
+            { linkAddress: "inbox/allmessages", linkName: "All Messages" },
+            {
+                linkAddress: "inbox/privatemessages",
+                linkName: "Private Messages"
+            },
+            { linkAddress: "inbox/teammessages", linkName: "Team Messages" },
+            { linkAddress: "inbox/applications", linkName: "Applications" },
+            { linkAddress: "inbox/invatations", linkName: "Invatations" }
+        ];
+
+        return navListData.map(item => {
+            return (
+                <li key={uuid()} className="inbox-nav-item">
+                    <Link to={item.linkAddress as string}>{item.linkName}</Link>
+                </li>
+            );
         });
     };
 
-    componentWillMount() {
+    public renderNavList = (): JSX.Element[] => {
+        const navListData: navList = [
+            { typeOfList: 1, linkAddress: "profile", linkName: "Profile" },
+            { typeOfList: 2, linkName: "Inbox" },
+            { typeOfList: 3 },
+            { typeOfList: 1, linkAddress: "following", linkName: "Following" },
+            { typeOfList: 1, linkAddress: "projects", linkName: "Projects" },
+            { typeOfList: 1, linkAddress: "account", linkName: "Account" }
+        ];
+
+        return navListData.map(item => {
+            if (item.typeOfList === 1) {
+                return (
+                    <li key={uuid()} className="sidebar-nav-item">
+                        <Link to={item.linkAddress as string}>
+                            {item.linkName}
+                        </Link>
+                    </li>
+                );
+            } else if (item.typeOfList === 2) {
+                return (
+                    <li
+                        key={uuid()}
+                        className="sidebar-nav-item sidebar-nav-inbox-item"
+                    >
+                        <a
+                            onClick={() => {
+                                this.toggleSideBarAndNav("isInboxNavHidden");
+                            }}
+                        >
+                            {item.linkName}
+                            <span
+                                className={`fa fa-fw ${
+                                    this.state.isInboxNavHidden
+                                        ? "fa-caret-down"
+                                        : "fa-caret-up"
+                                }`}
+                                aria-hidden="true"
+                            />
+                        </a>
+                    </li>
+                );
+            } else {
+                return (
+                    <li
+                        className={`${
+                            this.state.isInboxNavHidden
+                                ? "inbox-nav--unexpanded"
+                                : "inbox-nav--expanded"
+                        } inbox-nav sidebar-nav-item`}
+                    >
+                        <ul className="inbox-nav-items">
+                            {this.renderInboxNavList()}
+                        </ul>
+                    </li>
+                );
+            }
+        });
+    };
+
+    public windowResize = (): void => {
         window.addEventListener("resize", () => {
             if (window.innerWidth >= 768) {
                 this.setState(() => {
@@ -44,6 +122,10 @@ class SideBarNav extends React.Component<IProps, IState> {
                 });
             }
         });
+    };
+
+    componentWillMount(): void {
+        this.windowResize();
     }
 
     public render(): JSX.Element {
@@ -52,7 +134,9 @@ class SideBarNav extends React.Component<IProps, IState> {
                 <div className="sidebar-inner-container">
                     <div className="sidebar-toggle-container">
                         <div
-                            onClick={this.toggleSideBar}
+                            onClick={() => {
+                                this.toggleSideBarAndNav("isSideBarHidden");
+                            }}
                             className="hamburger-icon icon-container"
                         >
                             <p
@@ -69,10 +153,12 @@ class SideBarNav extends React.Component<IProps, IState> {
                         }}
                         className="sidebar"
                     >
-                        <div className="users-img-container">
-                            <img src="/images/default-user-img.jpg" />
-                        </div>
-                        <p className="sidebar-users-name">Harry Potter</p>
+                        <ProjectAndUserImg
+                            userName={"xxxxxblissment1xxxxx"}
+                            img={"/images/default-user-img1.jpg"}
+                        >
+                            <UserAndProjectImgCta />
+                        </ProjectAndUserImg>
                         <div className="sidebar-nav-icons-container">
                             <div className="icon-container heart-icon">
                                 <p
@@ -121,56 +207,7 @@ class SideBarNav extends React.Component<IProps, IState> {
                         </div>
                         <nav className="sidebar-nav">
                             <ul className="sidebar-nav-items">
-                                <li className="sidebar-nav-item">
-                                    <Link to="">Profile</Link>
-                                </li>
-                                <li className="sidebar-nav-item sidebar-nav-inbox-item">
-                                    <a onClick={this.toggleInboxNav}>
-                                        Inbox
-                                        <span
-                                            className={`fa fa-fw ${
-                                                this.state.isInboxNavHidden
-                                                    ? "fa-caret-down"
-                                                    : "fa-caret-up"
-                                            }`}
-                                            aria-hidden="true"
-                                        />
-                                    </a>
-                                </li>
-                                <li
-                                    className={`${
-                                        this.state.isInboxNavHidden
-                                            ? "inbox-nav--unexpanded"
-                                            : "inbox-nav--expanded"
-                                    } inbox-nav sidebar-nav-item`}
-                                >
-                                    <ul className="inbox-nav-items">
-                                        <li className="inbox-nav-item">
-                                            <Link to="">All Messages</Link>
-                                        </li>
-                                        <li className="inbox-nav-item">
-                                            <Link to="">Private Messages</Link>
-                                        </li>
-                                        <li className="inbox-nav-item">
-                                            <Link to="">Team Messages</Link>
-                                        </li>
-                                        <li className="inbox-nav-item">
-                                            <Link to="">Applications</Link>
-                                        </li>
-                                        <li className="inbox-nav-item">
-                                            <Link to="">Invatations</Link>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li className="sidebar-nav-item">
-                                    <Link to="">Following</Link>
-                                </li>
-                                <li className="sidebar-nav-item">
-                                    <Link to="">Projects</Link>
-                                </li>
-                                <li className="sidebar-nav-item">
-                                    <Link to="">Account</Link>
-                                </li>
+                                {this.renderNavList()}
                             </ul>
                         </nav>
                     </div>
@@ -180,4 +217,4 @@ class SideBarNav extends React.Component<IProps, IState> {
     }
 }
 
-export default SideBarNav;
+export default UploadUserAndProjectImgContainer(SideBarNav);

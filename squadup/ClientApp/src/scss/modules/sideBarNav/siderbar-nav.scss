@@ -54,32 +54,6 @@
     box-shadow: rgba(0, 0, 0, 0.4) 1px 7px 20px 2px;
     background: rgb(210, 210, 210);
 
-    .users-img-container {
-        margin-bottom: 0.5rem;
-
-        @include respond(mq-1500) {
-            margin-bottom: 1rem;
-        }
-
-        @include respond(mq-1800) {
-            margin-bottom: 1.5rem;
-        }
-
-        img {
-            width: 15rem;
-            display: block;
-            border-radius: 3px;
-
-            @include respond(mq-1500) {
-                width: 17.5rem;
-            }
-
-            @include respond(mq-1800) {
-                width: 20rem;
-            }
-        }
-    }
-
     .sidebar-nav-icons-container {
         display: flex;
         margin-top: 2.5rem;

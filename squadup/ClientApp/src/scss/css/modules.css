@@ -167,9 +167,11 @@ $new-messages-count: rgb(222, 16, 29)*/
         .sidebar-nav .inbox-nav .inbox-nav-item a {
           font-size: 1.4rem; } }
   .sidebar-nav .inbox-nav--unexpanded {
-    height: 0rem; }
+    height: 0;
+    transition: height 0.3s ease-out; }
   .sidebar-nav .inbox-nav--expanded {
-    height: 11.2rem; }
+    height: 11.2rem;
+    transition: height 0.3s ease-out; }
     @media (max-width: 480px) {
       .sidebar-nav .inbox-nav--expanded {
         height: 10rem; } }
@@ -1206,24 +1208,6 @@ div.spinner div.bar12 {
     .sidebar {
       width: 35.3rem;
       padding-top: 7.4rem; } }
-  .sidebar .users-img-container {
-    margin-bottom: 0.5rem; }
-    @media (min-width: 1500px) {
-      .sidebar .users-img-container {
-        margin-bottom: 1rem; } }
-    @media (min-width: 1800px) {
-      .sidebar .users-img-container {
-        margin-bottom: 1.5rem; } }
-    .sidebar .users-img-container img {
-      width: 15rem;
-      display: block;
-      border-radius: 3px; }
-      @media (min-width: 1500px) {
-        .sidebar .users-img-container img {
-          width: 17.5rem; } }
-      @media (min-width: 1800px) {
-        .sidebar .users-img-container img {
-          width: 20rem; } }
   .sidebar .sidebar-nav-icons-container {
     display: flex;
     margin-top: 2.5rem; }
@@ -1244,3 +1228,77 @@ div.spinner div.bar12 {
     @media (min-width: 1500px) {
       .sidebar .sidebar-nav-icons-container .icon-container:not(:last-child) {
         margin-right: 3rem; } }
+
+.users-and-projects-img {
+  margin-bottom: 1rem;
+  position: relative; }
+  @media (min-width: 1500px) {
+    .users-and-projects-img {
+      margin-bottom: 1.5rem; } }
+  .users-and-projects-img img {
+    width: 15rem;
+    display: block;
+    border-radius: 3px; }
+    @media (min-width: 1500px) {
+      .users-and-projects-img img {
+        width: 17.9rem; } }
+    @media (min-width: 1800px) {
+      .users-and-projects-img img {
+        width: 20rem; } }
+
+.users-and-projects-img-container-cta {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  top: 0; }
+
+.users-and-projects-img-cta {
+  background: rgba(0, 0, 0, 0.5);
+  position: relative;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  overflow: hidden;
+  cursor: pointer;
+  display: none; }
+  .users-and-projects-img-cta .upload-image-cta {
+    position: relative;
+    left: 80%;
+    top: 21%;
+    transform: translate(-50%, -50%) rotate(45deg);
+    transform-origin: center;
+    background-image: linear-gradient(-180deg, #34d058 0%, #28a745 90%); }
+    .users-and-projects-img-cta .upload-image-cta p {
+      color: white;
+      padding: 0.5rem;
+      font-size: 1rem;
+      text-align: center; }
+      @media (max-width: 480px) {
+        .users-and-projects-img-cta .upload-image-cta p {
+          font-size: 0.8rem; } }
+      @media (min-width: 1500px) {
+        .users-and-projects-img-cta .upload-image-cta p {
+          font-size: 1.2rem;
+          padding: 0.75rem; } }
+      @media (min-width: 1800px) {
+        .users-and-projects-img-cta .upload-image-cta p {
+          font-size: 1.4rem;
+          padding: 1rem; } }
+
+.usersname {
+  font-size: 1.2rem;
+  text-align: center; }
+  @media (min-width: 1500px) {
+    .usersname {
+      font-size: 1.4rem; } }
+  @media (min-width: 1500px) {
+    .usersname {
+      font-size: 1.6rem; } }
+  .usersname span {
+    font-weight: 700; }
+
+.projectname {
+  margin-bottom: 1rem;
+  font-weight: 700;
+  text-align: center; }

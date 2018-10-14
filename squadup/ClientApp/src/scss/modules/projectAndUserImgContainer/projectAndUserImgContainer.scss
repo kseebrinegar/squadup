@@ -1,0 +1,97 @@
+.users-and-projects-img {
+    margin-bottom: 1rem;
+    position: relative;
+
+    @include respond(mq-1500) {
+        margin-bottom: 1.5rem;
+    }
+
+    img {
+        width: 15rem;
+        display: block;
+        border-radius: 3px;
+
+        @include respond(mq-1500) {
+            width: 17.9rem;
+        }
+
+        @include respond(mq-1800) {
+            width: 20rem;
+        }
+    }
+}
+
+.users-and-projects-img-container-cta {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    top: 0;
+}
+
+.users-and-projects-img-cta {
+    background: rgba(0, 0, 0, 0.5);
+    position: relative;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    overflow: hidden;
+    cursor: pointer;
+    display: none;
+
+    .upload-image-cta {
+        position: relative;
+        left: 80%;
+        top: 21%;
+        transform: translate(-50%, -50%) rotate(45deg);
+        transform-origin: center;
+
+        @include linearGradient-background-primary(
+            rgb(52, 208, 88),
+            rgb(40, 167, 69)
+        );
+
+        p {
+            color: white;
+            padding: 0.5rem;
+            font-size: 1rem;
+            text-align: center;
+
+            @include respond(mq-480) {
+                font-size: 0.8rem;
+            }
+
+            @include respond(mq-1500) {
+                font-size: 1.2rem;
+                padding: 0.75rem;
+            }
+
+            @include respond(mq-1800) {
+                font-size: 1.4rem;
+                padding: 1rem;
+            }
+        }
+    }
+}
+
+.usersname {
+    font-size: 1.2rem;
+    text-align: center;
+    @include respond(mq-1500) {
+        font-size: 1.4rem;
+    }
+
+    @include respond(mq-1500) {
+        font-size: 1.6rem;
+    }
+
+    span {
+        font-weight: 700;
+    }
+}
+
+.projectname {
+    margin-bottom: 1rem;
+    font-weight: 700;
+    text-align: center;
+}

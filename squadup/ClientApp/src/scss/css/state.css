@@ -56,7 +56,8 @@ button:active {
 .icon-container:hover .icon-info-likes,
 .icon-container:hover .icon-info-views,
 .icon-container:hover .icon-info-following,
-.icon-container:hover .icon-info-projects {
+.icon-container:hover .icon-info-projects,
+.users-and-projects-img-container-cta:hover .users-and-projects-img-cta {
   display: block; }
 
 .fa-bars:active,
