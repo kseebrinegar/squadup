@@ -29,15 +29,20 @@
     top: 0;
 }
 
-.users-and-projects-img-cta {
-    background: rgba(0, 0, 0, 0.5);
-    position: relative;
+.users-and-projects-img-cta-border {
     width: 100%;
     height: 100%;
-    top: 0;
-    overflow: hidden;
     cursor: pointer;
+    border: 2px dashed rgb(102, 102, 102);
+    border-radius: 3px;
     display: none;
+}
+
+.users-and-projects-img-cta {
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
 
     .upload-image-cta {
         position: relative;

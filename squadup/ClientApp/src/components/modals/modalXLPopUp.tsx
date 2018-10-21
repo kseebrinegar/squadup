@@ -1,14 +1,13 @@
 import * as React from "react";
 
 import ToggleDisplayPopUpModal from "./toggleDisplayPopUpModal";
-interface SFCmodalBigPopUpProps {
+
+interface SFCModalXLPopUp {
     clickEvent: () => void;
 }
-const modalBigPopUp: React.SFC<SFCmodalBigPopUpProps> = (
-    props
-): JSX.Element => {
+const modalXLPopUp: React.SFC<SFCModalXLPopUp> = (props): JSX.Element => {
     return (
-        <div className="modal-big-popup">
+        <div className="modal-xl-popup">
             <ToggleDisplayPopUpModal
                 toggleDisplayPopUpModal={props.clickEvent}
             />
@@ -17,4 +16,4 @@ const modalBigPopUp: React.SFC<SFCmodalBigPopUpProps> = (
     );
 };
 
-export default modalBigPopUp;
+export default modalXLPopUp;

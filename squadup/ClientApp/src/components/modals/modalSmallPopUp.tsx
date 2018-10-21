@@ -1,5 +1,7 @@
 import * as React from "react";
+
 import Button from "../buttons/button";
+import ToggleDisplayPopUpModal from "./toggleDisplayPopUpModal";
 
 interface SFCmodalSmallPopUpProps {
     toggleDisplaySmallPopUpModal: () => void;
@@ -12,13 +14,9 @@ const moduleSmallPopUp: React.SFC<SFCmodalSmallPopUpProps> = (
 ): JSX.Element => {
     return (
         <div className="modal-small-popup">
-            <div
-                className="icon-container close-icon"
-                onClick={props.toggleDisplaySmallPopUpModal}
-            >
-                <div className="close-icon-line1" />
-                <div className="close-icon-line2" />
-            </div>
+            <ToggleDisplayPopUpModal
+                toggleDisplayPopUpModal={props.toggleDisplaySmallPopUpModal}
+            />
             <h3>{props.headerText}</h3>
             <div className="modal-small-popup-yes-or-no">
                 <Button

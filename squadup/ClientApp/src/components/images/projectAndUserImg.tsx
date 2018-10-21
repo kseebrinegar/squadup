@@ -2,7 +2,7 @@ import * as React from "react";
 
 interface SFCprojectAndUserImg {
     img: string;
-    userName: string;
+    userName?: string | null;
     by?: string | null;
     projectName?: string | null;
 }
@@ -27,6 +27,7 @@ const projectAndUserImg: React.SFC<SFCprojectAndUserImg> = (
 };
 
 projectAndUserImg.defaultProps = {
+    userName: null,
     by: null,
     projectName: null
 };

@@ -1,6 +1,12 @@
 import * as React from "react";
 
-interface IState {}
+import ModalContainerBackground from "../modals/modalContainerBackground";
+import ModalXLPopUp from "../modals/modalXLPopUp";
+import UploadImgFile from "../forms/uploadFile/UploadImgFile";
+
+interface IState {
+    toggleDisplayPopUpModal: boolean;
+}
 
 interface IProps {}
 
@@ -9,17 +15,44 @@ const uploadUserAndProjectImgWrapper = (WrappedComponent: any) =>
         IProps,
         IState
     > {
-        public state: IState = {};
+        public state: IState = {
+            toggleDisplayPopUpModal: false
+        };
 
         constructor(props: IProps) {
             super(props);
         }
 
-        public render() {
+        public toggleDisplayPopUpModal = (): void => {
+            this.setState(prevState => {
+                return {
+                    toggleDisplayPopUpModal: prevState.toggleDisplayPopUpModal
+                        ? false
+                        : true
+                };
+            });
+        };
+
+        public render(): JSX.Element {
             return (
-                <div className="meow">
-                    <WrappedComponent />
-                </div>
+                <main className="upload-user-and-project-img-wrapper">
+                    <WrappedComponent
+                        toggleDisplayPopUpModal={this.toggleDisplayPopUpModal}
+                    />
+                    <ModalContainerBackground
+                        toggleDisplayPopUpModal={
+                            this.state.toggleDisplayPopUpModal
+                        }
+                    >
+                        <ModalXLPopUp clickEvent={this.toggleDisplayPopUpModal}>
+                            <UploadImgFile
+                                toggleDisplayPopUpModal={
+                                    this.toggleDisplayPopUpModal
+                                }
+                            />
+                        </ModalXLPopUp>
+                    </ModalContainerBackground>
+                </main>
             );
         }
     };

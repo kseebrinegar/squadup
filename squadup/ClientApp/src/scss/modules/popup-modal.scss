@@ -9,10 +9,12 @@
     left: 0;
     right: 0;
     bottom: 0;
+    z-index: 999;
 }
 
 .modal-big-popup,
-.modal-small-popup {
+.modal-small-popup,
+.modal-xl-popup {
     position: relative;
     background: white;
     border-radius: 3px;
@@ -173,5 +175,20 @@
         height: 660px;
         width: 925px;
         background-size: 230px;
+    }
+}
+
+.modal-xl-popup {
+    width: 550px;
+    height: 550px;
+
+    @include respond(mq-768) {
+        height: 350px;
+        width: 350px;
+    }
+
+    @include respond(mq-1500) {
+        height: 600px;
+        width: 600px;
     }
 }

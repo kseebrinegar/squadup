@@ -62,7 +62,7 @@
 .icon-green-md,
 .icon-green-lg,
 .icon-green-xlg {
-    color: darken($button-color-lt, 10%);
+    color: rgb(52, 208, 88);
 }
 
 .icon-red-md {
@@ -202,6 +202,12 @@
 }
 
 @include respond(mq-480) {
+    .icon-white-xlg,
+    .icon-black-xlg,
+    .icon-green-xlg {
+        font-size: 3.3rem;
+    }
+
     .icon-white-lg,
     .icon-black-lg,
     .icon-green-lg {
@@ -255,6 +261,12 @@
 }
 
 @include respond(mq-1500) {
+    .icon-white-xlg,
+    .icon-black-xlg,
+    .icon-green-xlg {
+        font-size: 3.8rem;
+    }
+
     .icon-white-lg,
     .icon-black-lg,
     .icon-green-lg {
@@ -332,6 +344,12 @@
 }
 
 @include respond(mq-1800) {
+    .icon-white-xlg,
+    .icon-black-xlg,
+    .icon-green-xlg {
+        font-size: 4rem;
+    }
+
     .icon-white-lg,
     .icon-black-lg,
     .icon-green-lg {

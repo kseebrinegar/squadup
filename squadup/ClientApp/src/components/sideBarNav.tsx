@@ -11,7 +11,9 @@ interface IState {
     [propName: string]: boolean;
 }
 
-interface IProps {}
+interface IProps {
+    toggleDisplayPopUpModal: () => {};
+}
 
 type navList = Record<string, string | number>[];
 
@@ -157,7 +159,11 @@ class SideBarNav extends React.Component<IProps, IState> {
                             userName={"xxxxxblissment1xxxxx"}
                             img={"/images/default-user-img1.jpg"}
                         >
-                            <UserAndProjectImgCta />
+                            <UserAndProjectImgCta
+                                toggleDisplayPopUpModal={
+                                    this.props.toggleDisplayPopUpModal
+                                }
+                            />
                         </ProjectAndUserImg>
                         <div className="sidebar-nav-icons-container">
                             <div className="icon-container heart-icon">
