@@ -27,7 +27,13 @@ interface IState {
 
 type resolve = (value?: {} | PromiseLike<{}> | undefined) => void;
 
-type FileBlob = Record<string, number | Date | string | {}>;
+type crop = {
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+    aspect: number;
+};
 
 class UploadImgFile extends React.Component<IProps, IState> {
     private imgRequirements = {
@@ -65,8 +71,9 @@ class UploadImgFile extends React.Component<IProps, IState> {
         this.imagePreviewCanvasRef = React.createRef();
     }
 
-    public base64StringtoFile = (base64String: any, filename: any) => {
+    public base64StringtoFile = (base64String: string, filename: any) => {
         var arr = base64String.split(","),
+            // @ts-ignore
             mime = arr[0].match(/:(.*?);/)[1],
             bstr = atob(arr[1]),
             n = bstr.length,
@@ -77,21 +84,24 @@ class UploadImgFile extends React.Component<IProps, IState> {
         return new File([u8arr], filename, { type: mime });
     };
 
-    public extractImageFileExtensionFromBase64(base64Data: any) {
+    public extractImageFileExtensionFromBase64(base64Data: string) {
         return base64Data.substring(
             "data:image/".length,
             base64Data.indexOf(";base64")
         );
     }
 
-    public image64toCanvasRef = (canvasRef: any, pixelCrop: any) => {
-        const image = new Image();
+    public image64toCanvasRef = (
+        canvasRef: HTMLCanvasElement,
+        pixelCrop: crop
+    ) => {
+        const image: HTMLImageElement = new Image();
         image.src = this.state.originalImgAsBase64 as string;
         image.onload = () => {
             const canvas = canvasRef;
             canvas.width = pixelCrop.width;
             canvas.height = pixelCrop.height;
-            const ctx = canvas.getContext("2d");
+            const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
             ctx.drawImage(
                 image,
                 pixelCrop.x,
@@ -112,9 +122,10 @@ class UploadImgFile extends React.Component<IProps, IState> {
         };
     };
 
-    public resetStateAndCanvasToDefault = (canvasRef: any): void => {
-        const ctx = canvasRef.getContext("2d");
-
+    public resetStateAndCanvasToDefault = (): void => {
+        const canvasRef = this.imagePreviewCanvasRef
+            .current as HTMLCanvasElement;
+        const ctx = canvasRef.getContext("2d") as CanvasRenderingContext2D;
         ctx.clearRect(0, 0, canvasRef.width, canvasRef.height);
 
         this.setState(() => {
@@ -135,14 +146,14 @@ class UploadImgFile extends React.Component<IProps, IState> {
         });
     };
 
-    public handleOnDrop = (files: object, rejectedFiles: object): void => {
+    public handleOnDrop = (file: Blob[], rejectedFile: Blob[]): void => {
         (async () => {
-            const isFileDimensionsValid: boolean = (await this.checkImgForErrors(
-                files as FileBlob[],
-                rejectedFiles as FileBlob[]
+            const isFileValid: boolean = (await this.checkImgForErrors(
+                file,
+                rejectedFile
             )) as boolean;
 
-            if (!isFileDimensionsValid) {
+            if (!isFileValid) {
                 return;
             }
 
@@ -155,25 +166,25 @@ class UploadImgFile extends React.Component<IProps, IState> {
     };
 
     public checkImgForErrors = (
-        files: FileBlob[],
-        rejectedFiles: FileBlob[]
+        file: Blob[],
+        rejectedFile: Blob[]
     ): Promise<boolean | {}> => {
         return new Promise((resolve: resolve) => {
             (async () => {
-                if (rejectedFiles && rejectedFiles.length > 0) {
-                    this.handleRejectedFile(rejectedFiles[0]);
+                if (rejectedFile && rejectedFile.length > 0) {
+                    this.handleRejectedFile(rejectedFile[0]);
                     resolve(false);
                 }
 
-                if (files && files.length > 0) {
-                    await this.setStateImgAsBase64(files[0]);
+                if (file && file.length > 0) {
+                    await this.setStateImgAsBase64(file[0]);
                     resolve(await this.checkForValidImgDimensions());
                 }
             })();
         });
     };
 
-    public handleRejectedFile(currentRejectedFile: FileBlob): void {
+    public handleRejectedFile(currentRejectedFile: Blob): void {
         let errorMessage: string =
             "Unaccepted File Type. Must be either JPEG, PNG or GIF.";
         if (currentRejectedFile.size > this.imgRequirements.maxSizeInBytes) {
@@ -185,9 +196,9 @@ class UploadImgFile extends React.Component<IProps, IState> {
         });
     }
 
-    public setStateImgAsBase64 = (imgAsBlob: FileBlob) => {
-        return new Promise(resolve => {
-            const Reader = new FileReader();
+    public setStateImgAsBase64 = (imgAsBlob: Blob): Promise<{}> => {
+        return new Promise((resolve: resolve) => {
+            const Reader: FileReader = new FileReader();
 
             Reader.addEventListener(
                 "load",
@@ -204,11 +215,11 @@ class UploadImgFile extends React.Component<IProps, IState> {
         });
     };
 
-    public checkForValidImgDimensions = () => {
-        return new Promise(resolve => {
-            const Img = new Image();
+    public checkForValidImgDimensions = (): Promise<boolean | {}> => {
+        return new Promise((resolve: resolve) => {
+            const Img: HTMLImageElement = new Image();
 
-            Img.onload = () => {
+            Img.onload = (): void => {
                 if (Img.width <= 200 || Img.height <= 200) {
                     this.setState(() => {
                         return {
@@ -229,7 +240,7 @@ class UploadImgFile extends React.Component<IProps, IState> {
         });
     };
 
-    public setDropCropContainerDimensions(height: number, width: number) {
+    public setDropCropContainerDimensions(height: number, width: number): void {
         let widthPercent: string;
         let heightPercent: string;
 
@@ -256,39 +267,45 @@ class UploadImgFile extends React.Component<IProps, IState> {
         this.setState(() => {
             return {
                 isImgCropHidden: false,
-                fileExtension: this.extractImageFileExtensionFromBase64(
-                    this.state.originalImgAsBase64
-                )
+                fileExtension: this.extractImageFileExtensionFromBase64(this
+                    .state.originalImgAsBase64 as string)
             };
         });
     };
 
-    public handleOnCropChange = (crop: any): void => {
+    public handleOnCropChange = (crop: crop): void => {
         this.setState(() => {
             return {
-                crop: crop
+                crop
             };
         });
     };
 
-    public handleOnCropComplete = (crop: any, pixelCrop: any): void => {
-        console.log(crop);
-        const canvasRef = this.imagePreviewCanvasRef.current;
+    // @ts-ignore
+    public handleOnCropComplete = (crop: crop, pixelCrop: crop): void => {
+        const canvasRef = this.imagePreviewCanvasRef
+            .current as HTMLCanvasElement;
 
         this.image64toCanvasRef(canvasRef, pixelCrop);
     };
 
-    public submit = (canvasRef: any): void => {
+    public submit = (): void => {
         if (!this.state.isCanvasBlank) {
-            const imgData64 = canvasRef.toDataURL(
-                "image/" + this.state.fileExtension
+            const fileExtension = this.state.fileExtension;
+            const canvasRef = this.imagePreviewCanvasRef
+                .current as HTMLCanvasElement;
+            const imgData64: string = canvasRef.toDataURL(
+                "image/" + fileExtension
             );
-            console.log(imgData64);
-            //const myfileName = "user-image." + fileExtension;
 
-            // const myNewCroppedFile = this.base64StringtoFile(imgData64, myfileName);
+            const myfileName = "user-image." + fileExtension;
 
-            this.resetStateAndCanvasToDefault(canvasRef);
+            const myNewCroppedFile: Blob = this.base64StringtoFile(
+                imgData64,
+                myfileName
+            );
+            console.log(myNewCroppedFile);
+            this.resetStateAndCanvasToDefault();
             return;
         }
 
@@ -379,23 +396,13 @@ class UploadImgFile extends React.Component<IProps, IState> {
                             }
                         >
                             <Button
-                                clickEvent={(): void => {
-                                    const canvasRef = this.imagePreviewCanvasRef
-                                        .current;
-                                    this.submit(canvasRef);
-                                }}
+                                clickEvent={this.submit}
                                 text={"Submit"}
                                 type={"submit"}
                                 classes={"btn-primary btn-sm"}
                             />
                             <Button
-                                clickEvent={(): void => {
-                                    const canvasRef = this.imagePreviewCanvasRef
-                                        .current;
-                                    this.resetStateAndCanvasToDefault(
-                                        canvasRef
-                                    );
-                                }}
+                                clickEvent={this.resetStateAndCanvasToDefault}
                                 text={"Reset"}
                                 type={"button"}
                                 classes={"btn-red btn-sm"}
