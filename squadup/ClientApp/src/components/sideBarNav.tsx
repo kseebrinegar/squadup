@@ -13,6 +13,7 @@ interface IState {
 
 interface IProps {
     toggleDisplayPopUpModal: () => {};
+    userImg: string;
 }
 
 type navList = Record<string, string | number>[];
@@ -157,7 +158,7 @@ class SideBarNav extends React.Component<IProps, IState> {
                     >
                         <ProjectAndUserImg
                             userName={"xxxxxblissment1xxxxx"}
-                            img={"/images/default-user-img1.jpg"}
+                            img={this.props.userImg}
                         >
                             <UserAndProjectImgCta
                                 toggleDisplayPopUpModal={

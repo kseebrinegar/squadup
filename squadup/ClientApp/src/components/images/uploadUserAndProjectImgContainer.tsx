@@ -1,16 +1,20 @@
 import * as React from "react";
+import { connect } from "react-redux";
 
 import ModalContainerBackground from "../modals/modalContainerBackground";
-import ModalXLPopUp from "../modals/modalXLPopUp";
+import ModalUploadPopUp from "../modals/modalUpload";
 import UploadImgFile from "../forms/uploadFile/UploadImgFile";
+import { AppState } from "../../store/types";
 
 interface IState {
     toggleDisplayPopUpModal: boolean;
 }
 
-interface IProps {}
+interface IProps {
+    userImg: string;
+}
 
-const uploadUserAndProjectImgWrapper = (WrappedComponent: any) =>
+const uploadUserAndProjectImgWrapper = (WrappedComponent: any) => {
     class uploadUserAndProjectImgContainer extends React.Component<
         IProps,
         IState
@@ -38,23 +42,41 @@ const uploadUserAndProjectImgWrapper = (WrappedComponent: any) =>
                 <main className="upload-user-and-project-img-wrapper">
                     <WrappedComponent
                         toggleDisplayPopUpModal={this.toggleDisplayPopUpModal}
+                        userImg={this.props.userImg}
                     />
                     <ModalContainerBackground
                         toggleDisplayPopUpModal={
                             this.state.toggleDisplayPopUpModal
                         }
                     >
-                        <ModalXLPopUp clickEvent={this.toggleDisplayPopUpModal}>
+                        <ModalUploadPopUp
+                            clickEvent={this.toggleDisplayPopUpModal}
+                        >
                             <UploadImgFile
+                                isPopUpModalShown={
+                                    this.state.toggleDisplayPopUpModal
+                                }
                                 toggleDisplayPopUpModal={
                                     this.toggleDisplayPopUpModal
                                 }
                             />
-                        </ModalXLPopUp>
+                        </ModalUploadPopUp>
                     </ModalContainerBackground>
                 </main>
             );
         }
+    }
+
+    const mapStateToProps = (state: AppState) => {
+        return {
+            userImg: state.userInfo.imgSrc
+        };
     };
+
+    return connect(
+        mapStateToProps,
+        null
+    )(uploadUserAndProjectImgContainer);
+};
 
 export default uploadUserAndProjectImgWrapper;

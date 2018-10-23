@@ -1,13 +1,21 @@
 import * as React from "react";
+import { connect } from "react-redux";
+import { bindActionCreators, Dispatch } from "redux";
 import DropZone from "react-dropzone";
 // @ts-ignore
-// having trouble with setting up types with it
+// having trouble with setting up types with ImgCrop lib
 import ImgCrop from "react-image-crop";
+import axios from "axios";
 
 import Button from "../../buttons/button";
+import LoaderAnimation from "../../loaderAnimations/loaderAnimation";
+import Success from "../success/success";
+import uploadImg from "../../../actions/uploadImg";
 
 interface IProps {
+    isPopUpModalShown: boolean;
     toggleDisplayPopUpModal: () => void;
+    uploadImg: (img: string) => {};
 }
 
 interface IState {
@@ -16,7 +24,10 @@ interface IState {
     isImgCropHidden: boolean;
     isButtonsHidden: boolean;
     isCanvasBlank: boolean;
-    originalImgAsBase64: string | null;
+    isFileBeingSentToSever: boolean;
+    isSuccesNotifyShown: boolean;
+    testingBackEndCall: boolean;
+    ImgAsBase64: string;
     fileExtension: string | null;
     dropCropContainerHeight: string;
     dropCropContainerWidth: string;
@@ -57,7 +68,10 @@ class UploadImgFile extends React.Component<IProps, IState> {
         isImgCropHidden: true,
         isButtonsHidden: true,
         isCanvasBlank: true,
-        originalImgAsBase64: null,
+        isFileBeingSentToSever: false,
+        isSuccesNotifyShown: false,
+        testingBackEndCall: true,
+        ImgAsBase64: "",
         fileExtension: null,
         dropCropContainerHeight: this.dropCropContainerDefault.height,
         dropCropContainerWidth: this.dropCropContainerDefault.width,
@@ -71,16 +85,17 @@ class UploadImgFile extends React.Component<IProps, IState> {
         this.imagePreviewCanvasRef = React.createRef();
     }
 
-    public base64StringtoFile = (base64String: string, filename: any) => {
-        var arr = base64String.split(","),
-            // @ts-ignore
-            mime = arr[0].match(/:(.*?);/)[1],
-            bstr = atob(arr[1]),
-            n = bstr.length,
-            u8arr = new Uint8Array(n);
-        while (n--) {
-            u8arr[n] = bstr.charCodeAt(n);
+    public base64StringtoFile = (base64String: string, filename: string) => {
+        const arr: string[] = base64String.split(",");
+        const mime = arr[0].match(/:(.*?);/)![1];
+        const bstr: string = atob(arr[1]);
+        let bstrLength: number = bstr.length;
+        const u8arr = new Uint8Array(bstrLength);
+
+        while (bstrLength--) {
+            u8arr[bstrLength] = bstr.charCodeAt(bstrLength);
         }
+
         return new File([u8arr], filename, { type: mime });
     };
 
@@ -96,7 +111,7 @@ class UploadImgFile extends React.Component<IProps, IState> {
         pixelCrop: crop
     ) => {
         const image: HTMLImageElement = new Image();
-        image.src = this.state.originalImgAsBase64 as string;
+        image.src = this.state.ImgAsBase64;
         image.onload = () => {
             const canvas = canvasRef;
             canvas.width = pixelCrop.width;
@@ -125,8 +140,11 @@ class UploadImgFile extends React.Component<IProps, IState> {
     public resetStateAndCanvasToDefault = (): void => {
         const canvasRef = this.imagePreviewCanvasRef
             .current as HTMLCanvasElement;
-        const ctx = canvasRef.getContext("2d") as CanvasRenderingContext2D;
-        ctx.clearRect(0, 0, canvasRef.width, canvasRef.height);
+
+        if (canvasRef !== null) {
+            const ctx = canvasRef.getContext("2d") as CanvasRenderingContext2D;
+            ctx.clearRect(0, 0, canvasRef.width, canvasRef.height);
+        }
 
         this.setState(() => {
             return {
@@ -135,7 +153,10 @@ class UploadImgFile extends React.Component<IProps, IState> {
                 isImgCropHidden: true,
                 isButtonsHidden: true,
                 isCanvasBlank: true,
-                originalImgAsBase64: null,
+                isFileBeingSentToSever: false,
+                isSuccesNotifyShown: false,
+                testingBackEndCall: true,
+                ImgAsBase64: "",
                 fileExtension: null,
                 dropCropContainerHeight: this.dropCropContainerDefault.height,
                 dropCropContainerWidth: this.dropCropContainerDefault.width,
@@ -184,6 +205,16 @@ class UploadImgFile extends React.Component<IProps, IState> {
         });
     };
 
+    public clearErrorMessage = () => {
+        if (this.state.errorMessage !== null) {
+            this.setState(() => {
+                return {
+                    errorMessage: null
+                };
+            });
+        }
+    };
+
     public handleRejectedFile(currentRejectedFile: Blob): void {
         let errorMessage: string =
             "Unaccepted File Type. Must be either JPEG, PNG or GIF.";
@@ -204,7 +235,7 @@ class UploadImgFile extends React.Component<IProps, IState> {
                 "load",
                 (): void => {
                     this.setState(() => {
-                        return { originalImgAsBase64: Reader.result as string };
+                        return { ImgAsBase64: Reader.result as string };
                     });
 
                     resolve();
@@ -236,7 +267,7 @@ class UploadImgFile extends React.Component<IProps, IState> {
                 resolve(true);
             };
 
-            Img.src = this.state.originalImgAsBase64 as string;
+            Img.src = this.state.ImgAsBase64;
         });
     };
 
@@ -268,12 +299,14 @@ class UploadImgFile extends React.Component<IProps, IState> {
             return {
                 isImgCropHidden: false,
                 fileExtension: this.extractImageFileExtensionFromBase64(this
-                    .state.originalImgAsBase64 as string)
+                    .state.ImgAsBase64 as string)
             };
         });
     };
 
     public handleOnCropChange = (crop: crop): void => {
+        this.clearErrorMessage();
+
         this.setState(() => {
             return {
                 crop
@@ -282,7 +315,11 @@ class UploadImgFile extends React.Component<IProps, IState> {
     };
 
     // @ts-ignore
+    // need to ignore becasue the first argument is never used
+    // and it will throw an error if a value is not read or console.log()
     public handleOnCropComplete = (crop: crop, pixelCrop: crop): void => {
+        this.clearErrorMessage();
+
         const canvasRef = this.imagePreviewCanvasRef
             .current as HTMLCanvasElement;
 
@@ -304,29 +341,93 @@ class UploadImgFile extends React.Component<IProps, IState> {
                 imgData64,
                 myfileName
             );
-            console.log(myNewCroppedFile);
-            this.resetStateAndCanvasToDefault();
+
+            this.uploadImageFileToServer(myNewCroppedFile);
             return;
         }
 
         this.setState(() => {
             return {
                 errorMessage:
-                    this.state.originalImgAsBase64 === null
+                    this.state.ImgAsBase64 === null
                         ? "Please Drag & drop a file or browse for images."
                         : "You still need to crop the image."
             };
         });
     };
 
-    public render(): JSX.Element {
-        const dropCropContainerDemensions = {
+    public uploadImageFileToServer(imgFile: Blob): void {
+        (async () => {
+            const img = await this.setStateImgAsBase64(imgFile[0]);
+            console.log(img);
+            this.setState(() => {
+                return {
+                    isFileBeingSentToSever: true
+                };
+            });
+
+            axios
+                .get("https://reqres.in/api/users?delay=3")
+                .then(() => {
+                    this.props.uploadImg("asdas");
+                    this.notifyUserOfSuccess();
+                })
+                .catch(() => {
+                    this.setState(() => {
+                        return {
+                            isFileBeingSentToSever: false,
+                            errorMessage:
+                                "Sorry, something went wrong. Please try again."
+                        };
+                    });
+                });
+        })();
+    }
+
+    public notifyUserOfSuccess = (): void => {
+        this.setState(() => {
+            return {
+                isFileBeingSentToSever: false,
+                isSuccesNotifyShown: true
+            };
+        });
+
+        const timer: number = window.setTimeout(() => {
+            this.props.toggleDisplayPopUpModal();
+            this.resetStateAndCanvasToDefault();
+
+            clearInterval(timer);
+        }, 1500);
+    };
+
+    public componentWillReceiveProps(props: IProps): void {
+        if (!props.isPopUpModalShown) {
+            this.resetStateAndCanvasToDefault();
+        }
+    }
+
+    public renderBasedOffState = (): JSX.Element => {
+        const dropCropContainerDemensions: { height: string; width: string } = {
             height: this.state.dropCropContainerHeight,
             width: this.state.dropCropContainerWidth
         };
-        return (
-            <React.Fragment>
-                <div className="upload-img-container">
+
+        if (this.state.isFileBeingSentToSever) {
+            return (
+                <LoaderAnimation
+                    displayLoader={this.state.isFileBeingSentToSever}
+                />
+            );
+        } else if (this.state.isSuccesNotifyShown) {
+            return (
+                <Success
+                    isLoginNotiShown={true}
+                    message={"User image uploaded!"}
+                />
+            );
+        } else {
+            return (
+                <React.Fragment>
                     <div className="upload-img-error-message-container">
                         <p className="upload-img-error-message">
                             {this.state.errorMessage}
@@ -382,7 +483,7 @@ class UploadImgFile extends React.Component<IProps, IState> {
                                         ? "img-crop-container is-hidden"
                                         : "img-crop-container"
                                 }
-                                src={this.state.originalImgAsBase64}
+                                src={this.state.ImgAsBase64}
                                 crop={this.state.crop}
                                 onChange={this.handleOnCropChange}
                                 onComplete={this.handleOnCropComplete}
@@ -409,10 +510,27 @@ class UploadImgFile extends React.Component<IProps, IState> {
                             />
                         </div>
                     </div>
+                </React.Fragment>
+            );
+        }
+    };
+
+    public render(): JSX.Element {
+        return (
+            <React.Fragment>
+                <div className="upload-img-container">
+                    {this.renderBasedOffState()}
                 </div>
             </React.Fragment>
         );
     }
 }
 
-export default UploadImgFile;
+const mapDispatchToProps = (dispatch: Dispatch) => {
+    return bindActionCreators({ uploadImg }, dispatch);
+};
+
+export default connect(
+    null,
+    mapDispatchToProps
+)(UploadImgFile);

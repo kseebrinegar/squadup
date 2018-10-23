@@ -8,6 +8,7 @@ import {
 import { AppState } from "./types";
 import thunk from "redux-thunk";
 import auth from "../reducers/auth";
+import userInfo from "../reducers/userInfo";
 
 const composeEnhancers =
     // tslint:disable-next-line:no-any
@@ -16,7 +17,8 @@ const composeEnhancers =
 const setStore = () => {
     const store: Store<AppState> = createStore(
         combineReducers({
-            auth
+            auth,
+            userInfo
         }),
         composeEnhancers(applyMiddleware(thunk))
     );
