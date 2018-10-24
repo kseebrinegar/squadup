@@ -6,7 +6,7 @@ import axios from "axios";
 import auth from "../../../actions/auth";
 
 interface IState {
-    [propName: string]: boolean | [string, boolean];
+    [propName: string]: boolean | [string, boolean] | string | [string, string];
 }
 
 interface IProps {
@@ -22,16 +22,36 @@ interface IProps {
 // @ts-ignore
 const authFormContainer = WrappedContainer => {
     class AuthFormContainer extends React.Component<IProps, IState> {
+        private originalStateLength = 5;
+
         public state: IState = {
             isLoaderShown: false,
             isFormShown: true,
             isLoginNotiShown: false,
-            clearInputsOnChildComponent: false
+            clearInputsOnChildComponent: false,
+            serverErrorMessage: ""
         };
 
         constructor(props: IProps) {
             super(props);
         }
+
+        public resetServerErrorMessage = (): void => {
+            this.setState(() => {
+                return { serverErrorMessage: "" };
+            });
+        };
+
+        public serverErrorMessage = (
+            serverErrorMessage: string | [string, string]
+        ): void => {
+            this.setState(() => {
+                return {
+                    isLoaderShown: false,
+                    serverErrorMessage
+                };
+            });
+        };
 
         public changeInputState = (
             propName: string,
@@ -39,7 +59,8 @@ const authFormContainer = WrappedContainer => {
         ): void => {
             this.setState(() => {
                 return {
-                    [propName]: inputValueAndIsValid
+                    [propName]: inputValueAndIsValid,
+                    serverErrorMessage: ""
                 };
             });
         };
@@ -49,60 +70,115 @@ const authFormContainer = WrappedContainer => {
             attendedStateLength: number,
             functionNameForFormType: string
         ): void => {
+            this.resetServerErrorMessage();
             e.preventDefault();
-            let isAllInputValuesTrue: boolean = true;
             const currentStateLength = Object.keys(this.state).length;
-
-            for (let prop in this.state) {
-                if (
-                    currentStateLength !== attendedStateLength ||
-                    this.state[prop][1] === false
-                ) {
-                    isAllInputValuesTrue = false;
-                    break;
-                }
-            }
+            const isAllInputValuesTrue = this.checkInputValuesForTrue(
+                attendedStateLength,
+                currentStateLength
+            );
 
             if (isAllInputValuesTrue) {
-                let inputValues: string[] = [];
-                const originalStateLength = 4;
-
-                for (let i = originalStateLength; i < currentStateLength; i++) {
-                    let index = this.state[Object.keys(this.state)[i]];
-                    inputValues.push(index[0]);
-                }
+                // const inputValues = this.getInputValues(currentStateLength);
 
                 this.setState(() => {
                     return { isLoaderShown: true };
                 });
 
-                switch (functionNameForFormType) {
-                    case "logIn":
-                        this.props.logIn();
-                    // this.props.logIn(inputValues)
-                    case "signUp":
-                        this.props.signUp();
-                    // this.props.signUp(inputValues)
-                    case "sendEmail":
-                        this.sendEmail();
-                    // this.sendEmail(inputValues)
-                    default:
-                        return;
-                }
+                this.chooseRouteBasedOffOfFormType(functionNameForFormType);
             }
         };
 
-        public sendEmail() {
-            const email: string = "sydney@fife";
-            const password: string = "pistol";
+        public checkInputValuesForTrue = (
+            attendedStateLength: number,
+            currentStateLength: number
+        ): boolean => {
+            for (let prop in this.state) {
+                if (
+                    currentStateLength !== attendedStateLength ||
+                    this.state[prop][1] === false
+                ) {
+                    return false;
+                }
+            }
+
+            return true;
+        };
+
+        public getInputValues = (currentStateLength: number): string[] => {
+            let inputValues: string[] = [];
+
+            for (
+                let i = this.originalStateLength;
+                i < currentStateLength;
+                i++
+            ) {
+                let index = this.state[Object.keys(this.state)[i]];
+                inputValues.push(index[0]);
+            }
+
+            return inputValues;
+        };
+
+        public chooseRouteBasedOffOfFormType(
+            functionNameForFormType: string
+        ): void {
+            switch (functionNameForFormType) {
+                case "logIn":
+                    this.logIn();
+                    break;
+                // this.logIn(inputValues)
+                case "signUp":
+                    this.signUp();
+                    break;
+                // this.signUp(inputValues)
+                case "sendEmail":
+                    this.sendEmail();
+                    // this.sendEmail(inputValues)
+                    break;
+                default:
+                    return;
+            }
+        }
+
+        public logIn = (): void => {
             axios
-                .post("https://reqres.in/api/register", {
-                    email,
-                    password
+                .post("https://reqres.in/api/login", {
+                    email: "peter@klaven",
+                    password: "asdasd"
                 })
                 .then(
                     () => {
-                        this.timerForLoader();
+                        this.props.logIn();
+                    },
+                    e => {
+                        this.serverErrorMessage(e.response.data.error);
+                    }
+                );
+        };
+
+        public signUp = (): void => {
+            axios
+                .post("https://reqres.in/api/login", {
+                    email: "peter@klaven"
+                })
+                .then(
+                    () => {
+                        this.props.signUp();
+                    },
+                    e => {
+                        this.serverErrorMessage(e.response.data.error);
+                    }
+                );
+        };
+
+        public sendEmail(): void {
+            axios
+                .post("https://reqres.in/api/register", {
+                    email: "sydney@fife"
+                })
+                .then(
+                    () => {
                         this.setState(() => {
                             return {
                                 isLoginNotiShown: true,
@@ -111,23 +187,27 @@ const authFormContainer = WrappedContainer => {
                                 isFormShown: false
                             };
                         });
+                        this.timerForLoader();
                     },
-                    () => {}
+                    e => {
+                        this.serverErrorMessage(e.response.data.error);
+                    }
                 );
         }
 
         public timerForLoader = (): void => {
             const timer1: number = window.setTimeout(() => {
                 const currentStateLength = Object.keys(this.state).length;
-                const originalStateLength = 4;
 
-                for (let i = originalStateLength; i < currentStateLength; i++) {
+                for (
+                    let i = this.originalStateLength;
+                    i < currentStateLength;
+                    i++
+                ) {
                     const keyNames = Object.keys(this.state);
 
                     this.setState(() => {
-                        return {
-                            [keyNames[i]]: ["", false]
-                        };
+                        return { [keyNames[i]]: ["", false] };
                     });
                 }
 
@@ -136,7 +216,8 @@ const authFormContainer = WrappedContainer => {
                         isLoaderShown: false,
                         isFormShown: true,
                         isLoginNotiShown: false,
-                        clearInputsOnChildComponent: false
+                        clearInputsOnChildComponent: false,
+                        serverErrorMessage: ""
                     };
                 });
 
@@ -152,7 +233,7 @@ const authFormContainer = WrappedContainer => {
             logIn: Function;
         }) {
             if (
-                this.props.isUserLoggedIn != nextProps.isUserLoggedIn &&
+                this.props.isUserLoggedIn !== nextProps.isUserLoggedIn &&
                 nextProps.isUserLoggedIn
             ) {
                 this.timerForLoader();

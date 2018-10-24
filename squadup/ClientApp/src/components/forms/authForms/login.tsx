@@ -9,8 +9,9 @@ interface SFCloginProps {
     clearInputsOnChildComponent: boolean;
     isFormShown: boolean;
     isLoaderShown: boolean;
-    isLoginNotiShown: boolean;
+    isNotifyShown: boolean;
     inputValueAndIsValid: [string, boolean];
+    serverErrorMessage: string;
     changeInputState: (
         propName: string,
         inputValueAndIsValid: [string, boolean]
@@ -29,13 +30,14 @@ const login: React.SFC<SFCloginProps> = (props): JSX.Element => {
     return (
         <section className="signup-and-login-and-forgotpassword login">
             <Success
-                isLoginNotiShown={props.isLoginNotiShown}
+                isNotifyShown={props.isNotifyShown}
                 message={"You're now logged in."}
             />
             <form className={`form ${props.isFormShown ? "" : "is-hidden"}`}>
                 <h3>LOG IN</h3>
                 <LoaderAnimation displayLoader={props.isLoaderShown} />
                 <Input
+                    serverErrorMessage={props.serverErrorMessage}
                     returnInputValueAndValidation={(
                         inputOneValueAndIsValid: [string, boolean]
                     ) => {
@@ -76,7 +78,7 @@ const login: React.SFC<SFCloginProps> = (props): JSX.Element => {
                         clickEvent={(
                             e: React.MouseEvent<HTMLButtonElement>
                         ): void => {
-                            props.onSubmit(e, 6, "logIn");
+                            props.onSubmit(e, 7, "logIn");
                         }}
                         type={"button"}
                         text={"SIGN IN"}

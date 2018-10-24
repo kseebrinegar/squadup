@@ -22,12 +22,11 @@ interface IState {
     errorMessage: string | null;
     isDropZoneHidden: boolean;
     isImgCropHidden: boolean;
-    isButtonsHidden: boolean;
     isCanvasBlank: boolean;
     isFileBeingSentToSever: boolean;
-    isSuccesNotifyShown: boolean;
+    isNotifyShown: boolean;
     testingBackEndCall: boolean;
-    ImgAsBase64: string;
+    imgAsBase64: string;
     fileExtension: string | null;
     dropCropContainerHeight: string;
     dropCropContainerWidth: string;
@@ -66,12 +65,11 @@ class UploadImgFile extends React.Component<IProps, IState> {
         errorMessage: null,
         isDropZoneHidden: false,
         isImgCropHidden: true,
-        isButtonsHidden: true,
         isCanvasBlank: true,
         isFileBeingSentToSever: false,
-        isSuccesNotifyShown: false,
+        isNotifyShown: false,
         testingBackEndCall: true,
-        ImgAsBase64: "",
+        imgAsBase64: "",
         fileExtension: null,
         dropCropContainerHeight: this.dropCropContainerDefault.height,
         dropCropContainerWidth: this.dropCropContainerDefault.width,
@@ -87,7 +85,7 @@ class UploadImgFile extends React.Component<IProps, IState> {
 
     public base64StringtoFile = (base64String: string, filename: string) => {
         const arr: string[] = base64String.split(",");
-        const mime = arr[0].match(/:(.*?);/)![1];
+        const mime: string = arr[0].match(/:(.*?);/)![1];
         const bstr: string = atob(arr[1]);
         let bstrLength: number = bstr.length;
         const u8arr = new Uint8Array(bstrLength);
@@ -111,7 +109,7 @@ class UploadImgFile extends React.Component<IProps, IState> {
         pixelCrop: crop
     ) => {
         const image: HTMLImageElement = new Image();
-        image.src = this.state.ImgAsBase64;
+        image.src = this.state.imgAsBase64;
         image.onload = () => {
             const canvas = canvasRef;
             canvas.width = pixelCrop.width;
@@ -154,15 +152,13 @@ class UploadImgFile extends React.Component<IProps, IState> {
                 isButtonsHidden: true,
                 isCanvasBlank: true,
                 isFileBeingSentToSever: false,
-                isSuccesNotifyShown: false,
+                isNotifyShown: false,
                 testingBackEndCall: true,
-                ImgAsBase64: "",
+                imgAsBase64: "",
                 fileExtension: null,
                 dropCropContainerHeight: this.dropCropContainerDefault.height,
                 dropCropContainerWidth: this.dropCropContainerDefault.width,
-                crop: {
-                    aspect: 1 / 1
-                }
+                crop: { aspect: 1 / 1 }
             };
         });
     };
@@ -198,7 +194,16 @@ class UploadImgFile extends React.Component<IProps, IState> {
                 }
 
                 if (file && file.length > 0) {
-                    await this.setStateImgAsBase64(file[0]);
+                    const imgAsBase64 = (await this.getImgAsBase64(
+                        file[0]
+                    )) as string;
+
+                    this.setState(() => {
+                        return {
+                            imgAsBase64
+                        };
+                    });
+
                     resolve(await this.checkForValidImgDimensions());
                 }
             })();
@@ -227,18 +232,14 @@ class UploadImgFile extends React.Component<IProps, IState> {
         });
     }
 
-    public setStateImgAsBase64 = (imgAsBlob: Blob): Promise<{}> => {
+    public getImgAsBase64 = (imgAsBlob: Blob): Promise<string | {}> => {
         return new Promise((resolve: resolve) => {
             const Reader: FileReader = new FileReader();
 
             Reader.addEventListener(
                 "load",
                 (): void => {
-                    this.setState(() => {
-                        return { ImgAsBase64: Reader.result as string };
-                    });
-
-                    resolve();
+                    resolve(Reader.result as string);
                 }
             );
 
@@ -267,7 +268,7 @@ class UploadImgFile extends React.Component<IProps, IState> {
                 resolve(true);
             };
 
-            Img.src = this.state.ImgAsBase64;
+            Img.src = this.state.imgAsBase64;
         });
     };
 
@@ -299,7 +300,7 @@ class UploadImgFile extends React.Component<IProps, IState> {
             return {
                 isImgCropHidden: false,
                 fileExtension: this.extractImageFileExtensionFromBase64(this
-                    .state.ImgAsBase64 as string)
+                    .state.imgAsBase64 as string)
             };
         });
     };
@@ -315,7 +316,7 @@ class UploadImgFile extends React.Component<IProps, IState> {
     };
 
     // @ts-ignore
-    // need to ignore becasue the first argument is never used
+    // need to ignore becasue the first argument (crop) is never used
     // and it will throw an error if a value is not read or console.log()
     public handleOnCropComplete = (crop: crop, pixelCrop: crop): void => {
         this.clearErrorMessage();
@@ -334,7 +335,6 @@ class UploadImgFile extends React.Component<IProps, IState> {
             const imgData64: string = canvasRef.toDataURL(
                 "image/" + fileExtension
             );
-
             const myfileName = "user-image." + fileExtension;
 
             const myNewCroppedFile: Blob = this.base64StringtoFile(
@@ -349,7 +349,7 @@ class UploadImgFile extends React.Component<IProps, IState> {
         this.setState(() => {
             return {
                 errorMessage:
-                    this.state.ImgAsBase64 === null
+                    this.state.imgAsBase64 === null
                         ? "Please Drag & drop a file or browse for images."
                         : "You still need to crop the image."
             };
@@ -358,8 +358,8 @@ class UploadImgFile extends React.Component<IProps, IState> {
 
     public uploadImageFileToServer(imgFile: Blob): void {
         (async () => {
-            const img = await this.setStateImgAsBase64(imgFile[0]);
-            console.log(img);
+            const imgAsBase64 = (await this.getImgAsBase64(imgFile)) as string;
+
             this.setState(() => {
                 return {
                     isFileBeingSentToSever: true
@@ -369,7 +369,7 @@ class UploadImgFile extends React.Component<IProps, IState> {
             axios
                 .get("https://reqres.in/api/users?delay=3")
                 .then(() => {
-                    this.props.uploadImg("asdas");
+                    this.props.uploadImg(imgAsBase64);
                     this.notifyUserOfSuccess();
                 })
                 .catch(() => {
@@ -386,10 +386,7 @@ class UploadImgFile extends React.Component<IProps, IState> {
 
     public notifyUserOfSuccess = (): void => {
         this.setState(() => {
-            return {
-                isFileBeingSentToSever: false,
-                isSuccesNotifyShown: true
-            };
+            return { isFileBeingSentToSever: false, isNotifyShown: true };
         });
 
         const timer: number = window.setTimeout(() => {
@@ -406,120 +403,115 @@ class UploadImgFile extends React.Component<IProps, IState> {
         }
     }
 
-    public renderBasedOffState = (): JSX.Element => {
+    public render(): JSX.Element {
         const dropCropContainerDemensions: { height: string; width: string } = {
             height: this.state.dropCropContainerHeight,
             width: this.state.dropCropContainerWidth
         };
 
-        if (this.state.isFileBeingSentToSever) {
-            return (
-                <LoaderAnimation
-                    displayLoader={this.state.isFileBeingSentToSever}
-                />
-            );
-        } else if (this.state.isSuccesNotifyShown) {
-            return (
-                <Success
-                    isLoginNotiShown={true}
-                    message={"User image uploaded!"}
-                />
-            );
-        } else {
-            return (
-                <React.Fragment>
-                    <div className="upload-img-error-message-container">
-                        <p className="upload-img-error-message">
-                            {this.state.errorMessage}
-                        </p>
-                    </div>
-                    <div className="canvas-container">
-                        <div className="icon-container crop-icon">
-                            <p className="fas fa-fw fa-crop-alt icon-green-xlg" />
-                        </div>
-                        <p className="canvas-para">Crop preview</p>
-
-                        <canvas
-                            className="canvas"
-                            ref={this.imagePreviewCanvasRef}
-                        />
-                    </div>
-                    <div className="drop-crop-and-sucess-container-outer">
-                        <div
-                            style={dropCropContainerDemensions}
-                            className="drop-crop-and-sucess-container-inner"
-                        >
-                            <DropZone
-                                onDrop={this.handleOnDrop}
-                                maxSize={this.imgRequirements.maxSizeInBytes}
-                                multiple={
-                                    this.imgRequirements.isMorethenOneImgAllowed
-                                }
-                                accept={this.imgRequirements.typeOfImgsAllowed}
-                                className={
-                                    this.state.isDropZoneHidden
-                                        ? "drop-zone-container is-hidden"
-                                        : "drop-zone-container"
-                                }
-                            >
-                                <div className="icon-container upload-icon">
-                                    <p className="fas fa-fw fa-cloud-upload-alt icon-green-xlg" />
-                                </div>
-                                <div className="drop-zone-para">
-                                    <p>Drag & drop file</p>
-                                    <p>or</p>
-                                    <p className="browse">Browse</p>
-                                </div>
-                                <div className="drop-zone-requirements">
-                                    <p>JPEG, PNG, GIF</p>
-                                    <p>5mb file limit</p>
-                                    <p>Min size 200x200 pixels</p>
-                                </div>
-                            </DropZone>
-
-                            <ImgCrop
-                                className={
-                                    this.state.isImgCropHidden
-                                        ? "img-crop-container is-hidden"
-                                        : "img-crop-container"
-                                }
-                                src={this.state.ImgAsBase64}
-                                crop={this.state.crop}
-                                onChange={this.handleOnCropChange}
-                                onComplete={this.handleOnCropComplete}
-                            />
-                        </div>
-                        <div
-                            className={
-                                this.state.isButtonsHidden
-                                    ? "modal-XL-popup-buttons-container "
-                                    : "modal-XL-popup-buttons-container"
-                            }
-                        >
-                            <Button
-                                clickEvent={this.submit}
-                                text={"Submit"}
-                                type={"submit"}
-                                classes={"btn-primary btn-sm"}
-                            />
-                            <Button
-                                clickEvent={this.resetStateAndCanvasToDefault}
-                                text={"Reset"}
-                                type={"button"}
-                                classes={"btn-red btn-sm"}
-                            />
-                        </div>
-                    </div>
-                </React.Fragment>
-            );
-        }
-    };
-
-    public render(): JSX.Element {
         return (
             <React.Fragment>
                 <div className="upload-img-container">
-                    {this.renderBasedOffState()}
+                    <LoaderAnimation
+                        displayLoader={this.state.isFileBeingSentToSever}
+                    />
+                    {this.state.isNotifyShown === true && (
+                        <Success
+                            isNotifyShown={true}
+                            message={"User image uploaded!"}
+                        />
+                    )}
+                    <div
+                        className={
+                            this.state.isNotifyShown === true
+                                ? "is-hidden"
+                                : "is-shown"
+                        }
+                    >
+                        <div className="upload-img-error-message-container">
+                            <p className="upload-img-error-message">
+                                {this.state.errorMessage}
+                            </p>
+                        </div>
+                        <div className="canvas-container">
+                            <div className="icon-container crop-icon">
+                                <p className="fas fa-fw fa-crop-alt icon-green-xlg" />
+                            </div>
+                            <p className="canvas-para">Crop preview</p>
+
+                            <canvas
+                                className="canvas"
+                                ref={this.imagePreviewCanvasRef}
+                            />
+                        </div>
+                        <div className="drop-crop-and-sucess-container-outer">
+                            <div
+                                style={dropCropContainerDemensions}
+                                className="drop-crop-and-sucess-container-inner"
+                            >
+                                <DropZone
+                                    onDrop={this.handleOnDrop}
+                                    maxSize={
+                                        this.imgRequirements.maxSizeInBytes
+                                    }
+                                    multiple={
+                                        this.imgRequirements
+                                            .isMorethenOneImgAllowed
+                                    }
+                                    accept={
+                                        this.imgRequirements.typeOfImgsAllowed
+                                    }
+                                    className={
+                                        this.state.isDropZoneHidden
+                                            ? "drop-zone-container is-hidden"
+                                            : "drop-zone-container"
+                                    }
+                                >
+                                    <div className="icon-container upload-icon">
+                                        <p className="fas fa-fw fa-cloud-upload-alt icon-green-xlg" />
+                                    </div>
+                                    <div className="drop-zone-para">
+                                        <p>Drag & drop file</p>
+                                        <p>or</p>
+                                        <p className="browse">Browse</p>
+                                    </div>
+                                    <div className="drop-zone-requirements">
+                                        <p>JPEG, PNG, GIF</p>
+                                        <p>5mb file limit</p>
+                                        <p>Min size 200x200 pixels</p>
+                                    </div>
+                                </DropZone>
+
+                                <ImgCrop
+                                    className={
+                                        this.state.isImgCropHidden
+                                            ? "img-crop-container is-hidden"
+                                            : "img-crop-container"
+                                    }
+                                    src={this.state.imgAsBase64}
+                                    crop={this.state.crop}
+                                    onChange={this.handleOnCropChange}
+                                    onComplete={this.handleOnCropComplete}
+                                />
+                            </div>
+                            <div className="modal-upload-popup-buttons-container">
+                                <Button
+                                    clickEvent={this.submit}
+                                    text={"Submit"}
+                                    type={"submit"}
+                                    classes={"btn-primary btn-sm"}
+                                />
+                                <Button
+                                    clickEvent={
+                                        this.resetStateAndCanvasToDefault
+                                    }
+                                    text={"Reset"}
+                                    type={"button"}
+                                    classes={"btn-red btn-sm"}
+                                />
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </React.Fragment>
         );

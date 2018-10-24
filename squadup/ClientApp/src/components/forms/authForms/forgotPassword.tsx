@@ -9,8 +9,9 @@ interface SFCForgotPasswordProps {
     clearInputsOnChildComponent: boolean;
     isFormShown: boolean;
     isLoaderShown: boolean;
-    isLoginNotiShown: boolean;
+    isNotifyShown: boolean;
     inputValueAndIsValid: [string, boolean];
+    serverErrorMessage: string;
     changeInputState: (
         propName: string,
         inputValueAndIsValid: [string, boolean]
@@ -31,7 +32,7 @@ const forgotpassword: React.SFC<SFCForgotPasswordProps> = (
     return (
         <section className="signup-and-login-and-forgotpassword forgotpassword">
             <Success
-                isLoginNotiShown={props.isLoginNotiShown}
+                isNotifyShown={props.isNotifyShown}
                 message={"Check Email for link."}
             />
             <form className={`form ${props.isFormShown ? "" : "is-hidden"}`}>
@@ -54,13 +55,14 @@ const forgotpassword: React.SFC<SFCForgotPasswordProps> = (
                     labelText={"ENTER YOUR EMAIL"}
                     maxLength={320}
                     type={"text"}
+                    serverErrorMessage={props.serverErrorMessage}
                 />
                 <div className="signup-and-login-and-forgotpassword-call-to-actions">
                     <Button
                         clickEvent={(
                             e: React.MouseEvent<HTMLButtonElement>
                         ) => {
-                            props.onSubmit(e, 5, "sendEmail");
+                            props.onSubmit(e, 6, "sendEmail");
                         }}
                         text={"EMAIL ME"}
                         type={"button"}

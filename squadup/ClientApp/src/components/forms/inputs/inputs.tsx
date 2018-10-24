@@ -18,6 +18,7 @@ interface IProps {
     labelText: string;
     maxLength: number;
     type: string;
+    serverErrorMessage?: string;
 }
 class Input extends React.Component<IProps, IState> {
     private errorMessagesOnlyContain: string =
@@ -177,17 +178,7 @@ class Input extends React.Component<IProps, IState> {
         }
     };
 
-    public componentWillReceiveProps(nextProps: {
-        returnInputValueAndValidation: (
-            inputOneValueAndIsValid: [string, boolean]
-        ) => void;
-        clearInputsOnChildComponent: boolean;
-        inputValueAndIsValid: [string, boolean];
-        inputType: string;
-        labelText: string;
-        maxLength: number;
-        type: string;
-    }): void {
+    public componentWillReceiveProps(nextProps: IProps): void {
         if (nextProps.clearInputsOnChildComponent === true) {
             this.setState(() => {
                 return {
@@ -196,6 +187,15 @@ class Input extends React.Component<IProps, IState> {
                     inputValue: "",
                     toggleInputLabel: false,
                     toggleInputBorderEffect: false
+                };
+            });
+        } else if (
+            nextProps.serverErrorMessage !== undefined &&
+            nextProps.serverErrorMessage.length > 1
+        ) {
+            this.setState(() => {
+                return {
+                    inputErrorMessage: nextProps.serverErrorMessage as string
                 };
             });
         }

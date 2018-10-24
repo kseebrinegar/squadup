@@ -7,7 +7,7 @@ interface SFCModalXLPopUp {
 }
 const modalXLPopUp: React.SFC<SFCModalXLPopUp> = (props): JSX.Element => {
     return (
-        <div className="modal-xl-popup">
+        <div className="modal-upload-popup">
             <ToggleDisplayPopUpModal
                 toggleDisplayPopUpModal={props.clickEvent}
             />

@@ -9,8 +9,9 @@ interface SFCSignUpProps {
     clearInputsOnChildComponent: boolean;
     isFormShown: boolean;
     isLoaderShown: boolean;
-    isLoginNotiShown: boolean;
+    isNotifyShown: boolean;
     inputValueAndIsValid: [string, boolean];
+    serverErrorMessage: string | [string, string];
     changeInputState: (
         propName: string,
         inputValueAndIsValid: [string, boolean]
@@ -26,10 +27,42 @@ interface SFCSignUpProps {
 }
 
 const signup: React.SFC<SFCSignUpProps> = (props): JSX.Element => {
+    const { serverErrorMessage } = props;
+    const errorMessages: string[] = [
+        "Sorry, something went wrong. Please try again",
+        "Username is already in use.",
+        "Email is already in use."
+    ];
+    const serverErrorFor: { input1: string; input3: string } = {
+        input1: "",
+        input3: ""
+    };
+
+    const determineWhatInputGetsErrorMessage = () => {
+        if (
+            serverErrorMessage === errorMessages[0] ||
+            serverErrorMessage === errorMessages[1]
+        ) {
+            serverErrorFor.input1 = serverErrorMessage;
+        } else if (serverErrorMessage === errorMessages[2]) {
+            serverErrorFor.input3 = serverErrorMessage;
+        } else if (
+            serverErrorMessage[0] === errorMessages[1] &&
+            serverErrorMessage[1] === errorMessages[2]
+        ) {
+            serverErrorFor.input1 = serverErrorMessage[0];
+            serverErrorFor.input3 = serverErrorMessage[1];
+        }
+    };
+
+    if (serverErrorMessage) {
+        determineWhatInputGetsErrorMessage();
+    }
+
     return (
         <section className="signup-and-login-and-forgotpassword signup">
             <Success
-                isLoginNotiShown={props.isLoginNotiShown}
+                isNotifyShown={props.isNotifyShown}
                 message={"You created an account."}
             />
             <form className={`form ${props.isFormShown ? "" : "is-hidden"}`}>
@@ -52,6 +85,7 @@ const signup: React.SFC<SFCSignUpProps> = (props): JSX.Element => {
                     labelText={"CHOOSE A USERNAME"}
                     maxLength={20}
                     type={"text"}
+                    serverErrorMessage={serverErrorFor.input1}
                 />
                 <Input
                     returnInputValueAndValidation={(
@@ -88,13 +122,14 @@ const signup: React.SFC<SFCSignUpProps> = (props): JSX.Element => {
                     labelText={"ENTER YOUR EMAIL"}
                     maxLength={320}
                     type={"text"}
+                    serverErrorMessage={serverErrorFor.input3}
                 />
                 <div className="signup-and-login-and-forgotpassword-call-to-actions">
                     <Button
                         clickEvent={(
                             e: React.MouseEvent<HTMLButtonElement>
                         ) => {
-                            props.onSubmit(e, 7, "signUp");
+                            props.onSubmit(e, 8, "signUp");
                         }}
                         text={"SIGN UP"}
                         type={"button"}

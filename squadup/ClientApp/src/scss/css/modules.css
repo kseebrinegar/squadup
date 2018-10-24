@@ -652,7 +652,7 @@
 
 .modal-big-popup,
 .modal-small-popup,
-.modal-xl-popup {
+.modal-upload-popup {
   position: relative;
   background: white;
   border-radius: 3px;
@@ -663,7 +663,7 @@
   transform: translate(-50%, -50%); }
   .modal-big-popup .close-icon,
   .modal-small-popup .close-icon,
-  .modal-xl-popup .close-icon {
+  .modal-upload-popup .close-icon {
     position: absolute;
     right: 1rem;
     top: 1rem; }
@@ -781,15 +781,15 @@
       width: 925px;
       background-size: 230px; } }
 
-.modal-xl-popup {
+.modal-upload-popup {
   width: 550px;
   height: 550px; }
   @media (max-width: 768px) {
-    .modal-xl-popup {
+    .modal-upload-popup {
       height: 350px;
       width: 350px; } }
   @media (min-width: 1500px) {
-    .modal-xl-popup {
+    .modal-upload-popup {
       height: 600px;
       width: 600px; } }
 
@@ -1242,7 +1242,6 @@ div.spinner div.bar12 {
   width: 100%;
   height: 100%;
   cursor: pointer;
-  border: 2px dashed #666666;
   border-radius: 3px;
   display: none; }
 
@@ -1449,7 +1448,7 @@ div.spinner div.bar12 {
   .upload-img-error-message-container .upload-img-error-message {
     color: #de101d; }
 
-.modal-XL-popup-buttons-container {
+.modal-upload-popup-buttons-container {
   position: absolute;
   bottom: 5.5rem;
   left: 10rem;
@@ -1457,32 +1456,32 @@ div.spinner div.bar12 {
   width: 35rem;
   justify-content: space-between; }
   @media (max-width: 768px) {
-    .modal-XL-popup-buttons-container {
+    .modal-upload-popup-buttons-container {
       margin-top: 0;
       top: -3.9rem;
       left: 0rem;
       width: 14.4rem;
       bottom: auto; } }
   @media (min-width: 1500px) {
-    .modal-XL-popup-buttons-container {
+    .modal-upload-popup-buttons-container {
       bottom: 4.5rem;
       width: 40rem; } }
-  .modal-XL-popup-buttons-container button:last-child {
+  .modal-upload-popup-buttons-container button:last-child {
     width: 7.1rem; }
     @media (max-width: 768px) {
-      .modal-XL-popup-buttons-container button:last-child {
+      .modal-upload-popup-buttons-container button:last-child {
         width: 6.5rem; } }
     @media (max-width: 480px) {
-      .modal-XL-popup-buttons-container button:last-child {
+      .modal-upload-popup-buttons-container button:last-child {
         width: 5.4rem; } }
     @media (min-width: 1500px) {
-      .modal-XL-popup-buttons-container button:last-child {
+      .modal-upload-popup-buttons-container button:last-child {
         width: 7.7rem; } }
     @media (min-width: 1800px) {
-      .modal-XL-popup-buttons-container button:last-child {
+      .modal-upload-popup-buttons-container button:last-child {
         width: 9.3rem; } }
   @media (min-width: 1800px) {
-    .modal-XL-popup-buttons-container {
+    .modal-upload-popup-buttons-container {
       margin-top: 5rem; } }
 
 .ReactCrop {
