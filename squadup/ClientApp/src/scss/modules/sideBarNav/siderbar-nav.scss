@@ -1,6 +1,23 @@
 .sidebar-outer-container {
     position: fixed;
     z-index: 50;
+    margin-top: 7.3rem;
+
+    @include respond(mq-768) {
+        margin-top: 7.2rem;
+    }
+
+    @include respond(mq-480) {
+        margin: 6.7rem;
+    }
+
+    @include respond(mq-1500) {
+        margin: 8rem;
+    }
+
+    @include respond(mq-1800) {
+        margin: 9.1rem;
+    }
 }
 
 .sidebar-inner-container {

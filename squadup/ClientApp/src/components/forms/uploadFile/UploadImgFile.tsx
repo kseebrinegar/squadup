@@ -11,6 +11,7 @@ import Button from "../../buttons/button";
 import LoaderAnimation from "../../loaderAnimations/loaderAnimation";
 import Success from "../success/success";
 import uploadImg from "../../../actions/uploadImg";
+import Icon from "../../icons/icon";
 
 interface IProps {
     isPopUpModalShown: boolean;
@@ -409,6 +410,22 @@ class UploadImgFile extends React.Component<IProps, IState> {
             width: this.state.dropCropContainerWidth
         };
 
+        type IconData = {
+            containerClassName: string;
+            className: string;
+            colorAndSizeClassName: string;
+        };
+        const iconData1: IconData = {
+            containerClassName: "crop-icon",
+            className: "fa-crop-alt",
+            colorAndSizeClassName: "icon-green-xlg"
+        };
+        const iconData2: IconData = {
+            containerClassName: "upload-icon",
+            className: "fa-cloud-upload-alt",
+            colorAndSizeClassName: "icon-green-xlg"
+        };
+
         return (
             <React.Fragment>
                 <div className="upload-img-container">
@@ -434,9 +451,7 @@ class UploadImgFile extends React.Component<IProps, IState> {
                             </p>
                         </div>
                         <div className="canvas-container">
-                            <div className="icon-container crop-icon">
-                                <p className="fas fa-fw fa-crop-alt icon-green-xlg" />
-                            </div>
+                            <Icon iconData={iconData1} />
                             <p className="canvas-para">Crop preview</p>
 
                             <canvas
@@ -467,9 +482,7 @@ class UploadImgFile extends React.Component<IProps, IState> {
                                             : "drop-zone-container"
                                     }
                                 >
-                                    <div className="icon-container upload-icon">
-                                        <p className="fas fa-fw fa-cloud-upload-alt icon-green-xlg" />
-                                    </div>
+                                    <Icon iconData={iconData2} />
                                     <div className="drop-zone-para">
                                         <p>Drag & drop file</p>
                                         <p>or</p>

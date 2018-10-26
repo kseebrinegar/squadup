@@ -10,6 +10,7 @@ import Page404 from "../components/pages/Page404";
 import PeoplePage from "../components/pages/people/PeoplePage";
 import ProjectsPage from "../components/pages/projects/ProjectsPage";
 import DashboardPage from "../components/pages/dashboard/DashbaordPage";
+import SideBarNav from "../components/SideBarNav";
 
 interface IAuthRoute {
     Component: React.ComponentClass<{}, {}>;
@@ -23,16 +24,20 @@ const PrivateRoute = ({
     ...rest
 }: IAuthRoute): JSX.Element => {
     return (
-        <Route
-            {...rest}
-            render={(props): JSX.Element => {
-                return isUserLoggedIn === true ? (
-                    <Component {...props} />
-                ) : (
-                    <Redirect to="/" />
-                );
-            }}
-        />
+        <React.Fragment>
+            <SideBarNav />
+            <Route
+                {...rest}
+                exact={true}
+                render={(props): JSX.Element => {
+                    return isUserLoggedIn === true ? (
+                        <Component {...props} />
+                    ) : (
+                        <Redirect to="/" />
+                    );
+                }}
+            />
+        </React.Fragment>
     );
 };
 
@@ -53,13 +58,26 @@ class Router extends React.Component<IProps, {}> {
                                 Component={DashboardPage}
                                 isUserLoggedIn={this.props.isUserLoggedIn}
                             />
-                            <Route path={"/events"} component={EventsPage} />
+                            <Route
+                                path={"/events"}
+                                exact={true}
+                                component={EventsPage}
+                            />
                             <Route
                                 path={"/projects"}
+                                exact={true}
                                 component={ProjectsPage}
                             />
-                            <Route path={"/people"} component={PeoplePage} />
-                            <Route path={"/about"} component={AboutPage} />
+                            <Route
+                                path={"/people"}
+                                exact={true}
+                                component={PeoplePage}
+                            />
+                            <Route
+                                path={"/about"}
+                                exact={true}
+                                component={AboutPage}
+                            />
                             <Route
                                 path={"/"}
                                 exact={true}

@@ -1148,7 +1148,20 @@ div.spinner div.bar12 {
 
 .sidebar-outer-container {
   position: fixed;
-  z-index: 50; }
+  z-index: 50;
+  margin-top: 7.3rem; }
+  @media (max-width: 768px) {
+    .sidebar-outer-container {
+      margin-top: 7.2rem; } }
+  @media (max-width: 480px) {
+    .sidebar-outer-container {
+      margin: 6.7rem; } }
+  @media (min-width: 1500px) {
+    .sidebar-outer-container {
+      margin: 8rem; } }
+  @media (min-width: 1800px) {
+    .sidebar-outer-container {
+      margin: 9.1rem; } }
 
 .sidebar-inner-container {
   position: relative; }

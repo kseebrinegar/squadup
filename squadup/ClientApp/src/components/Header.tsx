@@ -12,6 +12,7 @@ import ModalSmallPopUp from "./modals/modalSmallPopUp";
 import SignUpForm from "./forms/authForms/signup";
 import LoginForm from "./forms/authForms/login";
 import ForgotPassword from "./forms/authForms/forgotPassword";
+import Icon from "./icons/icon";
 
 interface IHeaderState {
     aboutLinkAffect: [boolean, boolean, boolean];
@@ -238,6 +239,33 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
     };
 
     public renderButtonsOrIconsIfLoggedIn = (): JSX.Element => {
+        type iconData = {
+            containerClassName: string;
+            className: string;
+            colorAndSizeClassName: string;
+            linkAddress?: string;
+            iconInfoClassName: string;
+            infoName: string;
+            clickEvent?: () => void;
+        };
+
+        const iconData1: iconData = {
+            containerClassName: "user-icon",
+            className: "fa-user",
+            colorAndSizeClassName: "icon-white-md",
+            iconInfoClassName: "icon-info-dashboard",
+            infoName: "Dashboard",
+            linkAddress: "/dashboard"
+        };
+        const iconData2: iconData = {
+            containerClassName: "sign-out-icon",
+            className: "fa-sign-out-alt",
+            colorAndSizeClassName: "icon-white-md",
+            iconInfoClassName: "icon-info-logout",
+            infoName: "Logout",
+            clickEvent: this.toggleDisplaySmallPopUpModal
+        };
+
         if (this.state.isUserLoggedIn) {
             return (
                 <div className="login-signup-and-icon-container">
@@ -257,33 +285,8 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
                             <p>Inbox</p>
                         </div>
                     </div>
-
-                    <div className="icon-container user-icon">
-                        <NavLink
-                            to="/dashboard"
-                            className="icon-white-md fa fa-fw fa-user"
-                            aria-hidden="true"
-                        >
-                            {" "}
-                        </NavLink>
-                        <div className="icon-info icon-info-dashboard">
-                            <div className="icon-triangle" />
-                            <p>Dashboard</p>
-                        </div>
-                    </div>
-                    <div
-                        className="icon-container sign-out-icon"
-                        onClick={this.toggleDisplaySmallPopUpModal}
-                    >
-                        <p
-                            className="icon-white-md fa fa-fw fa-sign-out-alt"
-                            aria-hidden="true"
-                        />
-                        <div className="icon-info icon-info-logout">
-                            <div className="icon-triangle" />
-                            <p>Logout</p>
-                        </div>
-                    </div>
+                    <Icon iconData={iconData1} />
+                    <Icon iconData={iconData2} />
                 </div>
             );
         }

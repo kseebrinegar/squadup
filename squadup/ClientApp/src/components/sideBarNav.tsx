@@ -1,11 +1,15 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { bindActionCreators, Dispatch } from "redux";
 
 import * as uuid from "uuid";
 
+import sideBarNavIcons from "../actions/sideBarNavIcons";
 import UploadUserAndProjectImgContainer from "./images/uploadUserAndProjectImgContainer";
 import ProjectAndUserImg from "./images/projectAndUserImg";
 import UserAndProjectImgCta from "./images/userAndProjectImgCta";
+import Icon from "./icons/icon";
 
 interface IState {
     [propName: string]: boolean;
@@ -14,6 +18,7 @@ interface IState {
 interface IProps {
     toggleDisplayPopUpModal: () => {};
     userImg: string;
+    sideBarNavIcons: () => {};
 }
 
 type navList = Record<string, string | number>[];
@@ -129,9 +134,52 @@ class SideBarNav extends React.Component<IProps, IState> {
 
     componentWillMount(): void {
         this.windowResize();
+        this.props.sideBarNavIcons();
     }
 
     public render(): JSX.Element {
+        type iconData = {
+            containerClassName: string;
+            className: string;
+            colorAndSizeClassName: string;
+            counter: number;
+            iconInfoClassName: string;
+            infoName: string;
+        };
+
+        const iconData1: iconData = {
+            containerClassName: "heart-icon",
+            className: "fa-heart",
+            colorAndSizeClassName: "icon-black-md",
+            counter: 2.1,
+            iconInfoClassName: "icon-info-likes",
+            infoName: "Likes"
+        };
+        const iconData2: iconData = {
+            containerClassName: "eye-icon",
+            className: "fa-eye",
+            colorAndSizeClassName: "icon-black-md",
+            counter: 31,
+            iconInfoClassName: "icon-info-views",
+            infoName: "Views"
+        };
+        const iconData3: iconData = {
+            containerClassName: "user-plus-icon",
+            className: " fa-user-plus",
+            colorAndSizeClassName: "icon-black-md",
+            counter: 998,
+            iconInfoClassName: "icon-info-following",
+            infoName: "Following"
+        };
+        const iconData4: iconData = {
+            containerClassName: "object-group-icon",
+            className: "fa-object-group",
+            colorAndSizeClassName: "icon-black-md",
+            counter: 3,
+            iconInfoClassName: "icon-info-projects",
+            infoName: "Projects"
+        };
+
         return (
             <div className="sidebar-outer-container">
                 <div className="sidebar-inner-container">
@@ -167,50 +215,10 @@ class SideBarNav extends React.Component<IProps, IState> {
                             />
                         </ProjectAndUserImg>
                         <div className="sidebar-nav-icons-container">
-                            <div className="icon-container heart-icon">
-                                <p
-                                    className="icon-black-md fa fa-fw fa fa-heart"
-                                    aria-hidden="true"
-                                />
-                                <p className="icon-counter">2.1k</p>
-                                <div className="icon-info icon-info-likes">
-                                    <div className="icon-triangle" />
-                                    <p>Likes</p>
-                                </div>
-                            </div>
-                            <div className="icon-container eye-icon">
-                                <p
-                                    className="icon-black-md fa fa-fw fa fa-eye"
-                                    aria-hidden="true"
-                                />
-                                <p className="icon-counter">31</p>
-                                <div className="icon-info icon-info-views">
-                                    <div className="icon-triangle" />
-                                    <p>Views</p>
-                                </div>
-                            </div>
-                            <div className="icon-container user-plus-icon">
-                                <p
-                                    className="icon-black-md fa fa-fw fa fa-user-plus"
-                                    aria-hidden="true"
-                                />
-                                <p className="icon-counter">998</p>
-                                <div className="icon-info icon-info-following">
-                                    <div className="icon-triangle" />
-                                    <p>Following</p>
-                                </div>
-                            </div>
-                            <div className="icon-container object-group-icon">
-                                <p
-                                    className="icon-black-md fa fa-fw fa fa-object-group"
-                                    aria-hidden="true"
-                                />
-                                <p className="icon-counter">3</p>
-                                <div className="icon-info icon-info-projects">
-                                    <div className="icon-triangle" />
-                                    <p>Projects</p>
-                                </div>
-                            </div>
+                            <Icon iconData={iconData1} />
+                            <Icon iconData={iconData2} />
+                            <Icon iconData={iconData3} />
+                            <Icon iconData={iconData4} />
                         </div>
                         <nav className="sidebar-nav">
                             <ul className="sidebar-nav-items">
@@ -224,4 +232,13 @@ class SideBarNav extends React.Component<IProps, IState> {
     }
 }
 
-export default UploadUserAndProjectImgContainer(SideBarNav);
+const mapDispatchToProps = (dispatch: Dispatch) => {
+    return bindActionCreators({ sideBarNavIcons }, dispatch);
+};
+
+const sidebarnav = connect(
+    null,
+    mapDispatchToProps
+)(SideBarNav);
+
+export default UploadUserAndProjectImgContainer(sidebarnav);
