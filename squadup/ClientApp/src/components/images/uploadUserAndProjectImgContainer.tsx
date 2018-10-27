@@ -1,18 +1,14 @@
 import * as React from "react";
-import { connect } from "react-redux";
 
 import ModalContainerBackground from "../modals/modalContainerBackground";
 import ModalUploadPopUp from "../modals/modalUpload";
 import UploadImgFile from "../forms/uploadFile/UploadImgFile";
-import { AppState } from "../../store/types";
 
 interface IState {
     toggleDisplayPopUpModal: boolean;
 }
 
-interface IProps {
-    userImg: string;
-}
+interface IProps {}
 
 const uploadUserAndProjectImgWrapper = (WrappedComponent: any) => {
     class uploadUserAndProjectImgContainer extends React.Component<
@@ -42,7 +38,6 @@ const uploadUserAndProjectImgWrapper = (WrappedComponent: any) => {
                 <main className="upload-user-and-project-img-wrapper">
                     <WrappedComponent
                         toggleDisplayPopUpModal={this.toggleDisplayPopUpModal}
-                        userImg={this.props.userImg}
                     />
                     <ModalContainerBackground
                         toggleDisplayPopUpModal={
@@ -66,17 +61,7 @@ const uploadUserAndProjectImgWrapper = (WrappedComponent: any) => {
             );
         }
     }
-
-    const mapStateToProps = (state: AppState) => {
-        return {
-            userImg: state.userInfo.imgSrc
-        };
-    };
-
-    return connect(
-        mapStateToProps,
-        null
-    )(uploadUserAndProjectImgContainer);
+    return uploadUserAndProjectImgContainer;
 };
 
 export default uploadUserAndProjectImgWrapper;

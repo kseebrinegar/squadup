@@ -1,11 +1,9 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { bindActionCreators, Dispatch } from "redux";
-
 import * as uuid from "uuid";
 
-import sideBarNavIcons from "../actions/sideBarNavIcons";
+import { AppState } from "../store/types";
 import UploadUserAndProjectImgContainer from "./images/uploadUserAndProjectImgContainer";
 import ProjectAndUserImg from "./images/projectAndUserImg";
 import UserAndProjectImgCta from "./images/userAndProjectImgCta";
@@ -17,8 +15,12 @@ interface IState {
 
 interface IProps {
     toggleDisplayPopUpModal: () => {};
+    userProfileLikesCount: number;
+    userProfileViewsCount: number;
+    userIsfollowingCount: number;
+    userProjectsCount: number;
+    userName: string;
     userImg: string;
-    sideBarNavIcons: () => {};
 }
 
 type navList = Record<string, string | number>[];
@@ -134,7 +136,6 @@ class SideBarNav extends React.Component<IProps, IState> {
 
     componentWillMount(): void {
         this.windowResize();
-        this.props.sideBarNavIcons();
     }
 
     public render(): JSX.Element {
@@ -151,7 +152,7 @@ class SideBarNav extends React.Component<IProps, IState> {
             containerClassName: "heart-icon",
             className: "fa-heart",
             colorAndSizeClassName: "icon-black-md",
-            counter: 2.1,
+            counter: this.props.userProfileLikesCount,
             iconInfoClassName: "icon-info-likes",
             infoName: "Likes"
         };
@@ -159,7 +160,7 @@ class SideBarNav extends React.Component<IProps, IState> {
             containerClassName: "eye-icon",
             className: "fa-eye",
             colorAndSizeClassName: "icon-black-md",
-            counter: 31,
+            counter: this.props.userProfileViewsCount,
             iconInfoClassName: "icon-info-views",
             infoName: "Views"
         };
@@ -167,7 +168,7 @@ class SideBarNav extends React.Component<IProps, IState> {
             containerClassName: "user-plus-icon",
             className: " fa-user-plus",
             colorAndSizeClassName: "icon-black-md",
-            counter: 998,
+            counter: this.props.userIsfollowingCount,
             iconInfoClassName: "icon-info-following",
             infoName: "Following"
         };
@@ -175,7 +176,7 @@ class SideBarNav extends React.Component<IProps, IState> {
             containerClassName: "object-group-icon",
             className: "fa-object-group",
             colorAndSizeClassName: "icon-black-md",
-            counter: 3,
+            counter: this.props.userProjectsCount,
             iconInfoClassName: "icon-info-projects",
             infoName: "Projects"
         };
@@ -205,7 +206,7 @@ class SideBarNav extends React.Component<IProps, IState> {
                         className="sidebar"
                     >
                         <ProjectAndUserImg
-                            userName={"xxxxxblissment1xxxxx"}
+                            userName={this.props.userName}
                             img={this.props.userImg}
                         >
                             <UserAndProjectImgCta
@@ -232,13 +233,20 @@ class SideBarNav extends React.Component<IProps, IState> {
     }
 }
 
-const mapDispatchToProps = (dispatch: Dispatch) => {
-    return bindActionCreators({ sideBarNavIcons }, dispatch);
+const mapStateToProps = (state: AppState) => {
+    return {
+        userProfileLikesCount: state.basicUserInfo.userProfileLikesCount,
+        userProfileViewsCount: state.basicUserInfo.userProfileViewsCount,
+        userIsfollowingCount: state.basicUserInfo.userIsfollowingCount,
+        userProjectsCount: state.basicUserInfo.userProjectsCount,
+        userName: state.basicUserInfo.userName,
+        userImg: state.basicUserInfo.imgSrc
+    };
 };
 
-const sidebarnav = connect(
-    null,
-    mapDispatchToProps
+const sideBarNav = connect(
+    mapStateToProps,
+    null
 )(SideBarNav);
 
-export default UploadUserAndProjectImgContainer(sidebarnav);
+export default UploadUserAndProjectImgContainer(sideBarNav);

@@ -9,7 +9,7 @@ import HomePage from "../components/pages/home/HomePage";
 import Page404 from "../components/pages/Page404";
 import PeoplePage from "../components/pages/people/PeoplePage";
 import ProjectsPage from "../components/pages/projects/ProjectsPage";
-import DashboardPage from "../components/pages/dashboard/DashbaordPage";
+import DashboardPage from "../components/pages/dashboard/DashboardPage";
 import SideBarNav from "../components/SideBarNav";
 
 interface IAuthRoute {

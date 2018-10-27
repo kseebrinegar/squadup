@@ -4,14 +4,14 @@ import { bindActionCreators, Dispatch } from "redux";
 import { AppState } from "../../../store/types";
 import axios from "axios";
 import auth from "../../../actions/auth";
+import { withRouter, RouteComponentProps } from "react-router-dom";
 
 interface IState {
     [propName: string]: boolean | [string, boolean] | string | [string, string];
 }
 
-interface IProps {
+interface IProps extends RouteComponentProps<{}> {
     closeDisplayPopUpModule: () => void;
-    // logIn: (username: string, password: string) => void;
     logIn: () => void;
     signUp: () => void;
     isUserLoggedIn: boolean;
@@ -19,6 +19,7 @@ interface IProps {
         whatFormChoose: string
     ) => void;
 }
+
 // @ts-ignore
 const authFormContainer = WrappedContainer => {
     class AuthFormContainer extends React.Component<IProps, IState> {
@@ -27,7 +28,7 @@ const authFormContainer = WrappedContainer => {
         public state: IState = {
             isLoaderShown: false,
             isFormShown: true,
-            isLoginNotiShown: false,
+            isNotifyShown: false,
             clearInputsOnChildComponent: false,
             serverErrorMessage: ""
         };
@@ -46,10 +47,7 @@ const authFormContainer = WrappedContainer => {
             serverErrorMessage: string | [string, string]
         ): void => {
             this.setState(() => {
-                return {
-                    isLoaderShown: false,
-                    serverErrorMessage
-                };
+                return { isLoaderShown: false, serverErrorMessage };
             });
         };
 
@@ -174,20 +172,21 @@ const authFormContainer = WrappedContainer => {
 
         public sendEmail(): void {
             axios
-                .post("https://reqres.in/api/register", {
-                    email: "sydney@fife"
+                .post("https://reqres.in/api/login", {
+                    email: "peter@klaven",
+                    password: "asdasd"
                 })
                 .then(
                     () => {
                         this.setState(() => {
+                            this.timerForLoader();
                             return {
-                                isLoginNotiShown: true,
+                                isNotifyShown: true,
                                 clearInputsOnChildComponent: true,
                                 isLoaderShown: false,
                                 isFormShown: false
                             };
                         });
-                        this.timerForLoader();
                     },
                     e => {
                         this.serverErrorMessage(e.response.data.error);
@@ -215,7 +214,7 @@ const authFormContainer = WrappedContainer => {
                     return {
                         isLoaderShown: false,
                         isFormShown: true,
-                        isLoginNotiShown: false,
+                        isNotifyShown: false,
                         clearInputsOnChildComponent: false,
                         serverErrorMessage: ""
                     };
@@ -223,6 +222,7 @@ const authFormContainer = WrappedContainer => {
 
                 this.props.closeDisplayPopUpModule();
                 clearInterval(timer1);
+                this.props.history.push("/dashboard");
             }, 1500);
         };
 
@@ -239,7 +239,7 @@ const authFormContainer = WrappedContainer => {
                 this.timerForLoader();
                 this.setState(() => {
                     return {
-                        isLoginNotiShown: true,
+                        isNotifyShown: true,
                         clearInputsOnChildComponent: true,
                         isLoaderShown: false,
                         isFormShown: false
@@ -292,10 +292,12 @@ const authFormContainer = WrappedContainer => {
         return { isUserLoggedIn: state.auth };
     };
 
-    return connect(
-        mapStateToProps,
-        mapDispatchToProps
-    )(AuthFormContainer);
+    return withRouter(
+        connect(
+            mapStateToProps,
+            mapDispatchToProps
+        )(AuthFormContainer)
+    );
 };
 
 export default authFormContainer;
