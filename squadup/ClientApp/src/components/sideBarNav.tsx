@@ -143,7 +143,7 @@ class SideBarNav extends React.Component<IProps, IState> {
             containerClassName: string;
             className: string;
             colorAndSizeClassName: string;
-            counter: number;
+            iconCount: number;
             iconInfoClassName: string;
             infoName: string;
         };
@@ -152,7 +152,7 @@ class SideBarNav extends React.Component<IProps, IState> {
             containerClassName: "heart-icon",
             className: "fa-heart",
             colorAndSizeClassName: "icon-black-md",
-            counter: this.props.userProfileLikesCount,
+            iconCount: this.props.userProfileLikesCount,
             iconInfoClassName: "icon-info-likes",
             infoName: "Likes"
         };
@@ -160,7 +160,7 @@ class SideBarNav extends React.Component<IProps, IState> {
             containerClassName: "eye-icon",
             className: "fa-eye",
             colorAndSizeClassName: "icon-black-md",
-            counter: this.props.userProfileViewsCount,
+            iconCount: this.props.userProfileViewsCount,
             iconInfoClassName: "icon-info-views",
             infoName: "Views"
         };
@@ -168,7 +168,7 @@ class SideBarNav extends React.Component<IProps, IState> {
             containerClassName: "user-plus-icon",
             className: " fa-user-plus",
             colorAndSizeClassName: "icon-black-md",
-            counter: this.props.userIsfollowingCount,
+            iconCount: this.props.userIsfollowingCount,
             iconInfoClassName: "icon-info-following",
             infoName: "Following"
         };
@@ -176,7 +176,7 @@ class SideBarNav extends React.Component<IProps, IState> {
             containerClassName: "object-group-icon",
             className: "fa-object-group",
             colorAndSizeClassName: "icon-black-md",
-            counter: this.props.userProjectsCount,
+            iconCount: this.props.userProjectsCount,
             iconInfoClassName: "icon-info-projects",
             infoName: "Projects"
         };

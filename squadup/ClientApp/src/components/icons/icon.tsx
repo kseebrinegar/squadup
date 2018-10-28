@@ -11,7 +11,7 @@ interface IProps {
         containerClassName: string;
         className: string;
         colorAndSizeClassName: string;
-        counter?: undefined | number;
+        iconCount?: undefined | number;
         iconInfoClassName?: string;
         infoName?: string;
         linkAddress?: undefined | string;
@@ -62,11 +62,40 @@ class Icons extends React.Component<IProps, IState> {
         }
     };
 
-    public renderIfIconCounterExists = (): React.ReactNode | void => {
-        const { counter } = this.props.iconData;
+    public howToDisplayCounterIcon = (counter: number): string => {
+        const unit: string = counter <= 999999 ? "k" : "M";
 
-        if (counter) {
-            return <p className="icon-counter">{counter}</p>;
+        const round = (value: number, precision: number): number => {
+            const multiplier = Math.pow(10, precision || 0);
+            return Math.floor(value * multiplier) / multiplier;
+        };
+
+        const fixed = (toFixed: number) => {
+            const divideCounter: number =
+                counter / (counter <= 999999 ? 1000 : 1000000);
+
+            return round(parseFloat(divideCounter.toFixed(toFixed)), 1) + unit;
+        };
+
+        if (counter < 999) {
+            return counter + unit;
+        } else if (counter > 999 && counter <= 99999) {
+            return fixed(3);
+        } else if (counter > 99999 && counter <= 999999) {
+            return fixed(2);
+        } else if (counter > 999999 && counter <= 99999999) {
+            return fixed(6);
+        } else {
+            return fixed(5);
+        }
+    };
+
+    public renderIfIconCounterExists = (): React.ReactNode | void => {
+        const { iconCount } = this.props.iconData;
+
+        if (iconCount) {
+            const count = this.howToDisplayCounterIcon(iconCount);
+            return <p className="icon-counter">{count}</p>;
         }
     };
 

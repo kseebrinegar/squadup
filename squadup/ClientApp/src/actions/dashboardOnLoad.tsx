@@ -3,10 +3,10 @@ import { Dispatch } from "redux";
 
 const dashboardOnLoad = (): Function => {
     const testData = {
-        userProfileLikesCount: 2105,
-        userProfileViewsCount: 31,
-        userIsfollowingCount: 995,
-        userProjectsCount: 3,
+        userProfileLikesCount: 111,
+        userProfileViewsCount: 10555,
+        userIsfollowingCount: 230999,
+        userProjectsCount: 1199999,
         userName: "xxxCaseyxxx",
         imgSrc: "/images/default-user-img.jpg"
     };
