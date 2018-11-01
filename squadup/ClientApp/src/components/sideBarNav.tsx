@@ -1,8 +1,10 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import { bindActionCreators, Dispatch } from "redux";
 import * as uuid from "uuid";
 
+import sideBarNavActions from "../actions/sideBarNav";
 import { AppState } from "../store/types";
 import UploadUserAndProjectImgContainer from "./images/uploadUserAndProjectImgContainer";
 import ProjectAndUserImg from "./images/projectAndUserImg";
@@ -14,6 +16,8 @@ interface IState {
 }
 
 interface IProps {
+    requestSideBarIconsData: () => Function;
+    requestAllSideBarData: () => Function;
     toggleDisplayPopUpModal: () => {};
     userProfileLikesCount: number;
     userProfileViewsCount: number;
@@ -134,9 +138,32 @@ class SideBarNav extends React.Component<IProps, IState> {
         });
     };
 
-    componentWillMount(): void {
+    public onPageLoadGetData = (): void => {
+        const defaultUserImg = "/images/default-user-img.jpg";
+        const defaultUserName = "";
+
+        if (
+            this.props.userImg === defaultUserImg &&
+            this.props.userName === defaultUserName
+        ) {
+            this.props.requestAllSideBarData();
+            return;
+        }
+
+        this.props.requestSideBarIconsData();
+        /*const userInfo = {
+            imgSrc: "/images/test.png",
+            userName: "xxxCaseyxxx"
+        };
+        localStorage.setItem("userInfo", JSON.stringify(userInfo));*/
+    };
+
+    public componentWillMount(): void {
         this.windowResize();
+        this.onPageLoadGetData();
     }
+
+    public componentWillReceiveProps = (): void => {};
 
     public render(): JSX.Element {
         type iconData = {
@@ -244,9 +271,19 @@ const mapStateToProps = (state: AppState) => {
     };
 };
 
+const mapDispatchToProps = (dispatch: Dispatch) => {
+    return bindActionCreators(
+        {
+            requestSideBarIconsData: sideBarNavActions.requestSideBarIconsData,
+            requestAllSideBarData: sideBarNavActions.requestAllSideBarData
+        },
+        dispatch
+    );
+};
+
 const sideBarNav = connect(
     mapStateToProps,
-    null
+    mapDispatchToProps
 )(SideBarNav);
 
 export default UploadUserAndProjectImgContainer(sideBarNav);

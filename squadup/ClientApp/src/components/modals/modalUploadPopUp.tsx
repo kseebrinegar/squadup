@@ -5,7 +5,7 @@ import ToggleDisplayPopUpModal from "./toggleDisplayPopUpModal";
 interface SFCModalXLPopUp {
     clickEvent: () => void;
 }
-const modalXLPopUp: React.SFC<SFCModalXLPopUp> = (props): JSX.Element => {
+const modalUploadPopUp: React.SFC<SFCModalXLPopUp> = (props): JSX.Element => {
     return (
         <div className="modal-upload-popup">
             <ToggleDisplayPopUpModal
@@ -16,4 +16,4 @@ const modalXLPopUp: React.SFC<SFCModalXLPopUp> = (props): JSX.Element => {
     );
 };
 
-export default modalXLPopUp;
+export default modalUploadPopUp;

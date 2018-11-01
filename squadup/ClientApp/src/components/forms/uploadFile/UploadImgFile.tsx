@@ -16,6 +16,7 @@ import Icon from "../../icons/icon";
 interface IProps {
     isPopUpModalShown: boolean;
     toggleDisplayPopUpModal: () => void;
+    closePopUpModal: () => void;
     uploadImg: (img: string) => {};
 }
 
@@ -391,7 +392,7 @@ class UploadImgFile extends React.Component<IProps, IState> {
         });
 
         const timer: number = window.setTimeout(() => {
-            this.props.toggleDisplayPopUpModal();
+            this.props.closePopUpModal();
             this.resetStateAndCanvasToDefault();
 
             clearInterval(timer);

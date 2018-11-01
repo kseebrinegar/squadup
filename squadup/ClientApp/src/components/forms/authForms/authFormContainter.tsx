@@ -21,7 +21,7 @@ interface IProps extends RouteComponentProps<{}> {
 }
 
 // @ts-ignore
-const authFormContainer = WrappedContainer => {
+const authFormContainer = WrappedComponent => {
     class AuthFormContainer extends React.Component<IProps, IState> {
         private originalStateLength = 5;
 
@@ -77,8 +77,6 @@ const authFormContainer = WrappedContainer => {
             );
 
             if (isAllInputValuesTrue) {
-                // const inputValues = this.getInputValues(currentStateLength);
-
                 this.setState(() => {
                     return { isLoaderShown: true };
                 });
@@ -121,25 +119,28 @@ const authFormContainer = WrappedContainer => {
         public chooseRouteBasedOffOfFormType(
             functionNameForFormType: string
         ): void {
+            const currentStateLength = Object.keys(this.state).length;
+            const inputValues: string[] = this.getInputValues(
+                currentStateLength
+            );
+
             switch (functionNameForFormType) {
                 case "logIn":
-                    this.logIn();
+                    this.logIn(inputValues);
                     break;
-                // this.logIn(inputValues)
                 case "signUp":
-                    this.signUp();
+                    this.signUp(inputValues);
                     break;
-                // this.signUp(inputValues)
                 case "sendEmail":
                     this.sendEmail();
-                    // this.sendEmail(inputValues)
                     break;
                 default:
                     return;
             }
         }
 
-        public logIn = (): void => {
+        public logIn = (inputValues: string[]): void => {
+            inputValues;
             axios
                 .post("https://reqres.in/api/login", {
                     email: "peter@klaven",
@@ -155,7 +156,8 @@ const authFormContainer = WrappedContainer => {
                 );
         };
 
-        public signUp = (): void => {
+        public signUp = (inputValues: string[]): void => {
+            inputValues;
             axios
                 .post("https://reqres.in/api/login", {
                     email: "peter@klaven"
@@ -250,7 +252,7 @@ const authFormContainer = WrappedContainer => {
 
         public render(): JSX.Element {
             return (
-                <WrappedContainer
+                <WrappedComponent
                     {...this.state}
                     onSubmit={(
                         e: React.MouseEvent<HTMLButtonElement>,

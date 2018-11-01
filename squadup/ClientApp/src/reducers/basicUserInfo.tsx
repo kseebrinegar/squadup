@@ -1,25 +1,24 @@
-interface UserInfoState {
+import {
+    ActionUserAllSideBarData,
+    ActionUserGetSideBarIconsData
+} from "../actions/sideBarNav";
+import { ActionImgUpload } from "../actions/uploadImg";
+
+export type BasicUserInfo = {
     imgSrc: string;
-    userName: string;
     userProfileLikesCount: number;
     userProfileViewsCount: number;
     userIsfollowingCount: number;
     userProjectsCount: number;
-}
+    userName: string;
+};
 
-interface ActionImgUpload {
-    type: string;
-    payload: string;
-}
+type Action =
+    | ActionImgUpload
+    | ActionUserAllSideBarData
+    | ActionUserGetSideBarIconsData;
 
-interface ActionUserGetDashboard {
-    type: string;
-    payload: [{ [prop: string]: number }];
-}
-
-type Action = ActionUserGetDashboard & ActionImgUpload;
-
-const userInfoDefault: UserInfoState = {
+const userInfoDefault: BasicUserInfo = {
     imgSrc: "/images/default-user-img.jpg",
     userName: "",
     userProfileLikesCount: 0,
@@ -28,13 +27,21 @@ const userInfoDefault: UserInfoState = {
     userProjectsCount: 0
 };
 
-export default (state: UserInfoState = userInfoDefault, action: Action) => {
-    const newState: UserInfoState = { ...state };
+export default (
+    state: BasicUserInfo = userInfoDefault,
+    action: Action
+): BasicUserInfo => {
+    const newState: BasicUserInfo = { ...state };
     switch (action.type) {
         case "UPLOAD_IMG":
             newState.imgSrc = action.payload;
             return newState;
-        case "GET_DASHBOARD":
+        case "GET_All_SIDERBAR_DATA":
+            for (let prop in action.payload) {
+                newState[prop] = action.payload[prop];
+            }
+            return newState;
+        case "GET_SIDERBAR_ICONS_DATA":
             for (let prop in action.payload) {
                 newState[prop] = action.payload[prop];
             }

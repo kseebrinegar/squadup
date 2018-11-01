@@ -2,6 +2,7 @@ import * as React from "react";
 
 interface SFCmodalContainerBackgroundProps {
     toggleDisplayPopUpModal: boolean;
+    children: React.ReactNode;
 }
 
 const modalContainerBackground: React.SFC<SFCmodalContainerBackgroundProps> = (

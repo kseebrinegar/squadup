@@ -1,14 +1,15 @@
 import * as React from "react";
 import * as uuid from "uuid";
+import axios from "axios";
 import { AppState } from "../store/types";
 import { NavLink } from "react-router-dom";
 import { bindActionCreators, Dispatch } from "redux";
 import { connect } from "react-redux";
 import Button from "./buttons/button";
 import auth from "../actions/auth";
+import ModalAniAndSuccContainer from "./modals/modalAniAndSuccContainer";
 import ModalContainerBackground from "./modals/modalContainerBackground";
 import ModalBigPopUp from "./modals/modalBigPopUp";
-import ModalSmallPopUp from "./modals/modalSmallPopUp";
 import SignUpForm from "./forms/authForms/signup";
 import LoginForm from "./forms/authForms/login";
 import ForgotPassword from "./forms/authForms/forgotPassword";
@@ -154,7 +155,8 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
     public closeDisplayPopUpModal = (): void => {
         this.setState(() => {
             return {
-                toggleDisplayBigPopUpModal: false
+                toggleDisplayBigPopUpModal: false,
+                toggleDisplaySmallPopUpModal: false
             };
         });
     };
@@ -313,9 +315,15 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
         );
     };
 
-    public logOut = (): void => {
-        this.toggleDisplaySmallPopUpModal();
-        this.props.logOut();
+    public logOut = (
+        notifyUserOfSuccess: (logOut: () => void) => void
+    ): void => {
+        axios.post("https://reqres.in/api/users?delay=3").then(
+            () => {
+                notifyUserOfSuccess(this.props.logOut);
+            },
+            () => {}
+        );
     };
 
     public chooseFormToShow = (): JSX.Element => {
@@ -382,7 +390,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
         this.activeNavLinkForPage();
     }
 
-    public render(): JSX.Element {
+    public render(): React.ReactNode {
         return (
             <React.Fragment>
                 <ModalContainerBackground
@@ -399,21 +407,24 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
                     </ModalBigPopUp>
                 </ModalContainerBackground>
 
-                <ModalContainerBackground
+                <ModalAniAndSuccContainer
                     toggleDisplayPopUpModal={
                         this.state.toggleDisplaySmallPopUpModal
                     }
-                >
-                    <ModalSmallPopUp
-                        toggleDisplaySmallPopUpModal={() => {
-                            this.toggleDisplaySmallPopUpModal();
-                        }}
-                        headerText={"Are you sure you wanna log out?"}
-                        clickEvent={() => {
-                            this.logOut();
-                        }}
-                    />
-                </ModalContainerBackground>
+                    toggleDisplayPopUpModal1={() => {
+                        this.toggleDisplaySmallPopUpModal();
+                    }}
+                    closeDisplayPopUpModal={() => {
+                        this.closeDisplayPopUpModal();
+                    }}
+                    headerText={"Are you sure you wanna log out?"}
+                    successText={"You're now logged out!"}
+                    clickEvent={(
+                        notifyUserOfSuccess: (logOut: () => void) => void
+                    ) => {
+                        this.logOut(notifyUserOfSuccess);
+                    }}
+                />
 
                 <header
                     id="header"

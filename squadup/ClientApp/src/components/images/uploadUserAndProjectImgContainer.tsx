@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import ModalContainerBackground from "../modals/modalContainerBackground";
-import ModalUploadPopUp from "../modals/modalUpload";
+import ModalUploadPopUp from "../modals/modalUploadPopUp";
 import UploadImgFile from "../forms/uploadFile/UploadImgFile";
 
 interface IState {
@@ -15,9 +15,7 @@ const uploadUserAndProjectImgWrapper = (WrappedComponent: any) => {
         IProps,
         IState
     > {
-        public state: IState = {
-            toggleDisplayPopUpModal: false
-        };
+        public state: IState = { toggleDisplayPopUpModal: false };
 
         constructor(props: IProps) {
             super(props);
@@ -33,9 +31,17 @@ const uploadUserAndProjectImgWrapper = (WrappedComponent: any) => {
             });
         };
 
+        public closePopUpModal = (): void => {
+            this.setState(() => {
+                return {
+                    toggleDisplayPopUpModal: false
+                };
+            });
+        };
+
         public render(): JSX.Element {
             return (
-                <main className="upload-user-and-project-img-wrapper">
+                <React.Fragment>
                     <WrappedComponent
                         toggleDisplayPopUpModal={this.toggleDisplayPopUpModal}
                     />
@@ -54,10 +60,11 @@ const uploadUserAndProjectImgWrapper = (WrappedComponent: any) => {
                                 toggleDisplayPopUpModal={
                                     this.toggleDisplayPopUpModal
                                 }
+                                closePopUpModal={this.closePopUpModal}
                             />
                         </ModalUploadPopUp>
                     </ModalContainerBackground>
-                </main>
+                </React.Fragment>
             );
         }
     }

@@ -1,24 +1,13 @@
-import { Dispatch } from "redux";
+import types, { Action, createAction } from "./types";
 
-const signUp = (): { type: string } => {
-    return {
-        type: "SIGN_UP"
-    };
-};
+export interface ActionSignUp extends Action<types.SIGN_UP> {}
 
-const logIn = (): { type: string } => {
-    return {
-        type: "LOG_IN"
-    };
-};
+export interface ActionLogIn extends Action<types.LOG_IN> {}
+export interface ActionLogOut extends Action<types.LOG_OUT> {}
 
-const logOut = () => {
-    return function(dispatch: Dispatch): void {
-        dispatch({
-            type: "LOG_OUT"
-        });
-    };
-};
+const signUp = createAction<ActionSignUp>(types.SIGN_UP);
+const logIn = createAction<ActionLogIn>(types.LOG_IN);
+const logOut = createAction<ActionLogOut>(types.LOG_OUT);
 
 export default {
     signUp,

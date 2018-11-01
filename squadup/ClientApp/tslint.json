@@ -6,6 +6,7 @@
     "defaultSeverity": "warning",
     "rules": {
         "no-any": true,
-        "no-console": true
+        "no-console": true,
+        "no-duplicate-switch-case": true
     }
 }

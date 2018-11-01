@@ -1,11 +1,8 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators, Dispatch } from "redux";
-import dashboardOnLoad from "../../../actions/dashboardOnLoad";
 
-interface IProps {
-    dashboardOnLoad: () => {};
-}
+interface IProps {}
 
 interface IState {}
 class DashbaordPage extends React.Component<IProps, IState> {
@@ -13,9 +10,7 @@ class DashbaordPage extends React.Component<IProps, IState> {
         super(props);
     }
 
-    public componentWillMount() {
-        this.props.dashboardOnLoad();
-    }
+    public componentWillMount() {}
 
     public render() {
         return <main className="dashboard" />;
@@ -23,7 +18,7 @@ class DashbaordPage extends React.Component<IProps, IState> {
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
-    return bindActionCreators({ dashboardOnLoad }, dispatch);
+    return bindActionCreators({}, dispatch);
 };
 
 export default connect(
