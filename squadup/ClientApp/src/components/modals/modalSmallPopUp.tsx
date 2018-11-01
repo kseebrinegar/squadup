@@ -7,6 +7,7 @@ interface SFCmoduleSmallPopUpProps {
     toggleDisplayPopUpModal: () => void;
     clickEvent: (notifyUserOfSuccess: (logOut: () => void) => void) => void;
     headerText: string;
+    successText: string;
     notifyUserOfSuccess: (logOut: () => void) => void;
     isNotifyShown: boolean;
     dislayLoader: () => void;

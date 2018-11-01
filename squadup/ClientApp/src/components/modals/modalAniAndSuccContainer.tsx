@@ -11,12 +11,25 @@ interface IProps {
     clickEvent: (notifyUserOfSuccess: (logOut: () => void) => void) => void;
 }
 
+interface WrappedComponent {
+    toggleDisplayPopUpModal: () => void;
+    clickEvent: (notifyUserOfSuccess: (logOut: () => void) => void) => void;
+    headerText: string;
+    successText: string;
+    notifyUserOfSuccess: (logOut: () => void) => void;
+    isNotifyShown: boolean;
+    dislayLoader: () => void;
+    closeDisplayPopUpModal: () => void;
+}
+
 interface IState {
     isNotifyShown: boolean;
     isLoaderShown: boolean;
 }
 
-const modalAniAndSuccContainer = (WrappedComponent: any) => {
+const modalAniAndSuccContainer = (
+    WrappedComponent: React.ComponentType<WrappedComponent>
+) => {
     class ModalAniAndSuccContainer extends React.Component<IProps, IState> {
         public state: IState = { isNotifyShown: false, isLoaderShown: false };
 
@@ -53,7 +66,7 @@ const modalAniAndSuccContainer = (WrappedComponent: any) => {
             });
         };
 
-        public render(): any {
+        public render(): React.ReactNode {
             return (
                 <ModalContainerBackground
                     toggleDisplayPopUpModal={this.props.toggleDisplayPopUpModal}
@@ -74,6 +87,7 @@ const modalAniAndSuccContainer = (WrappedComponent: any) => {
                         }}
                         notifyUserOfSuccess={this.notifyUserOfSuccess}
                         dislayLoader={this.dislayLoader}
+                        isNotifyShown={this.state.isNotifyShown}
                     />
                 </ModalContainerBackground>
             );
