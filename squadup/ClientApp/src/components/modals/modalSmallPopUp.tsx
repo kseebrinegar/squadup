@@ -1,15 +1,21 @@
 import * as React from "react";
 
 import Button from "../buttons/button";
-import ModalAniAndSuccContainer from "./modalAniAndSuccContainer";
+import ModalContainerBackground from "./modalContainerBackground";
+import ToggleDisplayPopUpModal from "./toggleDisplayPopUpModal";
+import LoaderAnimation from "../loaderAnimations/loaderAnimation";
+import Success from "../forms/success/success";
 
 interface SFCmoduleSmallPopUpProps {
-    toggleDisplayPopUpModal: () => void;
+    toggleDisplayPopUpModal: boolean;
+    toggleDisplayPopUpModal1: () => void;
     clickEvent: (notifyUserOfSuccess: (logOut: () => void) => void) => void;
+    closeDisplayPopUpModal: () => void;
     headerText: string;
     successText: string;
     notifyUserOfSuccess: (logOut: () => void) => void;
     isNotifyShown: boolean;
+    isLoaderShown: boolean;
     dislayLoader: () => void;
 }
 
@@ -19,6 +25,9 @@ const moduleSmallPopUp: React.SFC<SFCmoduleSmallPopUpProps> = (
     const renderPopUpContent = () => {
         return (
             <React.Fragment>
+                <ToggleDisplayPopUpModal
+                    toggleDisplayPopUpModal={props.toggleDisplayPopUpModal1}
+                />
                 <h3>{props.headerText}</h3>
                 <div className="modal-small-popup-yes-or-no">
                     <Button
@@ -31,7 +40,7 @@ const moduleSmallPopUp: React.SFC<SFCmoduleSmallPopUpProps> = (
                         classes={"btn-primary btn-md"}
                     />
                     <Button
-                        clickEvent={props.toggleDisplayPopUpModal}
+                        clickEvent={props.toggleDisplayPopUpModal1}
                         text={"No"}
                         type={"button"}
                         classes={"btn-red btn-md"}
@@ -42,10 +51,19 @@ const moduleSmallPopUp: React.SFC<SFCmoduleSmallPopUpProps> = (
     };
 
     return (
-        <div className="modal-small-popup">
-            {props.isNotifyShown ? null : renderPopUpContent()}
-        </div>
+        <ModalContainerBackground
+            toggleDisplayPopUpModal={props.toggleDisplayPopUpModal}
+        >
+            <div className="modal-small-popup">
+                <Success
+                    isNotifyShown={props.isNotifyShown}
+                    message={props.successText}
+                />
+                <LoaderAnimation displayLoader={props.isLoaderShown} />
+                {props.isNotifyShown ? null : renderPopUpContent()}
+            </div>
+        </ModalContainerBackground>
     );
 };
 
-export default ModalAniAndSuccContainer(moduleSmallPopUp);
+export default moduleSmallPopUp;

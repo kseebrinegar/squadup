@@ -1,16 +1,24 @@
-const authToken: boolean = localStorage.getItem("authToken") ? true : false;
+import { ActionSignUp, ActionLogIn, ActionLogOut } from "../actions/auth";
 
-export default (state: boolean = authToken, action: { type: string }) => {
+type Action = ActionSignUp | ActionLogIn | ActionLogOut;
+
+const authToken: boolean = localStorage.getItem("basicUserInfo") ? true : false;
+export default (state: boolean = authToken, action: Action) => {
     switch (action.type) {
         case "LOG_IN":
-            localStorage.setItem("authToken", "");
-            localStorage.setItem("authToken", "test");
+            localStorage.setItem(
+                "basicUserInfo",
+                JSON.stringify({ authToken: "loggedIn" })
+            );
             return true;
         case "LOG_OUT":
-            localStorage.setItem("authToken", "");
+            localStorage.clear();
             return false;
         case "SIGN_UP":
-            localStorage.setItem("authToken", "test");
+            localStorage.setItem(
+                "basicUserInfo",
+                JSON.stringify({ authToken: "loggedIn" })
+            );
             return true;
         default:
             return state;

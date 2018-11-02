@@ -47,9 +47,6 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
 
     constructor(props: IHeaderProps) {
         super(props);
-        this.toggleDisplaySmallPopUpModal = this.toggleDisplaySmallPopUpModal.bind(
-            this
-        );
     }
 
     public darkenActiveNavLinkForPage = (): void => {
@@ -379,6 +376,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
         isUserLoggedIn: boolean;
         logOut: Function;
     }): void {
+        this.state.isUserLoggedIn;
         if (this.state.isUserLoggedIn != nextProps.isUserLoggedIn) {
             this.setState({
                 isUserLoggedIn: nextProps.isUserLoggedIn
@@ -425,7 +423,6 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
                         this.logOut(notifyUserOfSuccess);
                     }}
                 />
-
                 <header
                     id="header"
                     className={
