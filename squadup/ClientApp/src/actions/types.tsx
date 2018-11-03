@@ -17,10 +17,6 @@ export interface Action<TType> {
     type: TType;
 }
 
-export interface Payloaded<TPayload> {
-    payload: TPayload;
-}
-
 export function createPayloadedAction<
     TAction extends PayloadedAction<TAction["type"], TAction["payload"]>
 >(

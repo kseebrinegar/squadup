@@ -1,7 +1,7 @@
 import * as React from "react";
 
 interface SFCmodalContainerBackgroundProps {
-    toggleDisplayPopUpModal: boolean;
+    isDisplayPopUpModalShown: boolean;
     children: React.ReactNode;
 }
 
@@ -11,7 +11,7 @@ const modalContainerBackground: React.SFC<SFCmodalContainerBackgroundProps> = (
     return (
         <div
             className={
-                props.toggleDisplayPopUpModal
+                props.isDisplayPopUpModalShown
                     ? `modal-background is-shown`
                     : `modal-background is-hidden`
             }

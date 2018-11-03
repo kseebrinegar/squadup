@@ -10,6 +10,8 @@ import UploadUserAndProjectImgContainer from "./images/uploadUserAndProjectImgCo
 import ProjectAndUserImg from "./images/projectAndUserImg";
 import UserAndProjectImgCta from "./images/userAndProjectImgCta";
 import Icon from "./icons/icon";
+import ModalUploadPopUp from "./modals/modalPopUp";
+import UploadImgFile from "./forms/uploadFile/UploadImgFile";
 
 interface IState {
     [propName: string]: boolean;
@@ -19,6 +21,8 @@ interface IProps {
     requestSideBarIconsData: () => Function;
     requestAllSideBarData: () => Function;
     toggleDisplayPopUpModal: () => {};
+    closePopUpModal: () => {};
+    isDisplayPopUpModalShown: boolean;
     userProfileLikesCount: number;
     userProfileViewsCount: number;
     userIsfollowingCount: number;
@@ -209,53 +213,73 @@ class SideBarNav extends React.Component<IProps, IState> {
         };
 
         return (
-            <div className="sidebar-outer-container">
-                <div className="sidebar-inner-container">
-                    <div className="sidebar-toggle-container">
+            <React.Fragment>
+                <ModalUploadPopUp
+                    isDisplayPopUpModalShown={
+                        this.props.isDisplayPopUpModalShown
+                    }
+                    clickEvent={this.props.toggleDisplayPopUpModal}
+                    popUpClassName={"modal-upload-popup"}
+                    isNotifyShown={this.state.isNotifyShown}
+                    successText={"User image uploaded!"}
+                    isLoaderShown={this.state.isLoaderShown}
+                >
+                    <UploadImgFile
+                        isPopUpModalShown={this.props.isDisplayPopUpModalShown}
+                        toggleDisplayPopUpModal={
+                            this.props.toggleDisplayPopUpModal
+                        }
+                        closePopUpModal={this.props.closePopUpModal}
+                    />
+                </ModalUploadPopUp>
+                <div className="sidebar-outer-container">
+                    <div className="sidebar-inner-container">
+                        <div className="sidebar-toggle-container">
+                            <div
+                                onClick={() => {
+                                    this.toggleSideBarAndNav("isSideBarHidden");
+                                }}
+                                className="hamburger-icon icon-container"
+                            >
+                                <p
+                                    className="fa fa-bars icon-white-lg"
+                                    aria-hidden="true"
+                                />
+                            </div>
+                        </div>
                         <div
-                            onClick={() => {
-                                this.toggleSideBarAndNav("isSideBarHidden");
+                            style={{
+                                transform: this.state.isSideBarHidden
+                                    ? "translateX(-20rem)"
+                                    : "translateX(0rem)"
                             }}
-                            className="hamburger-icon icon-container"
+                            className="sidebar"
                         >
-                            <p
-                                className="fa fa-bars icon-white-lg"
-                                aria-hidden="true"
-                            />
+                            <ProjectAndUserImg
+                                userName={this.props.userName}
+                                img={this.props.userImg}
+                            >
+                                <UserAndProjectImgCta
+                                    toggleDisplayPopUpModal={
+                                        this.props.toggleDisplayPopUpModal
+                                    }
+                                />
+                            </ProjectAndUserImg>
+                            <div className="sidebar-nav-icons-container">
+                                <Icon iconData={iconData1} />
+                                <Icon iconData={iconData2} />
+                                <Icon iconData={iconData3} />
+                                <Icon iconData={iconData4} />
+                            </div>
+                            <nav className="sidebar-nav">
+                                <ul className="sidebar-nav-items">
+                                    {this.renderNavList()}
+                                </ul>
+                            </nav>
                         </div>
-                    </div>
-                    <div
-                        style={{
-                            transform: this.state.isSideBarHidden
-                                ? "translateX(-20rem)"
-                                : "translateX(0rem)"
-                        }}
-                        className="sidebar"
-                    >
-                        <ProjectAndUserImg
-                            userName={this.props.userName}
-                            img={this.props.userImg}
-                        >
-                            <UserAndProjectImgCta
-                                toggleDisplayPopUpModal={
-                                    this.props.toggleDisplayPopUpModal
-                                }
-                            />
-                        </ProjectAndUserImg>
-                        <div className="sidebar-nav-icons-container">
-                            <Icon iconData={iconData1} />
-                            <Icon iconData={iconData2} />
-                            <Icon iconData={iconData3} />
-                            <Icon iconData={iconData4} />
-                        </div>
-                        <nav className="sidebar-nav">
-                            <ul className="sidebar-nav-items">
-                                {this.renderNavList()}
-                            </ul>
-                        </nav>
                     </div>
                 </div>
-            </div>
+            </React.Fragment>
         );
     }
 }

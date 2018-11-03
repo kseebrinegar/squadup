@@ -2,14 +2,10 @@ import * as React from "react";
 import authFormContainer from "./authFormContainter";
 import Button from "../../buttons/button";
 import Input from "../inputs/inputs";
-import LoaderAnimation from "../../loaderAnimations/loaderAnimation";
-import Success from "../success/success";
 
 interface SFCForgotPasswordProps {
     clearInputsOnChildComponent: boolean;
     isFormShown: boolean;
-    isLoaderShown: boolean;
-    isNotifyShown: boolean;
     inputValueAndIsValid: [string, boolean];
     serverErrorMessage: string;
     changeInputState: (
@@ -31,13 +27,8 @@ const forgotpassword: React.SFC<SFCForgotPasswordProps> = (
 ): JSX.Element => {
     return (
         <section className="signup-and-login-and-forgotpassword forgotpassword">
-            <Success
-                isNotifyShown={props.isNotifyShown}
-                message={"Check Email for link."}
-            />
             <form className={`form ${props.isFormShown ? "" : "is-hidden"}`}>
                 <h3>Forgot Password</h3>
-                <LoaderAnimation displayLoader={props.isLoaderShown} />
                 <Input
                     returnInputValueAndValidation={(
                         inputOneValueAndIsValid: [string, boolean]

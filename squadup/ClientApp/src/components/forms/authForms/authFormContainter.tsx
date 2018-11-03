@@ -6,11 +6,17 @@ import axios from "axios";
 import auth from "../../../actions/auth";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 
+import ModalPopUp from "../../modals/modalPopUp";
+
 interface IState {
     [propName: string]: boolean | [string, boolean] | string | [string, string];
 }
 
 interface IProps extends RouteComponentProps<{}> {
+    clickEvent: () => void;
+    popUpClassName: string;
+    successText: string;
+    isDisplayPopUpModalShown: boolean;
     closeDisplayPopUpModule: () => void;
     logIn: () => void;
     signUp: () => void;
@@ -141,19 +147,14 @@ const authFormContainer = WrappedComponent => {
 
         public logIn = (inputValues: string[]): void => {
             inputValues;
-            axios
-                .post("https://reqres.in/api/login", {
-                    email: "peter@klaven",
-                    password: "asdasd"
-                })
-                .then(
-                    () => {
-                        this.props.logIn();
-                    },
-                    e => {
-                        this.serverErrorMessage(e.response.data.error);
-                    }
-                );
+            axios.post("https://reqres.in/api/users?delay=5").then(
+                () => {
+                    this.props.logIn();
+                },
+                e => {
+                    this.serverErrorMessage(e.response.data.error);
+                }
+            );
         };
 
         public signUp = (inputValues: string[]): void => {
@@ -252,33 +253,47 @@ const authFormContainer = WrappedComponent => {
 
         public render(): JSX.Element {
             return (
-                <WrappedComponent
-                    {...this.state}
-                    onSubmit={(
-                        e: React.MouseEvent<HTMLButtonElement>,
-                        attendedStateLength: number,
-                        functionNameForFormType: string
-                    ) => {
-                        this.onSubmit(
-                            e,
-                            attendedStateLength,
-                            functionNameForFormType
-                        );
-                    }}
-                    changeInputState={(
-                        propName: string,
-                        inputValueAndIsValid: [string, boolean]
-                    ) => {
-                        this.changeInputState(propName, inputValueAndIsValid);
-                    }}
-                    manuallyChooseLoginOrSignUpOrForgotPasswordForm={(
-                        whatFormToClose: string
-                    ) => {
-                        this.props.manuallyChooseLoginOrSignUpOrForgotPasswordForm(
-                            whatFormToClose
-                        );
-                    }}
-                />
+                <ModalPopUp
+                    isDisplayPopUpModalShown={
+                        this.props.isDisplayPopUpModalShown
+                    }
+                    clickEvent={this.props.clickEvent}
+                    popUpClassName={"modal-big-popup"}
+                    isNotifyShown={this.state.isNotifyShown as boolean}
+                    successText={this.props.successText}
+                    isLoaderShown={this.state.isLoaderShown as boolean}
+                >
+                    <WrappedComponent
+                        {...this.state}
+                        onSubmit={(
+                            e: React.MouseEvent<HTMLButtonElement>,
+                            attendedStateLength: number,
+                            functionNameForFormType: string
+                        ) => {
+                            this.onSubmit(
+                                e,
+                                attendedStateLength,
+                                functionNameForFormType
+                            );
+                        }}
+                        changeInputState={(
+                            propName: string,
+                            inputValueAndIsValid: [string, boolean]
+                        ) => {
+                            this.changeInputState(
+                                propName,
+                                inputValueAndIsValid
+                            );
+                        }}
+                        manuallyChooseLoginOrSignUpOrForgotPasswordForm={(
+                            whatFormToClose: string
+                        ) => {
+                            this.props.manuallyChooseLoginOrSignUpOrForgotPasswordForm(
+                                whatFormToClose
+                            );
+                        }}
+                    />
+                </ModalPopUp>
             );
         }
     }

@@ -2,14 +2,11 @@ import * as React from "react";
 import authFormContainer from "./authFormContainter";
 import Button from "../../buttons/button";
 import Input from "../inputs/inputs";
-import LoaderAnimation from "../../loaderAnimations/loaderAnimation";
-import Success from "../success/success";
 
 interface SFCloginProps {
     clearInputsOnChildComponent: boolean;
     isFormShown: boolean;
-    isLoaderShown: boolean;
-    isNotifyShown: boolean;
+
     inputValueAndIsValid: [string, boolean];
     serverErrorMessage: string;
     changeInputState: (
@@ -29,13 +26,9 @@ interface SFCloginProps {
 const login: React.SFC<SFCloginProps> = (props): JSX.Element => {
     return (
         <section className="signup-and-login-and-forgotpassword login">
-            <Success
-                isNotifyShown={props.isNotifyShown}
-                message={"You're now logged in."}
-            />
             <form className={`form ${props.isFormShown ? "" : "is-hidden"}`}>
                 <h3>LOG IN</h3>
-                <LoaderAnimation displayLoader={props.isLoaderShown} />
+
                 <Input
                     serverErrorMessage={props.serverErrorMessage}
                     returnInputValueAndValidation={(

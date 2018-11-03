@@ -229,8 +229,6 @@ li {
   .logo {
     width: 5rem; } }
 
-/* START .................................. MEDIA QUERIES */
-/* END .................................... MEDIA QUERIES */
 #header {
   width: 100%;
   background-color: #24292e;
@@ -407,8 +405,6 @@ li {
   .nav .nav-list-item {
     margin-right: 2.5rem; } }
 
-/* START .................................. MEDIA QUERIES */
-/* END .................................... MEDIA QUERIES */
 .btn-primary,
 .btn-red {
   font-weight: 700;
@@ -918,11 +914,25 @@ li {
       width: 80rem; } }
 
 .modal-big-popup {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   height: 500px;
   width: 700px;
   background-image: url("/images/banner-popup.jpg");
   background-size: 175px;
   background-repeat: no-repeat; }
+  .modal-big-popup .spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-15%, -50%); }
+  .modal-big-popup .success-noti-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-25%, -50%); }
   .modal-big-popup .input-container {
     position: relative; }
   .modal-big-popup .forgotpassword .input-container {
@@ -972,7 +982,17 @@ li {
     .modal-big-popup {
       height: 500px;
       width: 400px;
-      background-image: none; } }
+      background-image: none; }
+      .modal-big-popup .spinner {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%); }
+      .modal-big-popup .success-noti-container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%); } }
   @media (max-width: 480px) {
     .modal-big-popup {
       height: 450px;
@@ -1005,24 +1025,28 @@ li {
 .success-noti {
   color: #27aa45; }
 
-.success-noti-container h2 {
-  text-align: center;
-  font-size: 8rem; }
-  @media (max-width: 768px) {
-    .success-noti-container h2 {
-      font-size: 6.5rem; } }
-  @media (max-width: 480px) {
-    .success-noti-container h2 {
-      font-size: 5.2rem; } }
-  @media (min-width: 1500px) {
-    .success-noti-container h2 {
-      font-size: 9.6rem; } }
-  @media (min-width: 1800px) {
-    .success-noti-container h2 {
-      font-size: 10.6rem; } }
-
-.success-noti-container p {
-  text-align: center; }
+.success-noti-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); }
+  .success-noti-container h2 {
+    text-align: center;
+    font-size: 8rem; }
+    @media (max-width: 768px) {
+      .success-noti-container h2 {
+        font-size: 6.5rem; } }
+    @media (max-width: 480px) {
+      .success-noti-container h2 {
+        font-size: 5.2rem; } }
+    @media (min-width: 1500px) {
+      .success-noti-container h2 {
+        font-size: 9.6rem; } }
+    @media (min-width: 1800px) {
+      .success-noti-container h2 {
+        font-size: 10.6rem; } }
+  .success-noti-container p {
+    text-align: center; }
 
 .signup-and-login-and-forgotpassword {
   position: absolute;
@@ -1238,12 +1262,18 @@ input:focus ~ .input-border-effect {
 .spinner-container {
   position: absolute;
   z-index: 20;
-  position: absolute;
   width: 100%;
   height: 100%;
   position: absolute;
   top: 50%;
   left: 50%;
+  transform: translate(-50%, -50%); }
+
+.signup-and-login-and-forgotpassword .spinner-container {
+  position: absolute;
+  z-index: 20;
+  width: 100%;
+  height: 100%;
   transform: translate(-50%, -50%); }
 
 div.spinner {

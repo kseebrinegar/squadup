@@ -8,8 +8,6 @@ import { connect } from "react-redux";
 import Button from "./buttons/button";
 import auth from "../actions/auth";
 import ModalAniAndSuccContainer from "./modals/modalAniAndSuccContainer";
-import ModalContainerBackground from "./modals/modalContainerBackground";
-import ModalBigPopUp from "./modals/modalBigPopUp";
 import SignUpForm from "./forms/authForms/signup";
 import LoginForm from "./forms/authForms/login";
 import ForgotPassword from "./forms/authForms/forgotPassword";
@@ -327,6 +325,14 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
         if (this.state.loginOrSignUpOrForgotPasswordForm === "signup") {
             return (
                 <SignUpForm
+                    isDisplayPopUpModalShown={
+                        this.state.toggleDisplayBigPopUpModal
+                    }
+                    clickEvent={() => {
+                        this.toggleDisplayBigPopUpModal("signup");
+                    }}
+                    popUpClassName={"modal-big-popup"}
+                    successText={"You created an account."}
                     closeDisplayPopUpModule={() => {
                         this.closeDisplayPopUpModal();
                     }}
@@ -342,6 +348,14 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
         } else if (this.state.loginOrSignUpOrForgotPasswordForm === "login") {
             return (
                 <LoginForm
+                    isDisplayPopUpModalShown={
+                        this.state.toggleDisplayBigPopUpModal
+                    }
+                    clickEvent={() => {
+                        this.toggleDisplayBigPopUpModal("login");
+                    }}
+                    popUpClassName={"modal-big-popup"}
+                    successText={"You're now logged in."}
                     closeDisplayPopUpModule={() => {
                         this.closeDisplayPopUpModal();
                     }}
@@ -357,6 +371,14 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
         } else {
             return (
                 <ForgotPassword
+                    isDisplayPopUpModalShown={
+                        this.state.toggleDisplayBigPopUpModal
+                    }
+                    clickEvent={() => {
+                        this.toggleDisplayBigPopUpModal("forgotpassword");
+                    }}
+                    popUpClassName={"modal-big-popup"}
+                    successText={"Check Email for link."}
                     closeDisplayPopUpModule={() => {
                         this.closeDisplayPopUpModal();
                     }}
@@ -391,25 +413,12 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
     public render(): React.ReactNode {
         return (
             <React.Fragment>
-                <ModalContainerBackground
-                    toggleDisplayPopUpModal={
-                        this.state.toggleDisplayBigPopUpModal
-                    }
-                >
-                    <ModalBigPopUp
-                        clickEvent={() => {
-                            this.toggleDisplayBigPopUpModal("login");
-                        }}
-                    >
-                        {this.chooseFormToShow()}
-                    </ModalBigPopUp>
-                </ModalContainerBackground>
-
+                {this.chooseFormToShow()}
                 <ModalAniAndSuccContainer
-                    toggleDisplayPopUpModal={
+                    isDisplayPopUpModalShown={
                         this.state.toggleDisplaySmallPopUpModal
                     }
-                    toggleDisplayPopUpModal1={() => {
+                    toggleDisplayPopUpModal={() => {
                         this.toggleDisplaySmallPopUpModal();
                     }}
                     closeDisplayPopUpModal={() => {

@@ -1,26 +1,14 @@
 import * as React from "react";
-import ModalSmallPopUp from "./modalSmallPopUp";
-
+import modalSmallPopUp from "./modalSmallPopUp";
+import ModalPopUp from "./modalPopUp";
+import { SFCmodulePopUpProps } from "./modalSmallPopUp";
 interface IProps {
-    toggleDisplayPopUpModal: boolean;
-    toggleDisplayPopUpModal1: () => void;
+    isDisplayPopUpModalShown: boolean;
+    toggleDisplayPopUpModal: () => void;
     closeDisplayPopUpModal: () => void;
     successText: string;
     headerText: string;
     clickEvent: (notifyUserOfSuccess: (logOut: () => void) => void) => void;
-}
-
-interface WrappedComponent {
-    toggleDisplayPopUpModal: boolean;
-    toggleDisplayPopUpModal1: () => void;
-    clickEvent: (notifyUserOfSuccess: (logOut: () => void) => void) => void;
-    headerText: string;
-    successText: string;
-    notifyUserOfSuccess: (logOut: () => void) => void;
-    isNotifyShown: boolean;
-    dislayLoader: () => void;
-    isLoaderShown: boolean;
-    closeDisplayPopUpModal: () => void;
 }
 
 interface IState {
@@ -29,8 +17,8 @@ interface IState {
 }
 
 const modalAniAndSuccContainer = (
-    WrappedComponent: React.SFC<WrappedComponent>
-): any => {
+    WrappedComponent: React.SFC<SFCmodulePopUpProps>
+): React.ComponentClass<IProps, IState> => {
     class ModalAniAndSuccContainer extends React.Component<IProps, IState> {
         public state: IState = { isNotifyShown: false, isLoaderShown: false };
 
@@ -67,18 +55,13 @@ const modalAniAndSuccContainer = (
             });
         };
 
-        public render(): React.ReactNode {
+        private renderWrappedComponent = (): React.ReactChild => {
             return (
                 <WrappedComponent
-                    toggleDisplayPopUpModal={this.props.toggleDisplayPopUpModal}
-                    toggleDisplayPopUpModal1={() => {
-                        this.props.toggleDisplayPopUpModal1();
+                    toggleDisplayPopUpModal={() => {
+                        this.props.toggleDisplayPopUpModal();
                     }}
-                    closeDisplayPopUpModal={() => {
-                        this.props.closeDisplayPopUpModal();
-                    }}
-                    headerText={"Are you sure you wanna log out?"}
-                    successText={"You're now logged out!"}
+                    headerText={this.props.headerText}
                     clickEvent={(
                         notifyUserOfSuccess: (logOut: () => void) => void
                     ) => {
@@ -86,9 +69,26 @@ const modalAniAndSuccContainer = (
                     }}
                     notifyUserOfSuccess={this.notifyUserOfSuccess}
                     dislayLoader={this.dislayLoader}
-                    isLoaderShown={this.state.isLoaderShown}
-                    isNotifyShown={this.state.isNotifyShown}
                 />
+            );
+        };
+
+        public render(): React.ReactNode {
+            return (
+                <ModalPopUp
+                    isDisplayPopUpModalShown={
+                        this.props.isDisplayPopUpModalShown
+                    }
+                    clickEvent={this.props.toggleDisplayPopUpModal}
+                    popUpClassName={"modal-small-popup"}
+                    isNotifyShown={this.state.isNotifyShown}
+                    successText={this.props.successText}
+                    isLoaderShown={this.state.isLoaderShown}
+                >
+                    {this.state.isNotifyShown
+                        ? null
+                        : this.renderWrappedComponent()}
+                </ModalPopUp>
             );
         }
     }
@@ -96,4 +96,4 @@ const modalAniAndSuccContainer = (
     return ModalAniAndSuccContainer;
 };
 
-export default modalAniAndSuccContainer(ModalSmallPopUp);
+export default modalAniAndSuccContainer(modalSmallPopUp);

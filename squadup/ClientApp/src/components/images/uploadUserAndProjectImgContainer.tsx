@@ -1,11 +1,7 @@
 import * as React from "react";
 
-import ModalContainerBackground from "../modals/modalContainerBackground";
-import ModalUploadPopUp from "../modals/modalUploadPopUp";
-import UploadImgFile from "../forms/uploadFile/UploadImgFile";
-
 interface IState {
-    toggleDisplayPopUpModal: boolean;
+    isDisplayPopUpModalShown: boolean;
 }
 
 interface IProps {}
@@ -15,7 +11,7 @@ const uploadUserAndProjectImgWrapper = (WrappedComponent: any) => {
         IProps,
         IState
     > {
-        public state: IState = { toggleDisplayPopUpModal: false };
+        public state: IState = { isDisplayPopUpModalShown: false };
 
         constructor(props: IProps) {
             super(props);
@@ -24,7 +20,7 @@ const uploadUserAndProjectImgWrapper = (WrappedComponent: any) => {
         public toggleDisplayPopUpModal = (): void => {
             this.setState(prevState => {
                 return {
-                    toggleDisplayPopUpModal: prevState.toggleDisplayPopUpModal
+                    isDisplayPopUpModalShown: prevState.isDisplayPopUpModalShown
                         ? false
                         : true
                 };
@@ -34,37 +30,20 @@ const uploadUserAndProjectImgWrapper = (WrappedComponent: any) => {
         public closePopUpModal = (): void => {
             this.setState(() => {
                 return {
-                    toggleDisplayPopUpModal: false
+                    isDisplayPopUpModalShown: false
                 };
             });
         };
 
         public render(): JSX.Element {
             return (
-                <React.Fragment>
-                    <WrappedComponent
-                        toggleDisplayPopUpModal={this.toggleDisplayPopUpModal}
-                    />
-                    <ModalContainerBackground
-                        toggleDisplayPopUpModal={
-                            this.state.toggleDisplayPopUpModal
-                        }
-                    >
-                        <ModalUploadPopUp
-                            clickEvent={this.toggleDisplayPopUpModal}
-                        >
-                            <UploadImgFile
-                                isPopUpModalShown={
-                                    this.state.toggleDisplayPopUpModal
-                                }
-                                toggleDisplayPopUpModal={
-                                    this.toggleDisplayPopUpModal
-                                }
-                                closePopUpModal={this.closePopUpModal}
-                            />
-                        </ModalUploadPopUp>
-                    </ModalContainerBackground>
-                </React.Fragment>
+                <WrappedComponent
+                    toggleDisplayPopUpModal={this.toggleDisplayPopUpModal}
+                    isDisplayPopUpModalShown={
+                        this.state.isDisplayPopUpModalShown
+                    }
+                    closePopUpModal={this.closePopUpModal}
+                />
             );
         }
     }
