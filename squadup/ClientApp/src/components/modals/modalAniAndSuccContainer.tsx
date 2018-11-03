@@ -1,6 +1,6 @@
 import * as React from "react";
-import modalSmallPopUp from "./modalSmallPopUp";
 import ModalPopUp from "./modalPopUp";
+// import UploadUserAndProjectImgContainer from "../images/uploadUserAndProjectImgContainer";
 import { SFCmodulePopUpProps } from "./modalSmallPopUp";
 interface IProps {
     isDisplayPopUpModalShown: boolean;
@@ -8,7 +8,7 @@ interface IProps {
     closeDisplayPopUpModal: () => void;
     successText: string;
     headerText: string;
-    clickEvent: (notifyUserOfSuccess: (logOut: () => void) => void) => void;
+    clickEvent: (arg: (arg: () => void) => void) => void;
 }
 
 interface IState {
@@ -26,7 +26,7 @@ const modalAniAndSuccContainer = (
             super(props);
         }
 
-        private notifyUserOfSuccess = (logOut: () => void): void => {
+        private notifyUserOfSuccess = (arg: () => void): void => {
             this.setState(() => {
                 return {
                     isLoaderShown: false,
@@ -41,7 +41,7 @@ const modalAniAndSuccContainer = (
                     };
                 });
                 this.props.closeDisplayPopUpModal();
-                logOut();
+                arg();
 
                 clearInterval(timer);
             }, 1500);
@@ -63,7 +63,7 @@ const modalAniAndSuccContainer = (
                     }}
                     headerText={this.props.headerText}
                     clickEvent={(
-                        notifyUserOfSuccess: (logOut: () => void) => void
+                        notifyUserOfSuccess: (arg: () => void) => void
                     ) => {
                         this.props.clickEvent(notifyUserOfSuccess);
                     }}
@@ -96,4 +96,4 @@ const modalAniAndSuccContainer = (
     return ModalAniAndSuccContainer;
 };
 
-export default modalAniAndSuccContainer(modalSmallPopUp);
+export default modalAniAndSuccContainer;

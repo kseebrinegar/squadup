@@ -7,7 +7,7 @@ import { bindActionCreators, Dispatch } from "redux";
 import { connect } from "react-redux";
 import Button from "./buttons/button";
 import auth from "../actions/auth";
-import ModalAniAndSuccContainer from "./modals/modalAniAndSuccContainer";
+import ModalSmallPopUp from "./modals/modalSmallPopUp";
 import SignUpForm from "./forms/authForms/signup";
 import LoginForm from "./forms/authForms/login";
 import ForgotPassword from "./forms/authForms/forgotPassword";
@@ -414,7 +414,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
         return (
             <React.Fragment>
                 {this.chooseFormToShow()}
-                <ModalAniAndSuccContainer
+                <ModalSmallPopUp
                     isDisplayPopUpModalShown={
                         this.state.toggleDisplaySmallPopUpModal
                     }

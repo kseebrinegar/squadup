@@ -1,12 +1,12 @@
 import * as React from "react";
 
 import Button from "../buttons/button";
-
+import ModalAniAndSuccContainer from "./modalAniAndSuccContainer";
 export interface SFCmodulePopUpProps {
     toggleDisplayPopUpModal: () => void;
-    clickEvent: (notifyUserOfSuccess: (logOut: () => void) => void) => void;
+    clickEvent: (notifyUserOfSuccess: (arg: () => void) => void) => void;
     headerText: string;
-    notifyUserOfSuccess: (logOut: () => void) => void;
+    notifyUserOfSuccess: (arg: () => void) => void;
     dislayLoader: () => void;
 }
 
@@ -35,4 +35,4 @@ const modulePopUp: React.SFC<SFCmodulePopUpProps> = (props): JSX.Element => {
     );
 };
 
-export default modulePopUp;
+export default ModalAniAndSuccContainer(modulePopUp);
