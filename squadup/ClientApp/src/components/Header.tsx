@@ -7,6 +7,7 @@ import { bindActionCreators, Dispatch } from "redux";
 import { connect } from "react-redux";
 import Button from "./buttons/button";
 import auth from "../actions/auth";
+import modalPopUps from "../actions/modalPopUp";
 import ModalSmallPopUp from "./modals/modalSmallPopUp";
 import SignUpForm from "./forms/authForms/signup";
 import LoginForm from "./forms/authForms/login";
@@ -28,6 +29,8 @@ interface IHeaderState {
 interface IHeaderProps {
     isUserLoggedIn: boolean;
     logOut: () => void;
+    toggleLogOutPopUp: () => void;
+    closeLogOutPopUp: () => void;
 }
 
 class Header extends React.Component<IHeaderProps, IHeaderState> {
@@ -260,7 +263,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
             colorAndSizeClassName: "icon-white-md",
             iconInfoClassName: "icon-info-logout",
             infoName: "Logout",
-            clickEvent: this.toggleDisplaySmallPopUpModal
+            clickEvent: this.props.toggleLogOutPopUp
         };
 
         if (this.state.isUserLoggedIn) {
@@ -397,8 +400,8 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
     public componentWillReceiveProps(nextProps: {
         isUserLoggedIn: boolean;
         logOut: Function;
+        toggleLogOutPopUp: () => void;
     }): void {
-        this.state.isUserLoggedIn;
         if (this.state.isUserLoggedIn != nextProps.isUserLoggedIn) {
             this.setState({
                 isUserLoggedIn: nextProps.isUserLoggedIn
@@ -415,14 +418,13 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
             <React.Fragment>
                 {this.chooseFormToShow()}
                 <ModalSmallPopUp
-                    isDisplayPopUpModalShown={
-                        this.state.toggleDisplaySmallPopUpModal
-                    }
-                    toggleDisplayPopUpModal={() => {
-                        this.toggleDisplaySmallPopUpModal();
+                    popUpClassName={"modal-small-popup"}
+                    isPopUpShown={"isLogOutPopUpShown"}
+                    togglePopUp={() => {
+                        this.props.toggleLogOutPopUp();
                     }}
-                    closeDisplayPopUpModal={() => {
-                        this.closeDisplayPopUpModal();
+                    closePopUp={() => {
+                        this.props.closeLogOutPopUp();
                     }}
                     headerText={"Are you sure you wanna log out?"}
                     successText={"You're now logged out!"}
@@ -475,14 +477,18 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
 const mapDispatchToProps = (dispatch: Dispatch) =>
     bindActionCreators(
         {
-            logOut: auth.logOut
+            logOut: auth.logOut,
+            toggleLogOutPopUp: modalPopUps.toggleLogOutPopUp,
+            closeLogOutPopUp: modalPopUps.closeLogOutPopUp
         },
         dispatch
     );
 
-const mapStateToProps = (state: AppState) => ({
-    isUserLoggedIn: state.auth
-});
+const mapStateToProps = (state: AppState) => {
+    return {
+        isUserLoggedIn: state.auth
+    };
+};
 
 export default connect(
     mapStateToProps,

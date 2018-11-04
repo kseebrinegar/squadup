@@ -9,6 +9,7 @@ import { AppState } from "./types";
 import thunk from "redux-thunk";
 import auth from "../reducers/auth";
 import basicUserInfo from "../reducers/basicUserInfo";
+import modalPopUps from "../reducers/modalPopUps";
 
 const composeEnhancers =
     // tslint:disable-next-line:no-any
@@ -18,7 +19,8 @@ const setStore = () => {
     const store: Store<AppState> = createStore(
         combineReducers({
             auth,
-            basicUserInfo
+            basicUserInfo,
+            modalPopUps
         }),
         composeEnhancers(applyMiddleware(thunk))
     );

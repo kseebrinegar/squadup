@@ -5,7 +5,7 @@ import ToggleDisplayPopUpModal from "./toggleDisplayPopUpModal";
 import LoaderAnimation from "../loaderAnimations/loaderAnimation";
 import Success from "../forms/success/success";
 
-interface SFCModalXLPopUp {
+interface SFCModalPopUp {
     clickEvent: () => void;
     isDisplayPopUpModalShown: boolean;
     popUpClassName: string;
@@ -14,7 +14,7 @@ interface SFCModalXLPopUp {
     isLoaderShown: boolean;
 }
 
-const modalPopUp: React.SFC<SFCModalXLPopUp> = (props): JSX.Element => {
+const modalPopUp: React.SFC<SFCModalPopUp> = (props): JSX.Element => {
     return (
         <ModalContainerBackground
             isDisplayPopUpModalShown={props.isDisplayPopUpModalShown}
