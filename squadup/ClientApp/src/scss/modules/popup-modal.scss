@@ -212,6 +212,10 @@
 .modal-upload-popup {
     width: 550px;
     height: 550px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
 
     @include respond(mq-768) {
         height: 350px;

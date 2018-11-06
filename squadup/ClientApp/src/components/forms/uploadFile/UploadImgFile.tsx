@@ -5,29 +5,32 @@ import DropZone from "react-dropzone";
 // @ts-ignore
 // having trouble with setting up types with ImgCrop lib
 import ImgCrop from "react-image-crop";
+import { AppState } from "../../../store/types";
 import axios from "axios";
-
 import Button from "../../buttons/button";
-import LoaderAnimation from "../../loaderAnimations/loaderAnimation";
-import Success from "../success/success";
 import uploadImg from "../../../actions/uploadImg";
 import Icon from "../../icons/icon";
+import ModalAniAndSuccContainer from "../../modals/modalAniAndSuccContainer";
 
-interface IProps {
-    isPopUpModalShown: boolean;
-    toggleDisplayPopUpModal: () => void;
-    closePopUpModal: () => void;
+export interface OwnProps {
+    dislayLoader: () => void;
+    notifyUserOfSuccess: (arg: () => void) => void;
+    isPopUpShown: string;
+}
+
+interface DispatchProps {
     uploadImg: (img: string) => {};
 }
 
-interface IState {
+interface StateProps {
+    modalPopUpsState: { [key: string]: boolean };
+}
+
+interface State {
     errorMessage: string | null;
     isDropZoneHidden: boolean;
     isImgCropHidden: boolean;
     isCanvasBlank: boolean;
-    isFileBeingSentToSever: boolean;
-    isNotifyShown: boolean;
-    testingBackEndCall: boolean;
     imgAsBase64: string;
     fileExtension: string | null;
     dropCropContainerHeight: string;
@@ -37,8 +40,8 @@ interface IState {
     };
 }
 
+type Props = OwnProps & DispatchProps & StateProps;
 type resolve = (value?: {} | PromiseLike<{}> | undefined) => void;
-
 type crop = {
     x: number;
     y: number;
@@ -47,7 +50,7 @@ type crop = {
     aspect: number;
 };
 
-class UploadImgFile extends React.Component<IProps, IState> {
+class UploadImgFile extends React.Component<Props, State> {
     private imgRequirements = {
         maxSizeInBytes: 5000000,
         isMorethenOneImgAllowed: false,
@@ -63,14 +66,11 @@ class UploadImgFile extends React.Component<IProps, IState> {
 
     private imagePreviewCanvasRef: React.RefObject<HTMLCanvasElement>;
 
-    public state: IState = {
+    public state: State = {
         errorMessage: null,
         isDropZoneHidden: false,
         isImgCropHidden: true,
         isCanvasBlank: true,
-        isFileBeingSentToSever: false,
-        isNotifyShown: false,
-        testingBackEndCall: true,
         imgAsBase64: "",
         fileExtension: null,
         dropCropContainerHeight: this.dropCropContainerDefault.height,
@@ -80,7 +80,7 @@ class UploadImgFile extends React.Component<IProps, IState> {
         }
     };
 
-    constructor(props: IProps) {
+    constructor(props: Props) {
         super(props);
         this.imagePreviewCanvasRef = React.createRef();
     }
@@ -153,9 +153,6 @@ class UploadImgFile extends React.Component<IProps, IState> {
                 isImgCropHidden: true,
                 isButtonsHidden: true,
                 isCanvasBlank: true,
-                isFileBeingSentToSever: false,
-                isNotifyShown: false,
-                testingBackEndCall: true,
                 imgAsBase64: "",
                 fileExtension: null,
                 dropCropContainerHeight: this.dropCropContainerDefault.height,
@@ -362,22 +359,17 @@ class UploadImgFile extends React.Component<IProps, IState> {
         (async () => {
             const imgAsBase64 = (await this.getImgAsBase64(imgFile)) as string;
 
-            this.setState(() => {
-                return {
-                    isFileBeingSentToSever: true
-                };
-            });
+            this.props.dislayLoader();
 
             axios
                 .get("https://reqres.in/api/users?delay=3")
                 .then(() => {
                     this.props.uploadImg(imgAsBase64);
-                    this.notifyUserOfSuccess();
+                    this.props.notifyUserOfSuccess(() => {});
                 })
                 .catch(() => {
                     this.setState(() => {
                         return {
-                            isFileBeingSentToSever: false,
                             errorMessage:
                                 "Sorry, something went wrong. Please try again."
                         };
@@ -386,26 +378,13 @@ class UploadImgFile extends React.Component<IProps, IState> {
         })();
     }
 
-    public notifyUserOfSuccess = (): void => {
-        this.setState(() => {
-            return { isFileBeingSentToSever: false, isNotifyShown: true };
-        });
-
-        const timer: number = window.setTimeout(() => {
-            this.props.closePopUpModal();
-            this.resetStateAndCanvasToDefault();
-
-            clearInterval(timer);
-        }, 1500);
-    };
-
-    public componentWillReceiveProps(props: IProps): void {
-        if (!props.isPopUpModalShown) {
+    public componentWillReceiveProps(nextProps: StateProps): void {
+        if (!nextProps.modalPopUpsState[this.props.isPopUpShown]) {
             this.resetStateAndCanvasToDefault();
         }
     }
 
-    public render(): JSX.Element {
+    public render(): React.ReactNode {
         const dropCropContainerDemensions: { height: string; width: string } = {
             height: this.state.dropCropContainerHeight,
             width: this.state.dropCropContainerWidth
@@ -430,100 +409,76 @@ class UploadImgFile extends React.Component<IProps, IState> {
         return (
             <React.Fragment>
                 <div className="upload-img-container">
-                    <LoaderAnimation
-                        displayLoader={this.state.isFileBeingSentToSever}
-                    />
-                    {this.state.isNotifyShown === true && (
-                        <Success
-                            isNotifyShown={true}
-                            message={"User image uploaded!"}
-                        />
-                    )}
-                    <div
-                        className={
-                            this.state.isNotifyShown === true
-                                ? "is-hidden"
-                                : "is-shown"
-                        }
-                    >
-                        <div className="upload-img-error-message-container">
-                            <p className="upload-img-error-message">
-                                {this.state.errorMessage}
-                            </p>
-                        </div>
-                        <div className="canvas-container">
-                            <Icon iconData={iconData1} />
-                            <p className="canvas-para">Crop preview</p>
+                    <div className="upload-img-error-message-container">
+                        <p className="upload-img-error-message">
+                            {this.state.errorMessage}
+                        </p>
+                    </div>
+                    <div className="canvas-container">
+                        <Icon iconData={iconData1} />
+                        <p className="canvas-para">Crop preview</p>
 
-                            <canvas
-                                className="canvas"
-                                ref={this.imagePreviewCanvasRef}
+                        <canvas
+                            className="canvas"
+                            ref={this.imagePreviewCanvasRef}
+                        />
+                    </div>
+                    <div className="drop-crop-and-sucess-container-outer">
+                        <div
+                            style={dropCropContainerDemensions}
+                            className="drop-crop-and-sucess-container-inner"
+                        >
+                            <DropZone
+                                onDrop={this.handleOnDrop}
+                                maxSize={this.imgRequirements.maxSizeInBytes}
+                                multiple={
+                                    this.imgRequirements.isMorethenOneImgAllowed
+                                }
+                                accept={this.imgRequirements.typeOfImgsAllowed}
+                                className={
+                                    this.state.isDropZoneHidden
+                                        ? "drop-zone-container is-hidden"
+                                        : "drop-zone-container"
+                                }
+                            >
+                                <Icon iconData={iconData2} />
+                                <div className="drop-zone-para">
+                                    <p>Drag & drop file</p>
+                                    <p>or</p>
+                                    <p className="browse">Browse</p>
+                                </div>
+                                <div className="drop-zone-requirements">
+                                    <p>JPEG, PNG, GIF</p>
+                                    <p>5mb file limit</p>
+                                    <p>Min size 200x200 pixels</p>
+                                </div>
+                            </DropZone>
+
+                            <ImgCrop
+                                className={
+                                    this.state.isImgCropHidden
+                                        ? "img-crop-container is-hidden"
+                                        : "img-crop-container"
+                                }
+                                src={this.state.imgAsBase64}
+                                crop={this.state.crop}
+                                onChange={this.handleOnCropChange}
+                                onComplete={this.handleOnCropComplete}
                             />
                         </div>
-                        <div className="drop-crop-and-sucess-container-outer">
-                            <div
-                                style={dropCropContainerDemensions}
-                                className="drop-crop-and-sucess-container-inner"
-                            >
-                                <DropZone
-                                    onDrop={this.handleOnDrop}
-                                    maxSize={
-                                        this.imgRequirements.maxSizeInBytes
-                                    }
-                                    multiple={
-                                        this.imgRequirements
-                                            .isMorethenOneImgAllowed
-                                    }
-                                    accept={
-                                        this.imgRequirements.typeOfImgsAllowed
-                                    }
-                                    className={
-                                        this.state.isDropZoneHidden
-                                            ? "drop-zone-container is-hidden"
-                                            : "drop-zone-container"
-                                    }
-                                >
-                                    <Icon iconData={iconData2} />
-                                    <div className="drop-zone-para">
-                                        <p>Drag & drop file</p>
-                                        <p>or</p>
-                                        <p className="browse">Browse</p>
-                                    </div>
-                                    <div className="drop-zone-requirements">
-                                        <p>JPEG, PNG, GIF</p>
-                                        <p>5mb file limit</p>
-                                        <p>Min size 200x200 pixels</p>
-                                    </div>
-                                </DropZone>
-
-                                <ImgCrop
-                                    className={
-                                        this.state.isImgCropHidden
-                                            ? "img-crop-container is-hidden"
-                                            : "img-crop-container"
-                                    }
-                                    src={this.state.imgAsBase64}
-                                    crop={this.state.crop}
-                                    onChange={this.handleOnCropChange}
-                                    onComplete={this.handleOnCropComplete}
-                                />
-                            </div>
-                            <div className="modal-upload-popup-buttons-container">
-                                <Button
-                                    clickEvent={this.submit}
-                                    text={"Submit"}
-                                    type={"submit"}
-                                    classes={"btn-primary btn-sm"}
-                                />
-                                <Button
-                                    clickEvent={
-                                        this.resetStateAndCanvasToDefault
-                                    }
-                                    text={"Reset"}
-                                    type={"button"}
-                                    classes={"btn-red btn-sm"}
-                                />
-                            </div>
+                        <div className="modal-upload-popup-buttons-container">
+                            <Button
+                                clickEvent={this.submit}
+                                text={"Submit"}
+                                type={"submit"}
+                                classes={"btn-primary btn-sm"}
+                            />
+                            <Button
+                                clickEvent={this.resetStateAndCanvasToDefault}
+                                text={"Reset"}
+                                type={"button"}
+                                classes={"btn-red btn-sm"}
+                            />
                         </div>
                     </div>
                 </div>
@@ -533,10 +488,21 @@ class UploadImgFile extends React.Component<IProps, IState> {
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
-    return bindActionCreators({ uploadImg }, dispatch);
+    return bindActionCreators(
+        {
+            uploadImg
+        },
+        dispatch
+    );
 };
 
-export default connect(
-    null,
+const mapStateToProps = (state: AppState) => {
+    return { modalPopUpsState: state.modalPopUps };
+};
+
+const uploadImgFile = connect(
+    mapStateToProps,
     mapDispatchToProps
 )(UploadImgFile);
+
+export default ModalAniAndSuccContainer(uploadImgFile);

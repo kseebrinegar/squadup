@@ -417,15 +417,12 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
         return (
             <React.Fragment>
                 {this.chooseFormToShow()}
+
                 <ModalSmallPopUp
                     popUpClassName={"modal-small-popup"}
                     isPopUpShown={"isLogOutPopUpShown"}
-                    togglePopUp={() => {
-                        this.props.toggleLogOutPopUp();
-                    }}
-                    closePopUp={() => {
-                        this.props.closeLogOutPopUp();
-                    }}
+                    togglePopUp={"toggleLogOutPopUp"}
+                    closePopUp={"closeLogOutPopUp"}
                     headerText={"Are you sure you wanna log out?"}
                     successText={"You're now logged out!"}
                     clickEvent={(

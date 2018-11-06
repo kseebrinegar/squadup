@@ -1,35 +1,50 @@
 import * as React from "react";
 import ModalPopUp from "./modalPopUp";
+import { OwnProps as UploadImgFileProps } from "../forms/uploadFile/UploadImgFile";
 import { SFCmodulePopUpProps } from "./modalSmallPopUp";
+import { ModalPopUps } from "../../reducers/modalPopUps";
 import { AppState } from "../../store/types";
 import { connect } from "react-redux";
+import { bindActionCreators, Dispatch } from "redux";
+import modalPopUpsActions from "../../actions/modalPopUp";
 
 interface OwnProps {
     successText: string;
-    headerText: string;
-    clickEvent: (arg: (arg: () => void) => void) => void;
+    headerText?: string;
+    clickEvent?: (arg: (arg: () => void) => void) => void;
     isPopUpShown: string;
-    togglePopUp: () => void;
-    closePopUp: () => void;
+    togglePopUp: string;
+    closePopUp: string;
     popUpClassName: string;
 }
+
 interface StateProps {
-    [key: string]: boolean;
+    modalPopUpsState: ModalPopUps;
 }
 
-type Props = OwnProps & StateProps;
+interface DispatchProps {
+    toggleLogOutPopUp: () => Action;
+    closeLogOutPopUp: () => Action;
+    toggleSideBarNavImgPopUp: () => Action;
+    closeSideBarNavImgPopUp: () => Action;
+}
 
-interface IState {
+interface State {
     isNotifyShown: boolean;
     isLoaderShown: boolean;
     isDisplayPopUpModalShown: boolean;
 }
 
-const modalAniAndSuccContainer = (
-    WrappedComponent: React.SFC<SFCmodulePopUpProps>
-): any => {
-    class ModalAniAndSuccContainer extends React.Component<Props, IState> {
-        public state: IState = {
+type Action = { type: string };
+type Props = OwnProps & StateProps & DispatchProps;
+
+const modalAniAndSuccContainer = <
+    P extends UploadImgFileProps | SFCmodulePopUpProps
+>(
+    WrappedComponent: React.ComponentType<P>
+) => {
+    class ModalAniAndSuccContainer extends React.Component<Props, State> {
+        public state: State = {
             isNotifyShown: false,
             isLoaderShown: false,
             isDisplayPopUpModalShown: this.props.modalPopUpsState[
@@ -41,26 +56,24 @@ const modalAniAndSuccContainer = (
             super(props);
         }
 
-        public toggleDisplayPopUpModal = (): void => {
-            this.props.togglePopUp();
-        };
-
-        public closeDisplayPopUpModal = (): void => {
-            this.props.closePopUp();
-        };
-
         private notifyUserOfSuccess = (arg: () => void): void => {
             this.setState(() => {
                 return { isLoaderShown: false, isNotifyShown: true };
             });
 
-            const timer: number = window.setTimeout(() => {
-                this.setState(() => {
-                    return { isNotifyShown: false };
-                });
-                this.closeDisplayPopUpModal();
-                arg();
+            this.successTimer(arg);
+        };
 
+        private successTimer = (arg: () => void): void => {
+            const timer = window.setTimeout(() => {
+                this.setState(() => {
+                    return {
+                        isNotifyShown: false
+                    };
+                });
+
+                this.props[this.props.closePopUp]();
+                arg();
                 clearInterval(timer);
             }, 1500);
         };
@@ -72,24 +85,35 @@ const modalAniAndSuccContainer = (
         };
 
         private renderWrappedComponent = (): React.ReactChild => {
+            if (this.props.headerText) {
+                return (
+                    <WrappedComponent
+                        toggleDisplayPopUpModal={() => {
+                            this.props[this.props.togglePopUp]();
+                        }}
+                        headerText={this.props.headerText}
+                        clickEvent={(
+                            notifyUserOfSuccess: (arg: () => void) => void
+                        ) => {
+                            // @ts-ignore
+                            this.props.clickEvent(notifyUserOfSuccess);
+                        }}
+                        notifyUserOfSuccess={this.notifyUserOfSuccess}
+                        dislayLoader={this.dislayLoader}
+                    />
+                );
+            }
+
             return (
                 <WrappedComponent
-                    toggleDisplayPopUpModal={() => {
-                        this.toggleDisplayPopUpModal();
-                    }}
-                    headerText={this.props.headerText}
-                    clickEvent={(
-                        notifyUserOfSuccess: (arg: () => void) => void
-                    ) => {
-                        this.props.clickEvent(notifyUserOfSuccess);
-                    }}
                     notifyUserOfSuccess={this.notifyUserOfSuccess}
                     dislayLoader={this.dislayLoader}
+                    isPopUpShown={this.props.isPopUpShown}
                 />
             );
         };
 
-        public componentWillReceiveProps = (nextProps: StateProps) => {
+        public componentWillReceiveProps = (nextProps: StateProps): void => {
             if (
                 nextProps.modalPopUpsState[this.props.isPopUpShown] !==
                 this.state.isDisplayPopUpModalShown
@@ -110,7 +134,7 @@ const modalAniAndSuccContainer = (
                         this.state.isDisplayPopUpModalShown
                     }
                     clickEvent={() => {
-                        this.toggleDisplayPopUpModal();
+                        this.props[this.props.togglePopUp]();
                     }}
                     popUpClassName={this.props.popUpClassName}
                     isNotifyShown={this.state.isNotifyShown}
@@ -125,11 +149,27 @@ const modalAniAndSuccContainer = (
         }
     }
 
-    const mapStateToProps = (state: AppState) => {
+    const mapStateToProps = (state: AppState): StateProps => {
         return { modalPopUpsState: state.modalPopUps };
     };
 
-    return connect(mapStateToProps)(ModalAniAndSuccContainer);
+    const mapDispatchToProps = (dispatch: Dispatch): DispatchProps =>
+        bindActionCreators(
+            {
+                toggleLogOutPopUp: modalPopUpsActions.toggleLogOutPopUp,
+                closeLogOutPopUp: modalPopUpsActions.closeLogOutPopUp,
+                toggleSideBarNavImgPopUp:
+                    modalPopUpsActions.toggleSideBarNavImgPopUp,
+                closeSideBarNavImgPopUp:
+                    modalPopUpsActions.closeSideBarNavImgPopUp
+            },
+            dispatch
+        );
+
+    return connect<StateProps, DispatchProps, {}, AppState>(
+        mapStateToProps,
+        mapDispatchToProps
+    )(ModalAniAndSuccContainer);
 };
 
 export default modalAniAndSuccContainer;

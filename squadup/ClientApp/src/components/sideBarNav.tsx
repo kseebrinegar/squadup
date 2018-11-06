@@ -5,24 +5,20 @@ import { bindActionCreators, Dispatch } from "redux";
 import * as uuid from "uuid";
 
 import sideBarNavActions from "../actions/sideBarNav";
+import modalPopUpActions from "../actions/modalPopUp";
 import { AppState } from "../store/types";
-import UploadUserAndProjectImgContainer from "./images/uploadUserAndProjectImgContainer";
 import ProjectAndUserImg from "./images/projectAndUserImg";
 import UserAndProjectImgCta from "./images/userAndProjectImgCta";
 import Icon from "./icons/icon";
-import ModalUploadPopUp from "./modals/modalPopUp";
 import UploadImgFile from "./forms/uploadFile/UploadImgFile";
 
-interface IState {
-    [propName: string]: boolean;
-}
-
-interface IProps {
+interface DispatchProps {
     requestSideBarIconsData: () => Function;
     requestAllSideBarData: () => Function;
-    toggleDisplayPopUpModal: () => {};
-    closePopUpModal: () => {};
-    isDisplayPopUpModalShown: boolean;
+    toggleSideBarNavImgPopUp: () => void;
+}
+
+interface StateProps {
     userProfileLikesCount: number;
     userProfileViewsCount: number;
     userIsfollowingCount: number;
@@ -31,19 +27,25 @@ interface IProps {
     userImg: string;
 }
 
+interface State {
+    [propName: string]: boolean;
+}
+
+type Props = DispatchProps & StateProps;
+
 type navList = Record<string, string | number>[];
 
-class SideBarNav extends React.Component<IProps, IState> {
-    public state: IState = {
+class SideBarNav extends React.Component<Props, State> {
+    public state: State = {
         isSideBarHidden: false,
         isInboxNavHidden: true
     };
 
-    constructor(props: IProps) {
+    constructor(props: Props) {
         super(props);
     }
 
-    public toggleSideBarAndNav = (propName: keyof IState): void => {
+    public toggleSideBarAndNav = (propName: keyof State): void => {
         this.setState(prevState => {
             return { [propName]: prevState[propName] ? false : true };
         });
@@ -167,8 +169,6 @@ class SideBarNav extends React.Component<IProps, IState> {
         this.onPageLoadGetData();
     }
 
-    public componentWillReceiveProps = (): void => {};
-
     public render(): JSX.Element {
         type iconData = {
             containerClassName: string;
@@ -214,24 +214,14 @@ class SideBarNav extends React.Component<IProps, IState> {
 
         return (
             <React.Fragment>
-                <ModalUploadPopUp
-                    isDisplayPopUpModalShown={
-                        this.props.isDisplayPopUpModalShown
-                    }
-                    clickEvent={this.props.toggleDisplayPopUpModal}
+                <UploadImgFile
                     popUpClassName={"modal-upload-popup"}
-                    isNotifyShown={this.state.isNotifyShown}
+                    isPopUpShown={"isSideBarNavPopUpShown"}
+                    togglePopUp={"toggleSideBarNavImgPopUp"}
+                    closePopUp={"closeSideBarNavImgPopUp"}
                     successText={"User image uploaded!"}
-                    isLoaderShown={this.state.isLoaderShown}
-                >
-                    <UploadImgFile
-                        isPopUpModalShown={this.props.isDisplayPopUpModalShown}
-                        toggleDisplayPopUpModal={
-                            this.props.toggleDisplayPopUpModal
-                        }
-                        closePopUpModal={this.props.closePopUpModal}
-                    />
-                </ModalUploadPopUp>
+                />
+
                 <div className="sidebar-outer-container">
                     <div className="sidebar-inner-container">
                         <div className="sidebar-toggle-container">
@@ -260,9 +250,9 @@ class SideBarNav extends React.Component<IProps, IState> {
                                 img={this.props.userImg}
                             >
                                 <UserAndProjectImgCta
-                                    toggleDisplayPopUpModal={
-                                        this.props.toggleDisplayPopUpModal
-                                    }
+                                    toggleDisplayPopUpModal={() => {
+                                        this.props.toggleSideBarNavImgPopUp();
+                                    }}
                                 />
                             </ProjectAndUserImg>
                             <div className="sidebar-nav-icons-container">
@@ -299,15 +289,14 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     return bindActionCreators(
         {
             requestSideBarIconsData: sideBarNavActions.requestSideBarIconsData,
-            requestAllSideBarData: sideBarNavActions.requestAllSideBarData
+            requestAllSideBarData: sideBarNavActions.requestAllSideBarData,
+            toggleSideBarNavImgPopUp: modalPopUpActions.toggleSideBarNavImgPopUp
         },
         dispatch
     );
 };
 
-const sideBarNav = connect(
+export default connect(
     mapStateToProps,
     mapDispatchToProps
 )(SideBarNav);
-
-export default UploadUserAndProjectImgContainer(sideBarNav);
