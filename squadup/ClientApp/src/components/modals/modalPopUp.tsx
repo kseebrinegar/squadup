@@ -3,7 +3,7 @@ import * as React from "react";
 import ModalContainerBackground from "./modalContainerBackground";
 import ToggleDisplayPopUpModal from "./toggleDisplayPopUpModal";
 import LoaderAnimation from "../loaderAnimations/loaderAnimation";
-import Success from "../forms/success/success";
+import Success from "../success/success";
 
 interface SFCModalPopUp {
     clickEvent: () => void;
