@@ -218,7 +218,6 @@ class SideBarNav extends React.Component<Props, State> {
                     popUpClassName={"modal-upload-popup"}
                     isPopUpShown={"isSideBarNavPopUpShown"}
                     togglePopUp={"toggleSideBarNavImgPopUp"}
-                    closePopUp={"closeSideBarNavImgPopUp"}
                     successText={"User image uploaded!"}
                 />
 

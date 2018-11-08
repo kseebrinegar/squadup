@@ -2,6 +2,7 @@ import * as React from "react";
 import authFormContainer from "./authFormContainter";
 import Button from "../../buttons/button";
 import Input from "../inputs/inputs";
+import modalAniAndSuccContainer from "../../modals/modalAniAndSuccContainer";
 
 interface SFCForgotPasswordProps {
     clearInputsOnChildComponent: boolean;
@@ -77,4 +78,4 @@ const forgotpassword: React.SFC<SFCForgotPasswordProps> = (
     );
 };
 
-export default authFormContainer(forgotpassword);
+export default modalAniAndSuccContainer(authFormContainer(forgotpassword));

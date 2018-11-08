@@ -9,9 +9,9 @@ import Button from "./buttons/button";
 import auth from "../actions/auth";
 import modalPopUps from "../actions/modalPopUp";
 import ModalSmallPopUp from "./modals/modalSmallPopUp";
-import SignUpForm from "./forms/authForms/signup";
-import LoginForm from "./forms/authForms/login";
-import ForgotPassword from "./forms/authForms/forgotPassword";
+import SignUpPopUp from "./forms/authForms/signup";
+import LoginPopUp from "./forms/authForms/login";
+import ForgotPasswordPopUp from "./forms/authForms/forgotPassword";
 import Icon from "./icons/icon";
 
 interface IHeaderState {
@@ -29,8 +29,9 @@ interface IHeaderState {
 interface IHeaderProps {
     isUserLoggedIn: boolean;
     logOut: () => void;
-    toggleLogOutPopUp: () => void;
-    closeLogOutPopUp: () => void;
+    toggleLogInPopUp: (payload: boolean) => { type: string; payload: boolean };
+    toggleSignUpPopUp: (payload: boolean) => { type: string; payload: boolean };
+    toggleLogOutPopUp: () => { type: string };
 }
 
 class Header extends React.Component<IHeaderProps, IHeaderState> {
@@ -263,7 +264,9 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
             colorAndSizeClassName: "icon-white-md",
             iconInfoClassName: "icon-info-logout",
             infoName: "Logout",
-            clickEvent: this.props.toggleLogOutPopUp
+            clickEvent: () => {
+                this.props.toggleLogOutPopUp();
+            }
         };
 
         if (this.state.isUserLoggedIn) {
@@ -295,7 +298,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
             <div className="login-signup-and-icon-container">
                 <Button
                     clickEvent={() => {
-                        this.toggleDisplayBigPopUpModal("login");
+                        this.props.toggleLogInPopUp(true);
                     }}
                     text={"LOG IN"}
                     type={"button"}
@@ -303,7 +306,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
                 />
                 <Button
                     clickEvent={() => {
-                        this.toggleDisplayBigPopUpModal("signup");
+                        this.props.toggleSignUpPopUp(true);
                     }}
                     text={"SIGN UP"}
                     type={"button"}
@@ -324,83 +327,10 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
         );
     };
 
-    public chooseFormToShow = (): JSX.Element => {
-        if (this.state.loginOrSignUpOrForgotPasswordForm === "signup") {
-            return (
-                <SignUpForm
-                    isDisplayPopUpModalShown={
-                        this.state.toggleDisplayBigPopUpModal
-                    }
-                    clickEvent={() => {
-                        this.toggleDisplayBigPopUpModal("signup");
-                    }}
-                    popUpClassName={"modal-big-popup"}
-                    successText={"You created an account."}
-                    closeDisplayPopUpModule={() => {
-                        this.closeDisplayPopUpModal();
-                    }}
-                    manuallyChooseLoginOrSignUpOrForgotPasswordForm={(
-                        whatFormToClose: string
-                    ) => {
-                        this.manuallyChooseLoginOrSignUpOrForgotPasswordForm(
-                            whatFormToClose
-                        );
-                    }}
-                />
-            );
-        } else if (this.state.loginOrSignUpOrForgotPasswordForm === "login") {
-            return (
-                <LoginForm
-                    isDisplayPopUpModalShown={
-                        this.state.toggleDisplayBigPopUpModal
-                    }
-                    clickEvent={() => {
-                        this.toggleDisplayBigPopUpModal("login");
-                    }}
-                    popUpClassName={"modal-big-popup"}
-                    successText={"You're now logged in."}
-                    closeDisplayPopUpModule={() => {
-                        this.closeDisplayPopUpModal();
-                    }}
-                    manuallyChooseLoginOrSignUpOrForgotPasswordForm={(
-                        whatFormToClose: string
-                    ) => {
-                        this.manuallyChooseLoginOrSignUpOrForgotPasswordForm(
-                            whatFormToClose
-                        );
-                    }}
-                />
-            );
-        } else {
-            return (
-                <ForgotPassword
-                    isDisplayPopUpModalShown={
-                        this.state.toggleDisplayBigPopUpModal
-                    }
-                    clickEvent={() => {
-                        this.toggleDisplayBigPopUpModal("forgotpassword");
-                    }}
-                    popUpClassName={"modal-big-popup"}
-                    successText={"Check Email for link."}
-                    closeDisplayPopUpModule={() => {
-                        this.closeDisplayPopUpModal();
-                    }}
-                    manuallyChooseLoginOrSignUpOrForgotPasswordForm={(
-                        whatFormToClose: string
-                    ) => {
-                        this.manuallyChooseLoginOrSignUpOrForgotPasswordForm(
-                            whatFormToClose
-                        );
-                    }}
-                />
-            );
-        }
-    };
-
     public componentWillReceiveProps(nextProps: {
         isUserLoggedIn: boolean;
         logOut: Function;
-        toggleLogOutPopUp: () => void;
+        toggleLogOutPopUp: () => { type: string };
     }): void {
         if (this.state.isUserLoggedIn != nextProps.isUserLoggedIn) {
             this.setState({
@@ -416,13 +346,10 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
     public render(): React.ReactNode {
         return (
             <React.Fragment>
-                {this.chooseFormToShow()}
-
                 <ModalSmallPopUp
                     popUpClassName={"modal-small-popup"}
                     isPopUpShown={"isLogOutPopUpShown"}
                     togglePopUp={"toggleLogOutPopUp"}
-                    closePopUp={"closeLogOutPopUp"}
                     headerText={"Are you sure you wanna log out?"}
                     successText={"You're now logged out!"}
                     clickEvent={(
@@ -430,6 +357,24 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
                     ) => {
                         this.logOut(notifyUserOfSuccess);
                     }}
+                />
+                <SignUpPopUp
+                    successText={"You created an account."}
+                    popUpClassName={"modal-big-popup"}
+                    isPopUpShown={"isSignUpPopUpShown"}
+                    togglePopUp={"toggleSignUpPopUp"}
+                />
+                <LoginPopUp
+                    successText={"You're now logged in."}
+                    popUpClassName={"modal-big-popup"}
+                    isPopUpShown={"isLogInPopUpShown"}
+                    togglePopUp={"toggleLogInPopUp"}
+                />
+                <ForgotPasswordPopUp
+                    successText={"You're now logged in."}
+                    popUpClassName={"modal-big-popup"}
+                    isPopUpShown={"isForgotPassword"}
+                    togglePopUp={"toggleForgotPasswordPopUpShown"}
                 />
                 <header
                     id="header"
@@ -475,8 +420,11 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
     bindActionCreators(
         {
             logOut: auth.logOut,
+            logIn: auth.logIn,
+            signUp: auth.signUp,
             toggleLogOutPopUp: modalPopUps.toggleLogOutPopUp,
-            closeLogOutPopUp: modalPopUps.closeLogOutPopUp
+            toggleLogInPopUp: modalPopUps.toggleLogInPopUp,
+            toggleSignUpPopUp: modalPopUps.toggleSignUpPopUp
         },
         dispatch
     );

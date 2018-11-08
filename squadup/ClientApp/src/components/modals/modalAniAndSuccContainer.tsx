@@ -14,7 +14,6 @@ interface OwnProps {
     clickEvent?: (arg: (arg: () => void) => void) => void;
     isPopUpShown: string;
     togglePopUp: string;
-    closePopUp: string;
     popUpClassName: string;
 }
 
@@ -23,10 +22,13 @@ interface StateProps {
 }
 
 interface DispatchProps {
-    toggleLogOutPopUp: () => Action;
-    closeLogOutPopUp: () => Action;
-    toggleSideBarNavImgPopUp: () => Action;
-    closeSideBarNavImgPopUp: () => Action;
+    toggleLogOutPopUp: () => { type: string };
+    toggleSideBarNavImgPopUp: () => { type: string };
+    toggleLogInPopUp: (payload: boolean) => { type: string; payload: boolean };
+    toggleSignUpPopUp: (payload: boolean) => { type: string; payload: boolean };
+    toggleForgotPasswordPopUp: (
+        payload: boolean
+    ) => { type: string; payload: boolean };
 }
 
 interface State {
@@ -35,7 +37,6 @@ interface State {
     isDisplayPopUpModalShown: boolean;
 }
 
-type Action = { type: string };
 type Props = OwnProps & StateProps & DispatchProps;
 
 const modalAniAndSuccContainer = <
@@ -72,7 +73,7 @@ const modalAniAndSuccContainer = <
                     };
                 });
 
-                this.props[this.props.closePopUp]();
+                this.props[this.props.togglePopUp](false);
                 arg();
                 clearInterval(timer);
             }, 1500);
@@ -89,7 +90,11 @@ const modalAniAndSuccContainer = <
                 return (
                     <WrappedComponent
                         toggleDisplayPopUpModal={() => {
-                            this.props[this.props.togglePopUp]();
+                            this.props[this.props.togglePopUp](
+                                this.state.isDisplayPopUpModalShown
+                                    ? false
+                                    : true
+                            );
                         }}
                         headerText={this.props.headerText}
                         clickEvent={(
@@ -134,7 +139,9 @@ const modalAniAndSuccContainer = <
                         this.state.isDisplayPopUpModalShown
                     }
                     clickEvent={() => {
-                        this.props[this.props.togglePopUp]();
+                        this.props[this.props.togglePopUp](
+                            this.state.isDisplayPopUpModalShown ? false : true
+                        );
                     }}
                     popUpClassName={this.props.popUpClassName}
                     isNotifyShown={this.state.isNotifyShown}
@@ -157,11 +164,12 @@ const modalAniAndSuccContainer = <
         bindActionCreators(
             {
                 toggleLogOutPopUp: modalPopUpsActions.toggleLogOutPopUp,
-                closeLogOutPopUp: modalPopUpsActions.closeLogOutPopUp,
                 toggleSideBarNavImgPopUp:
                     modalPopUpsActions.toggleSideBarNavImgPopUp,
-                closeSideBarNavImgPopUp:
-                    modalPopUpsActions.closeSideBarNavImgPopUp
+                toggleLogInPopUp: modalPopUpsActions.toggleLogInPopUp,
+                toggleSignUpPopUp: modalPopUpsActions.toggleSignUpPopUp,
+                toggleForgotPasswordPopUp:
+                    modalPopUpsActions.toggleForgotPasswordPopUp
             },
             dispatch
         );

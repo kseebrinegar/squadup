@@ -6,9 +6,10 @@ enum types {
     GET_SIDERBAR_ICONS_DATA = "GET_SIDERBAR_ICONS_DATA",
     GET_All_SIDERBAR_DATA = "GET_All_SIDERBAR_DATA",
     IS_LOG_OUT_POP_UP_SHOWN = "IS_LOG_OUT_POP_UP_SHOWN",
-    CLOSE_LOG_OUT_POP_UP = "CLOSE_LOG_OUT_POP_UP",
     IS_SIDEBAR_NAV_IMG_POP_UP_SHOWN = "IS_SIDEBAR_NAV_IMG_POP_UP_SHOWN",
-    CLOSE_SIDEBAR_NAV_IMG_POP_UP = "CLOSE_SIDEBAR_NAV_IMG_POP_UP"
+    IS_LOG_IN_POP_UP_SHOWN = "IS_LOG_IN_POP_UP_SHOWN",
+    IS_SIGN_UP_POP_UP_SHOWN = "IS_SIGN_UP_POP_UP_SHOWN",
+    IS_FORGOT_PASSWORD_POP_UP_SHOWN = "IS_FORGOT_PASSWORD_POP_UP_SHOWN"
 }
 export default types;
 
@@ -37,6 +38,14 @@ export function createPayloadedAction<
 export function createAction<TAction extends Action<TAction["type"]>>(
     type: TAction["type"]
 ): () => Action<TAction["type"]> {
+    return () => ({
+        type: type
+    });
+}
+
+export function createActionMulti<TAction extends Action<TAction["type"]>>(
+    type: TAction["type"]
+): () => Action<TAction["type"][]> {
     return () => ({
         type: type
     });

@@ -2,7 +2,7 @@ import * as React from "react";
 import authFormContainer from "./authFormContainter";
 import Button from "../../buttons/button";
 import Input from "../inputs/inputs";
-
+import modalAniAndSuccContainer from "../../modals/modalAniAndSuccContainer";
 interface SFCSignUpProps {
     clearInputsOnChildComponent: boolean;
     isFormShown: boolean;
@@ -144,4 +144,4 @@ const signup: React.SFC<SFCSignUpProps> = (props): JSX.Element => {
     );
 };
 
-export default authFormContainer(signup);
+export default modalAniAndSuccContainer(authFormContainer(signup));

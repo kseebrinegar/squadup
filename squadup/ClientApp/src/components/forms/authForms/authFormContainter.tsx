@@ -2,33 +2,35 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators, Dispatch } from "redux";
 import { AppState } from "../../../store/types";
+
 import axios from "axios";
 import auth from "../../../actions/auth";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 
-import ModalPopUp from "../../modals/modalPopUp";
+interface OwnProps extends RouteComponentProps<{}> {
+    dislayLoader: () => void;
+    notifyUserOfSuccess: (arg: () => void) => void;
+    isPopUpShown: string;
+}
+
+interface DispatchProps {
+    logIn: () => void;
+    signUp: () => void;
+}
+
+interface StateProps {
+    isUserLoggedIn: boolean;
+}
 
 interface IState {
     [propName: string]: boolean | [string, boolean] | string | [string, string];
 }
 
-interface IProps extends RouteComponentProps<{}> {
-    clickEvent: () => void;
-    popUpClassName: string;
-    successText: string;
-    isDisplayPopUpModalShown: boolean;
-    closeDisplayPopUpModule: () => void;
-    logIn: () => void;
-    signUp: () => void;
-    isUserLoggedIn: boolean;
-    manuallyChooseLoginOrSignUpOrForgotPasswordForm: (
-        whatFormChoose: string
-    ) => void;
-}
+type Props = OwnProps & DispatchProps & StateProps;
 
 // @ts-ignore
 const authFormContainer = WrappedComponent => {
-    class AuthFormContainer extends React.Component<IProps, IState> {
+    class AuthFormContainer extends React.Component<Props, IState> {
         private originalStateLength = 5;
 
         public state: IState = {
@@ -39,7 +41,7 @@ const authFormContainer = WrappedComponent => {
             serverErrorMessage: ""
         };
 
-        constructor(props: IProps) {
+        constructor(props: Props) {
             super(props);
         }
 
@@ -223,15 +225,13 @@ const authFormContainer = WrappedComponent => {
                     };
                 });
 
-                this.props.closeDisplayPopUpModule();
+                // this.props.closeDisplayPopUpModule();
                 clearInterval(timer1);
                 this.props.history.push("/dashboard");
             }, 1500);
         };
 
         public componentWillReceiveProps(nextProps: {
-            closeDisplayPopUpModule: Function;
-            manuallyChooseLoginOrSignUpOrForgotPasswordForm: Function;
             isUserLoggedIn: boolean;
             logIn: Function;
         }) {
@@ -251,49 +251,43 @@ const authFormContainer = WrappedComponent => {
             }
         }
 
+        public manuallyChooseLoginOrSignUpOrForgotPasswordForm = (
+            whatFormToClose: string
+        ): void => {
+            switch (whatFormToClose) {
+                case "login":
+            }
+        };
+
         public render(): JSX.Element {
             return (
-                <ModalPopUp
-                    isDisplayPopUpModalShown={
-                        this.props.isDisplayPopUpModalShown
-                    }
-                    clickEvent={this.props.clickEvent}
-                    popUpClassName={"modal-big-popup"}
-                    isNotifyShown={this.state.isNotifyShown as boolean}
-                    successText={this.props.successText}
-                    isLoaderShown={this.state.isLoaderShown as boolean}
-                >
-                    <WrappedComponent
-                        {...this.state}
-                        onSubmit={(
-                            e: React.MouseEvent<HTMLButtonElement>,
-                            attendedStateLength: number,
-                            functionNameForFormType: string
-                        ) => {
-                            this.onSubmit(
-                                e,
-                                attendedStateLength,
-                                functionNameForFormType
-                            );
-                        }}
-                        changeInputState={(
-                            propName: string,
-                            inputValueAndIsValid: [string, boolean]
-                        ) => {
-                            this.changeInputState(
-                                propName,
-                                inputValueAndIsValid
-                            );
-                        }}
-                        manuallyChooseLoginOrSignUpOrForgotPasswordForm={(
-                            whatFormToClose: string
-                        ) => {
-                            this.props.manuallyChooseLoginOrSignUpOrForgotPasswordForm(
-                                whatFormToClose
-                            );
-                        }}
-                    />
-                </ModalPopUp>
+                <WrappedComponent
+                    {...this.state}
+                    onSubmit={(
+                        e: React.MouseEvent<HTMLButtonElement>,
+                        attendedStateLength: number,
+                        functionNameForFormType: string
+                    ) => {
+                        this.onSubmit(
+                            e,
+                            attendedStateLength,
+                            functionNameForFormType
+                        );
+                    }}
+                    changeInputState={(
+                        propName: string,
+                        inputValueAndIsValid: [string, boolean]
+                    ) => {
+                        this.changeInputState(propName, inputValueAndIsValid);
+                    }}
+                    manuallyChooseLoginOrSignUpOrForgotPasswordForm={(
+                        whatFormToClose: string
+                    ) => {
+                        this.manuallyChooseLoginOrSignUpOrForgotPasswordForm(
+                            whatFormToClose
+                        );
+                    }}
+                />
             );
         }
     }

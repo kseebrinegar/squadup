@@ -2,11 +2,10 @@ import * as React from "react";
 import authFormContainer from "./authFormContainter";
 import Button from "../../buttons/button";
 import Input from "../inputs/inputs";
-
+import modalAniAndSuccContainer from "../../modals/modalAniAndSuccContainer";
 interface SFCloginProps {
     clearInputsOnChildComponent: boolean;
     isFormShown: boolean;
-
     inputValueAndIsValid: [string, boolean];
     serverErrorMessage: string;
     changeInputState: (
@@ -106,4 +105,4 @@ const login: React.SFC<SFCloginProps> = (props): JSX.Element => {
     );
 };
 
-export default authFormContainer(login);
+export default modalAniAndSuccContainer(authFormContainer(login));
