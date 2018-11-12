@@ -3,24 +3,9 @@ import authFormContainer from "./authFormContainter";
 import Button from "../../buttons/button";
 import Input from "../inputs/inputs";
 import modalAniAndSuccContainer from "../../modals/modalAniAndSuccContainer";
-interface SFCSignUpProps {
-    clearInputsOnChildComponent: boolean;
-    isFormShown: boolean;
-    inputValueAndIsValid: [string, boolean];
-    serverErrorMessage: string | [string, string];
-    changeInputState: (
-        propName: string,
-        inputValueAndIsValid: [string, boolean]
-    ) => void;
-    manuallyChooseLoginOrSignUpOrForgotPasswordForm: (
-        whatFromToClose: string
-    ) => void;
-    onSubmit: (
-        e: React.MouseEvent<HTMLButtonElement>,
-        attendedStateLength: number,
-        functionNameForFormType: string
-    ) => void;
-}
+import { WrappedComponentProps as SFCSignUpProps } from "./authFormContainter";
+
+export interface SFCSignUpProps {}
 
 const signup: React.SFC<SFCSignUpProps> = (props): JSX.Element => {
     const { serverErrorMessage } = props;
@@ -57,7 +42,7 @@ const signup: React.SFC<SFCSignUpProps> = (props): JSX.Element => {
 
     return (
         <section className="signup-and-login-and-forgotpassword signup">
-            <form className={`form ${props.isFormShown ? "" : "is-hidden"}`}>
+            <form className="form">
                 <h3>SIGN UP</h3>
                 <Input
                     returnInputValueAndValidation={(
@@ -120,7 +105,7 @@ const signup: React.SFC<SFCSignUpProps> = (props): JSX.Element => {
                         clickEvent={(
                             e: React.MouseEvent<HTMLButtonElement>
                         ) => {
-                            props.onSubmit(e, 8, "signUp");
+                            props.onSubmit(e, 5, "signUp");
                         }}
                         text={"SIGN UP"}
                         type={"button"}

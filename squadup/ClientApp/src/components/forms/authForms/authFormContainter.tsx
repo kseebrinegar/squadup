@@ -2,24 +2,33 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators, Dispatch } from "redux";
 import { AppState } from "../../../store/types";
+import { ModalPopUps } from "../../../reducers/modalPopUps";
 
 import axios from "axios";
 import auth from "../../../actions/auth";
 import { withRouter, RouteComponentProps } from "react-router-dom";
-
+import modalPopUpsActions from "../../../actions/modalPopUp";
 interface OwnProps extends RouteComponentProps<{}> {
     dislayLoader: () => void;
     notifyUserOfSuccess: (arg: () => void) => void;
     isPopUpShown: string;
+    togglePopUp: string;
+    toggleDisplayPopUpModal: () => void;
 }
 
 interface DispatchProps {
     logIn: () => void;
     signUp: () => void;
+    toggleLogInPopUp: (payload: boolean) => { type: string; payload: boolean };
+    toggleSignUpPopUp: (payload: boolean) => { type: string; payload: boolean };
+    toggleForgotPasswordPopUp: (
+        payload: boolean
+    ) => { type: string; payload: boolean };
 }
 
 interface StateProps {
     isUserLoggedIn: boolean;
+    modalPopUpsState: ModalPopUps;
 }
 
 interface IState {
@@ -28,15 +37,31 @@ interface IState {
 
 type Props = OwnProps & DispatchProps & StateProps;
 
-// @ts-ignore
-const authFormContainer = WrappedComponent => {
+export interface WrappedComponentProps {
+    clearInputsOnChildComponent: boolean;
+    inputValueAndIsValid: [string, boolean];
+    serverErrorMessage: string;
+    changeInputState: (
+        propName: string,
+        inputValueAndIsValid: [string, boolean]
+    ) => void;
+    manuallyChooseLoginOrSignUpOrForgotPasswordForm: (
+        whatFromToClose: string
+    ) => void;
+    onSubmit: (
+        e: React.MouseEvent<HTMLButtonElement>,
+        attendedStateLength: number,
+        functionNameForFormType: string
+    ) => void;
+}
+
+const authFormContainer = <P extends WrappedComponentProps>(
+    WrappedComponent: React.SFC<P>
+) => {
     class AuthFormContainer extends React.Component<Props, IState> {
-        private originalStateLength = 5;
+        private originalStateLength = 2;
 
         public state: IState = {
-            isLoaderShown: false,
-            isFormShown: true,
-            isNotifyShown: false,
             clearInputsOnChildComponent: false,
             serverErrorMessage: ""
         };
@@ -55,7 +80,7 @@ const authFormContainer = WrappedComponent => {
             serverErrorMessage: string | [string, string]
         ): void => {
             this.setState(() => {
-                return { isLoaderShown: false, serverErrorMessage };
+                return { serverErrorMessage };
             });
         };
 
@@ -85,10 +110,7 @@ const authFormContainer = WrappedComponent => {
             );
 
             if (isAllInputValuesTrue) {
-                this.setState(() => {
-                    return { isLoaderShown: true };
-                });
-
+                this.props.dislayLoader();
                 this.chooseRouteBasedOffOfFormType(functionNameForFormType);
             }
         };
@@ -152,6 +174,9 @@ const authFormContainer = WrappedComponent => {
             axios.post("https://reqres.in/api/users?delay=5").then(
                 () => {
                     this.props.logIn();
+                    this.props.notifyUserOfSuccess(() => {
+                        this.props.history.push("/dashboard");
+                    });
                 },
                 e => {
                     this.serverErrorMessage(e.response.data.error);
@@ -168,6 +193,9 @@ const authFormContainer = WrappedComponent => {
                 .then(
                     () => {
                         this.props.signUp();
+                        this.props.notifyUserOfSuccess(() => {
+                            this.props.history.push("/dashboard");
+                        });
                     },
                     e => {
                         this.serverErrorMessage(e.response.data.error);
@@ -183,14 +211,8 @@ const authFormContainer = WrappedComponent => {
                 })
                 .then(
                     () => {
-                        this.setState(() => {
-                            this.timerForLoader();
-                            return {
-                                isNotifyShown: true,
-                                clearInputsOnChildComponent: true,
-                                isLoaderShown: false,
-                                isFormShown: false
-                            };
+                        this.props.notifyUserOfSuccess(() => {
+                            this.props.toggleLogInPopUp(true);
                         });
                     },
                     e => {
@@ -199,70 +221,30 @@ const authFormContainer = WrappedComponent => {
                 );
         }
 
-        public timerForLoader = (): void => {
-            const timer1: number = window.setTimeout(() => {
-                const currentStateLength = Object.keys(this.state).length;
-
-                for (
-                    let i = this.originalStateLength;
-                    i < currentStateLength;
-                    i++
-                ) {
-                    const keyNames = Object.keys(this.state);
-
-                    this.setState(() => {
-                        return { [keyNames[i]]: ["", false] };
-                    });
-                }
-
-                this.setState(() => {
-                    return {
-                        isLoaderShown: false,
-                        isFormShown: true,
-                        isNotifyShown: false,
-                        clearInputsOnChildComponent: false,
-                        serverErrorMessage: ""
-                    };
-                });
-
-                // this.props.closeDisplayPopUpModule();
-                clearInterval(timer1);
-                this.props.history.push("/dashboard");
-            }, 1500);
-        };
-
-        public componentWillReceiveProps(nextProps: {
-            isUserLoggedIn: boolean;
-            logIn: Function;
-        }) {
-            if (
-                this.props.isUserLoggedIn !== nextProps.isUserLoggedIn &&
-                nextProps.isUserLoggedIn
-            ) {
-                this.timerForLoader();
-                this.setState(() => {
-                    return {
-                        isNotifyShown: true,
-                        clearInputsOnChildComponent: true,
-                        isLoaderShown: false,
-                        isFormShown: false
-                    };
-                });
-            }
-        }
-
         public manuallyChooseLoginOrSignUpOrForgotPasswordForm = (
-            whatFormToClose: string
+            whatFormToOpen: string
         ): void => {
-            switch (whatFormToClose) {
+            switch (whatFormToOpen) {
+                case "forgotpassword":
+                    this.props.toggleForgotPasswordPopUp(true);
+                    break;
+                case "signup":
+                    this.props.toggleSignUpPopUp(true);
+                    break;
                 case "login":
+                    this.props.toggleLogInPopUp(true);
+                    break;
+                default:
+                    return;
             }
         };
 
-        public render(): JSX.Element {
+        public render(): React.ReactNode {
             return (
                 <WrappedComponent
-                    {...this.state}
+                    inputValueAndIsValid={["", false]}
+                    clearInputsOnChildComponent={false}
+                    serverErrorMessage={""}
                     onSubmit={(
                         e: React.MouseEvent<HTMLButtonElement>,
                         attendedStateLength: number,
@@ -281,10 +263,10 @@ const authFormContainer = WrappedComponent => {
                         this.changeInputState(propName, inputValueAndIsValid);
                     }}
                     manuallyChooseLoginOrSignUpOrForgotPasswordForm={(
-                        whatFormToClose: string
+                        whatFormToOPen: string
                     ) => {
                         this.manuallyChooseLoginOrSignUpOrForgotPasswordForm(
-                            whatFormToClose
+                            whatFormToOPen
                         );
                     }}
                 />
@@ -292,19 +274,29 @@ const authFormContainer = WrappedComponent => {
         }
     }
 
-    const mapDispatchToProps = (dispatch: Dispatch) => {
+    const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => {
         return bindActionCreators(
-            { logIn: auth.logIn, signUp: auth.signUp },
+            {
+                logIn: auth.logIn,
+                signUp: auth.signUp,
+                toggleLogInPopUp: modalPopUpsActions.toggleLogInPopUp,
+                toggleSignUpPopUp: modalPopUpsActions.toggleSignUpPopUp,
+                toggleForgotPasswordPopUp:
+                    modalPopUpsActions.toggleForgotPasswordPopUp
+            },
             dispatch
         );
     };
 
-    const mapStateToProps = (state: AppState) => {
-        return { isUserLoggedIn: state.auth };
+    const mapStateToProps = (state: AppState): StateProps => {
+        return {
+            isUserLoggedIn: state.auth.isUserLoggedIn,
+            modalPopUpsState: state.modalPopUps
+        };
     };
 
     return withRouter(
-        connect(
+        connect<StateProps, DispatchProps, {}, AppState>(
             mapStateToProps,
             mapDispatchToProps
         )(AuthFormContainer)

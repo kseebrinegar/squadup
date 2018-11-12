@@ -93,7 +93,7 @@ class Router extends React.Component<IProps, {}> {
 }
 
 const mapStateToProps = (state: AppState) => ({
-    isUserLoggedIn: state.auth
+    isUserLoggedIn: state.auth.isUserLoggedIn
 });
 
 export default connect(mapStateToProps)(Router);

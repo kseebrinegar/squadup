@@ -117,6 +117,7 @@ class SideBarNav extends React.Component<Props, State> {
             } else {
                 return (
                     <li
+                        key={uuid()}
                         className={`${
                             this.state.isInboxNavHidden
                                 ? "inbox-nav--unexpanded"
@@ -144,7 +145,7 @@ class SideBarNav extends React.Component<Props, State> {
         });
     };
 
-    public onPageLoadGetData = (): void => {
+    public onComponentLoadGetData = (): void => {
         const defaultUserImg = "/images/default-user-img.jpg";
         const defaultUserName = "";
 
@@ -157,16 +158,11 @@ class SideBarNav extends React.Component<Props, State> {
         }
 
         this.props.requestSideBarIconsData();
-        /*const userInfo = {
-            imgSrc: "/images/test.png",
-            userName: "xxxCaseyxxx"
-        };
-        localStorage.setItem("userInfo", JSON.stringify(userInfo));*/
     };
 
     public componentWillMount(): void {
         this.windowResize();
-        this.onPageLoadGetData();
+        this.onComponentLoadGetData();
     }
 
     public render(): JSX.Element {
@@ -273,7 +269,7 @@ class SideBarNav extends React.Component<Props, State> {
     }
 }
 
-const mapStateToProps = (state: AppState) => {
+const mapStateToProps = (state: AppState): StateProps => {
     return {
         userProfileLikesCount: state.basicUserInfo.userProfileLikesCount,
         userProfileViewsCount: state.basicUserInfo.userProfileViewsCount,
@@ -284,7 +280,7 @@ const mapStateToProps = (state: AppState) => {
     };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch) => {
+const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => {
     return bindActionCreators(
         {
             requestSideBarIconsData: sideBarNavActions.requestSideBarIconsData,
@@ -295,7 +291,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     );
 };
 
-export default connect(
+export default connect<StateProps, DispatchProps, {}, AppState>(
     mapStateToProps,
     mapDispatchToProps
 )(SideBarNav);

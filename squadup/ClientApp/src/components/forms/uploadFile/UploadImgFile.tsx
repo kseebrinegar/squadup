@@ -16,6 +16,7 @@ export interface OwnProps {
     dislayLoader: () => void;
     notifyUserOfSuccess: (arg: () => void) => void;
     isPopUpShown: string;
+    togglePopUp?: string;
 }
 
 interface DispatchProps {
@@ -378,7 +379,9 @@ class UploadImgFile extends React.Component<Props, State> {
         })();
     }
 
-    public componentWillReceiveProps(nextProps: StateProps): void {
+    public componentWillReceiveProps(
+        nextProps: StateProps & DispatchProps
+    ): void {
         if (!nextProps.modalPopUpsState[this.props.isPopUpShown]) {
             this.resetStateAndCanvasToDefault();
         }
@@ -487,7 +490,7 @@ class UploadImgFile extends React.Component<Props, State> {
     }
 }
 
-const mapDispatchToProps = (dispatch: Dispatch) => {
+const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => {
     return bindActionCreators(
         {
             uploadImg
@@ -496,11 +499,11 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     );
 };
 
-const mapStateToProps = (state: AppState) => {
+const mapStateToProps = (state: AppState): StateProps => {
     return { modalPopUpsState: state.modalPopUps };
 };
 
-const uploadImgFile = connect(
+const uploadImgFile = connect<StateProps, DispatchProps, {}, AppState>(
     mapStateToProps,
     mapDispatchToProps
 )(UploadImgFile);

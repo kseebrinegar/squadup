@@ -2,24 +2,25 @@ import { ActionSignUp, ActionLogIn, ActionLogOut } from "../actions/auth";
 
 type Action = ActionSignUp | ActionLogIn | ActionLogOut;
 
-const authToken: boolean = localStorage.getItem("basicUserInfo") ? true : false;
-export default (state: boolean = authToken, action: Action) => {
+export interface Auth {
+    isUserLoggedIn: boolean;
+}
+const auth: Auth = {
+    isUserLoggedIn: false
+};
+
+export default (state: Auth = auth, action: Action) => {
+    const newState = { ...state };
     switch (action.type) {
         case "LOG_IN":
-            localStorage.setItem(
-                "basicUserInfo",
-                JSON.stringify({ authToken: "loggedIn" })
-            );
-            return true;
+            newState.isUserLoggedIn = true;
+            return newState;
         case "LOG_OUT":
-            localStorage.clear();
-            return false;
+            newState.isUserLoggedIn = false;
+            return newState;
         case "SIGN_UP":
-            localStorage.setItem(
-                "basicUserInfo",
-                JSON.stringify({ authToken: "loggedIn" })
-            );
-            return true;
+            newState.isUserLoggedIn = true;
+            return newState;
         default:
             return state;
     }

@@ -21,7 +21,7 @@ const requestAllSideBarData = (): Function => {
         userIsfollowingCount: 23099,
         userProjectsCount: 1199,
         userName: "xxxCaseyxxx",
-        imgSrc: "/images/test.png"
+        imgSrc: "/images/default-user-img.jpg"
     };
 
     return (dispatch: Dispatch) => {

@@ -14,7 +14,22 @@ import LoginPopUp from "./forms/authForms/login";
 import ForgotPasswordPopUp from "./forms/authForms/forgotPassword";
 import Icon from "./icons/icon";
 
-interface IHeaderState {
+interface DispatchProps {
+    logOut: () => { type: string };
+    logIn: () => { type: string };
+    signUp: () => { type: string };
+    toggleLogInPopUp: (payload: boolean) => { type: string; payload: boolean };
+    toggleSignUpPopUp: (payload: boolean) => { type: string; payload: boolean };
+    toggleLogOutPopUp: () => { type: string };
+}
+
+interface StateProps {
+    isUserLoggedIn: boolean;
+}
+
+type Props = DispatchProps & StateProps;
+
+interface State {
     aboutLinkAffect: [boolean, boolean, boolean];
     eventsLinkAffect: [boolean, boolean, boolean];
     peopleLinkAffect: [boolean, boolean, boolean];
@@ -25,17 +40,8 @@ interface IHeaderState {
     toggleDisplaySmallPopUpModal: boolean;
     isUserLoggedIn: boolean;
 }
-
-interface IHeaderProps {
-    isUserLoggedIn: boolean;
-    logOut: () => void;
-    toggleLogInPopUp: (payload: boolean) => { type: string; payload: boolean };
-    toggleSignUpPopUp: (payload: boolean) => { type: string; payload: boolean };
-    toggleLogOutPopUp: () => { type: string };
-}
-
-class Header extends React.Component<IHeaderProps, IHeaderState> {
-    public state: IHeaderState = {
+class Header extends React.Component<Props, State> {
+    public state: State = {
         aboutLinkAffect: [true, false, false],
         eventsLinkAffect: [true, false, false],
         peopleLinkAffect: [true, false, false],
@@ -47,11 +53,11 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
         isUserLoggedIn: this.props.isUserLoggedIn
     };
 
-    constructor(props: IHeaderProps) {
+    constructor(props: Props) {
         super(props);
     }
 
-    public darkenActiveNavLinkForPage = (): void => {
+    private darkenActiveNavLinkForPage = (): void => {
         const urlPath: string = window.location.pathname;
         this.setState(() => {
             return {
@@ -75,17 +81,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
         });
     };
 
-    public manuallyChooseLoginOrSignUpOrForgotPasswordForm = (
-        whatFormToClose: string
-    ): void => {
-        this.setState(() => {
-            return {
-                loginOrSignUpOrForgotPasswordForm: whatFormToClose
-            };
-        });
-    };
-
-    public activeNavLinkForPage = (): void => {
+    private activeNavLinkForPage = (): void => {
         const urlPath: string = window.location.pathname;
         this.setState(() => {
             return {
@@ -109,7 +105,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
         });
     };
 
-    public removeActiveLink = (): void => {
+    private removeActiveLink = (): void => {
         this.setState(() => {
             return {
                 aboutLinkAffect: [true, false, false],
@@ -120,7 +116,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
         });
     };
 
-    public toggleNavDropDownMenu = (): void => {
+    private toggleNavDropDownMenu = (): void => {
         this.setState(prevState => {
             return {
                 toggleNavDropDownMenu: prevState.toggleNavDropDownMenu
@@ -130,37 +126,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
         });
     };
 
-    public toggleDisplaySmallPopUpModal = (): void => {
-        this.setState(prevState => {
-            return {
-                toggleDisplaySmallPopUpModal: prevState.toggleDisplaySmallPopUpModal
-                    ? false
-                    : true
-            };
-        });
-    };
-
-    public toggleDisplayBigPopUpModal = (buttonClicked: string): void => {
-        this.setState(prevState => {
-            return {
-                toggleDisplayBigPopUpModal: prevState.toggleDisplayBigPopUpModal
-                    ? false
-                    : true,
-                loginOrSignUpOrForgotPasswordForm: buttonClicked
-            };
-        });
-    };
-
-    public closeDisplayPopUpModal = (): void => {
-        this.setState(() => {
-            return {
-                toggleDisplayBigPopUpModal: false,
-                toggleDisplaySmallPopUpModal: false
-            };
-        });
-    };
-
-    public renderNavList = (): JSX.Element[] => {
+    private renderNavList = (): JSX.Element[] => {
         type NavListType = {
             url: string;
             name: string;
@@ -239,7 +205,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
         });
     };
 
-    public renderButtonsOrIconsIfLoggedIn = (): JSX.Element => {
+    private renderButtonsOrIconsIfLoggedIn = (): React.ReactNode => {
         type iconData = {
             containerClassName: string;
             className: string;
@@ -316,7 +282,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
         );
     };
 
-    public logOut = (
+    private logOut = (
         notifyUserOfSuccess: (logOut: () => void) => void
     ): void => {
         axios.post("https://reqres.in/api/users?delay=3").then(
@@ -327,11 +293,9 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
         );
     };
 
-    public componentWillReceiveProps(nextProps: {
-        isUserLoggedIn: boolean;
-        logOut: Function;
-        toggleLogOutPopUp: () => { type: string };
-    }): void {
+    public componentWillReceiveProps(
+        nextProps: DispatchProps & StateProps
+    ): void {
         if (this.state.isUserLoggedIn != nextProps.isUserLoggedIn) {
             this.setState({
                 isUserLoggedIn: nextProps.isUserLoggedIn
@@ -371,10 +335,10 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
                     togglePopUp={"toggleLogInPopUp"}
                 />
                 <ForgotPasswordPopUp
-                    successText={"You're now logged in."}
+                    successText={"Check your email to reset password."}
                     popUpClassName={"modal-big-popup"}
-                    isPopUpShown={"isForgotPassword"}
-                    togglePopUp={"toggleForgotPasswordPopUpShown"}
+                    isPopUpShown={"isForgotPasswordShown"}
+                    togglePopUp={"toggleForgotPasswordPopUp"}
                 />
                 <header
                     id="header"
@@ -416,7 +380,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
     }
 }
 
-const mapDispatchToProps = (dispatch: Dispatch) =>
+const mapDispatchToProps = (dispatch: Dispatch): DispatchProps =>
     bindActionCreators(
         {
             logOut: auth.logOut,
@@ -429,13 +393,13 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
         dispatch
     );
 
-const mapStateToProps = (state: AppState) => {
+const mapStateToProps = (state: AppState): StateProps => {
     return {
-        isUserLoggedIn: state.auth
+        isUserLoggedIn: state.auth.isUserLoggedIn
     };
 };
 
-export default connect(
+export default connect<StateProps, DispatchProps, {}, AppState>(
     mapStateToProps,
     mapDispatchToProps
 )(Header);

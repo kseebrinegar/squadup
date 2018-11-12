@@ -1,4 +1,5 @@
 import { BasicUserInfo } from "../reducers/basicUserInfo";
+import { Auth } from "../reducers/auth";
 import { ModalPopUps } from "../reducers/modalPopUps";
 export interface AppState
     extends AuthState,
@@ -6,7 +7,7 @@ export interface AppState
         ModalPopUpsState {}
 
 export interface AuthState {
-    auth: boolean;
+    auth: Auth;
 }
 
 export interface BasicUserInfoState {

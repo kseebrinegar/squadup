@@ -76,7 +76,7 @@ const modalAniAndSuccContainer = <
                 this.props[this.props.togglePopUp](false);
                 arg();
                 clearInterval(timer);
-            }, 1500);
+            }, 2000);
         };
 
         private dislayLoader = (): void => {
@@ -100,8 +100,7 @@ const modalAniAndSuccContainer = <
                         clickEvent={(
                             notifyUserOfSuccess: (arg: () => void) => void
                         ) => {
-                            // @ts-ignore
-                            this.props.clickEvent(notifyUserOfSuccess);
+                            this.props.clickEvent!(notifyUserOfSuccess);
                         }}
                         notifyUserOfSuccess={this.notifyUserOfSuccess}
                         dislayLoader={this.dislayLoader}
@@ -114,11 +113,14 @@ const modalAniAndSuccContainer = <
                     notifyUserOfSuccess={this.notifyUserOfSuccess}
                     dislayLoader={this.dislayLoader}
                     isPopUpShown={this.props.isPopUpShown}
+                    togglePopUp={this.props.togglePopUp}
                 />
             );
         };
 
-        public componentWillReceiveProps = (nextProps: StateProps): void => {
+        public componentWillReceiveProps = (
+            nextProps: DispatchProps & StateProps
+        ): void => {
             if (
                 nextProps.modalPopUpsState[this.props.isPopUpShown] !==
                 this.state.isDisplayPopUpModalShown

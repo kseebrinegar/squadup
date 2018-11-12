@@ -4,31 +4,16 @@ import Button from "../../buttons/button";
 import Input from "../inputs/inputs";
 import modalAniAndSuccContainer from "../../modals/modalAniAndSuccContainer";
 
-interface SFCForgotPasswordProps {
-    clearInputsOnChildComponent: boolean;
-    isFormShown: boolean;
-    inputValueAndIsValid: [string, boolean];
-    serverErrorMessage: string;
-    changeInputState: (
-        propName: string,
-        inputValueAndIsValid: [string, boolean]
-    ) => void;
-    manuallyChooseLoginOrSignUpOrForgotPasswordForm: (
-        whatFromToClose: string
-    ) => void;
-    onSubmit: (
-        e: React.MouseEvent<HTMLButtonElement>,
-        attendedStateLength: number,
-        functionNameForFormType: string
-    ) => void;
-}
+import { WrappedComponentProps as SFCForgotPasswordProps } from "./authFormContainter";
+
+export interface SFCForgotPasswordProps {}
 
 const forgotpassword: React.SFC<SFCForgotPasswordProps> = (
     props
 ): JSX.Element => {
     return (
         <section className="signup-and-login-and-forgotpassword forgotpassword">
-            <form className={`form ${props.isFormShown ? "" : "is-hidden"}`}>
+            <form className="form">
                 <h3>Forgot Password</h3>
                 <Input
                     returnInputValueAndValidation={(
@@ -54,7 +39,7 @@ const forgotpassword: React.SFC<SFCForgotPasswordProps> = (
                         clickEvent={(
                             e: React.MouseEvent<HTMLButtonElement>
                         ) => {
-                            props.onSubmit(e, 6, "sendEmail");
+                            props.onSubmit(e, 3, "sendEmail");
                         }}
                         text={"EMAIL ME"}
                         type={"button"}
