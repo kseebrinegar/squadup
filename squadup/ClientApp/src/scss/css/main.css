@@ -209,25 +209,29 @@ li {
 
 /* START .................................. MEDIA QUERIES */
 /* END .................................... MEDIA QUERIES */
-.logo {
+.logo,
+.logo-container {
   display: block;
-  width: 4rem; }
-
-@media (max-width: 768px) {
-  .logo {
-    width: 4rem; } }
+  width: 4rem;
+  height: 5.3rem; }
 
 @media (max-width: 480px) {
-  .logo {
-    width: 3.5rem; } }
+  .logo,
+  .logo-container {
+    width: 3.5rem;
+    height: 4.7rem; } }
 
 @media (min-width: 1500px) {
-  .logo {
-    width: 4.5rem; } }
+  .logo,
+  .logo-container {
+    width: 4.5rem;
+    height: 6rem; } }
 
 @media (min-width: 1800px) {
-  .logo {
-    width: 5rem; } }
+  .logo,
+  .logo-container {
+    width: 5rem;
+    height: 6.7rem; } }
 
 #header {
   width: 100%;
@@ -663,25 +667,67 @@ li {
     border-right: 6px solid transparent;
     border-bottom: 6px solid #de101d; }
 
+/*.new-messages-count {
+    /*height: 1.6rem;
+    width: 1.6rem;*/
+/* height: 1.8rem;
+    width: 1.8rem;
+    background: $new-messages-count;
+    border-radius: 50%;
+    top: -50%;
+    left: 50%;
+    pointer-events: none;
+
+    /* p {
+        font-size: 0.9rem;
+        height: 0.8rem;
+        width: 0.6rem;
+        color: white;
+        @include center-container-x-and-y;
+    }*/
+/*  p {
+        font-size: 0.9rem;
+        height: 0.8rem;
+        width: 1.1rem;
+        color: white;
+        // background: darkblue;
+        @include center-container-x-and-y;
+    }
+}*/
 .new-messages-count {
-  height: 1.6rem;
-  width: 1.6rem;
   background: #de101d;
   border-radius: 50%;
   top: -50%;
   left: 50%;
   pointer-events: none; }
   .new-messages-count p {
-    font-size: 0.9rem;
     color: white;
+    font-size: 0.9rem;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%); }
 
+.new-messages-count--one-digit {
+  height: 1.6rem;
+  width: 1.6rem; }
+  .new-messages-count--one-digit p {
+    height: 0.8rem;
+    width: 0.6rem; }
+
+.new-messages-count--two-digit {
+  height: 1.8rem;
+  width: 1.8rem; }
+  .new-messages-count--two-digit p {
+    height: 0.8rem;
+    width: 1.1rem; }
+
 @media (max-width: 768px) {
   .new-messages-count p {
     font-size: 0.8rem; }
+  .new-messages--one-digit p {
+    height: 0.8rem;
+    width: 0.5rem; }
   .close-icon {
     height: 2.2rem;
     width: 2.2rem; }
@@ -693,6 +739,8 @@ li {
     left: -11px; } }
 
 @media (max-width: 480px) {
+  .new-messages-count p {
+    right: 0%; }
   .icon-white-xlg,
   .icon-black-xlg,
   .icon-green-xlg {
@@ -749,11 +797,20 @@ li {
   .icon-red-md,
   .icon-green-md {
     font-size: 18px !important; }
-  .new-messages-count {
+  .new-messages-count p {
+    font-size: 1.1rem; }
+  .new-messages--one-digit {
     height: 1.8rem;
     width: 1.8rem; }
-    .new-messages-count p {
-      font-size: 1.1rem; }
+    .new-messages--one-digit p {
+      height: 1rem;
+      width: 0.8rem; }
+  .new-messages-count--two-digit {
+    height: 2rem;
+    width: 2rem; }
+    .new-messages-count--two-digit p {
+      height: 1rem;
+      width: 1.2rem; }
   .icon-info-dashboard p,
   .icon-info-inbox p,
   .icon-info-logout p,
@@ -806,11 +863,20 @@ li {
   .icon-red-md,
   .icon-green-md {
     font-size: 20px !important; }
-  .new-messages-count {
+  .new-messages-count p {
+    font-size: 1.3rem; }
+  .new-messages--one-digit {
     height: 2.1rem;
     width: 2.1rem; }
-    .new-messages-count p {
-      font-size: 1.3rem; }
+    .new-messages--one-digit p {
+      height: 1.3rem;
+      width: 1rem; }
+  .new-messages-count--two-digit {
+    height: 2.3rem;
+    width: 2.3rem; }
+    .new-messages-count--two-digit p {
+      height: 1.2rem;
+      width: 1.5rem; }
   .icon-info-dashboard p,
   .icon-info-inbox p,
   .icon-info-logout p,
@@ -1449,6 +1515,8 @@ div.spinner div.bar12 {
     .sidebar {
       width: 35.3rem;
       padding-top: 7.4rem; } }
+  .sidebar .spinner-container {
+    top: 45%; }
   .sidebar .sidebar-nav-icons-container {
     display: flex;
     margin-top: 2.5rem; }
@@ -1472,7 +1540,18 @@ div.spinner div.bar12 {
 
 .users-and-projects-img {
   margin-bottom: 1rem;
-  position: relative; }
+  position: relative;
+  width: 15rem;
+  height: 15rem;
+  border-radius: 3px; }
+  @media (min-width: 1500px) {
+    .users-and-projects-img {
+      width: 17.9rem;
+      height: 17.9rem; } }
+  @media (min-width: 1800px) {
+    .users-and-projects-img {
+      width: 20rem;
+      height: 20rem; } }
   @media (min-width: 1500px) {
     .users-and-projects-img {
       margin-bottom: 1.5rem; } }

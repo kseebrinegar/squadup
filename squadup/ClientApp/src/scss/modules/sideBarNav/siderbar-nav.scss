@@ -50,6 +50,10 @@
     align-items: center;
     transform: translateX(0rem);
     transition: "transform 0.3s ease-out";
+    -webkit-box-shadow: rgba(0, 0, 0, 0.4) 1px 7px 20px 2px;
+    -moz-box-shadow: rgba(0, 0, 0, 0.4) 1px 7px 20px 2px;
+    box-shadow: rgba(0, 0, 0, 0.4) 1px 7px 20px 2px;
+    background: rgb(210, 210, 210);
 
     @include respond(mq-768) {
         transition: 0.3s ease-out;
@@ -66,10 +70,9 @@
         padding-top: 7.4rem;
     }
 
-    -webkit-box-shadow: rgba(0, 0, 0, 0.4) 1px 7px 20px 2px;
-    -moz-box-shadow: rgba(0, 0, 0, 0.4) 1px 7px 20px 2px;
-    box-shadow: rgba(0, 0, 0, 0.4) 1px 7px 20px 2px;
-    background: rgb(210, 210, 210);
+    .spinner-container {
+        top: 45%;
+    }
 
     .sidebar-nav-icons-container {
         display: flex;

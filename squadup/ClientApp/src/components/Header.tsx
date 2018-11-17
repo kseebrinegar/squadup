@@ -7,6 +7,7 @@ import { bindActionCreators, Dispatch } from "redux";
 import { connect } from "react-redux";
 import Button from "./buttons/button";
 import auth from "../actions/auth";
+import requestInboxCount from "../actions/inboxCounter";
 import modalPopUps from "../actions/modalPopUp";
 import ModalSmallPopUp from "./modals/modalSmallPopUp";
 import SignUpPopUp from "./forms/authForms/signup";
@@ -15,9 +16,8 @@ import ForgotPasswordPopUp from "./forms/authForms/forgotPassword";
 import Icon from "./icons/icon";
 
 interface DispatchProps {
+    requestInboxCount: () => Function;
     logOut: () => { type: string };
-    logIn: () => { type: string };
-    signUp: () => { type: string };
     toggleLogInPopUp: (payload: boolean) => { type: string; payload: boolean };
     toggleSignUpPopUp: (payload: boolean) => { type: string; payload: boolean };
     toggleLogOutPopUp: () => { type: string };
@@ -25,6 +25,7 @@ interface DispatchProps {
 
 interface StateProps {
     isUserLoggedIn: boolean;
+    inboxCounter: number;
 }
 
 type Props = DispatchProps & StateProps;
@@ -39,6 +40,7 @@ interface State {
     toggleDisplayBigPopUpModal: boolean;
     toggleDisplaySmallPopUpModal: boolean;
     isUserLoggedIn: boolean;
+    isComponentLoading: boolean;
 }
 class Header extends React.Component<Props, State> {
     public state: State = {
@@ -50,7 +52,8 @@ class Header extends React.Component<Props, State> {
         toggleNavDropDownMenu: false,
         toggleDisplayBigPopUpModal: false,
         toggleDisplaySmallPopUpModal: false,
-        isUserLoggedIn: this.props.isUserLoggedIn
+        isUserLoggedIn: this.props.isUserLoggedIn,
+        isComponentLoading: false
     };
 
     constructor(props: Props) {
@@ -207,6 +210,7 @@ class Header extends React.Component<Props, State> {
 
     private renderButtonsOrIconsIfLoggedIn = (): React.ReactNode => {
         type iconData = {
+            messageCount?: number;
             containerClassName: string;
             className: string;
             colorAndSizeClassName: string;
@@ -215,8 +219,16 @@ class Header extends React.Component<Props, State> {
             infoName: string;
             clickEvent?: () => void;
         };
-
         const iconData1: iconData = {
+            messageCount: this.props.inboxCounter,
+            containerClassName: "envelope-icon",
+            className: "fa-envelope",
+            colorAndSizeClassName: "icon-white-md",
+            iconInfoClassName: "icon-info-inbox",
+            infoName: "Inbox",
+            linkAddress: "/"
+        };
+        const iconData2: iconData = {
             containerClassName: "user-icon",
             className: "fa-user",
             colorAndSizeClassName: "icon-white-md",
@@ -224,7 +236,7 @@ class Header extends React.Component<Props, State> {
             infoName: "Dashboard",
             linkAddress: "/dashboard"
         };
-        const iconData2: iconData = {
+        const iconData3: iconData = {
             containerClassName: "sign-out-icon",
             className: "fa-sign-out-alt",
             colorAndSizeClassName: "icon-white-md",
@@ -236,26 +248,12 @@ class Header extends React.Component<Props, State> {
         };
 
         if (this.state.isUserLoggedIn) {
+
             return (
                 <div className="login-signup-and-icon-container">
-                    <div className="icon-container envelope-icon">
-                        <div className="new-messages-count">
-                            <p>9+</p>
-                        </div>
-                        <NavLink
-                            to="/"
-                            className="icon-white-md fa fa-fw fa-envelope"
-                            aria-hidden="true"
-                        >
-                            {" "}
-                        </NavLink>
-                        <div className="icon-info icon-info-inbox">
-                            <div className="icon-triangle" />
-                            <p>Inbox</p>
-                        </div>
-                    </div>
                     <Icon iconData={iconData1} />
                     <Icon iconData={iconData2} />
+                    <Icon iconData={iconData3} />
                 </div>
             );
         }
@@ -293,6 +291,12 @@ class Header extends React.Component<Props, State> {
         );
     };
 
+    private onComponentLoadGetInboxCounter = () => {
+        if (this.state.isUserLoggedIn) {
+            this.props.requestInboxCount();
+        }
+    };
+
     public componentWillReceiveProps(
         nextProps: DispatchProps & StateProps
     ): void {
@@ -303,9 +307,13 @@ class Header extends React.Component<Props, State> {
         }
     }
 
-    public componentDidMount() {
+    public componentDidMount = (): void => {
         this.activeNavLinkForPage();
-    }
+    };
+
+    public componentWillMount = (): void => {
+        this.onComponentLoadGetInboxCounter();
+    };
 
     public render(): React.ReactNode {
         return (
@@ -383,9 +391,8 @@ class Header extends React.Component<Props, State> {
 const mapDispatchToProps = (dispatch: Dispatch): DispatchProps =>
     bindActionCreators(
         {
+            requestInboxCount,
             logOut: auth.logOut,
-            logIn: auth.logIn,
-            signUp: auth.signUp,
             toggleLogOutPopUp: modalPopUps.toggleLogOutPopUp,
             toggleLogInPopUp: modalPopUps.toggleLogInPopUp,
             toggleSignUpPopUp: modalPopUps.toggleSignUpPopUp
@@ -395,7 +402,8 @@ const mapDispatchToProps = (dispatch: Dispatch): DispatchProps =>
 
 const mapStateToProps = (state: AppState): StateProps => {
     return {
-        isUserLoggedIn: state.auth.isUserLoggedIn
+        isUserLoggedIn: state.auth.isUserLoggedIn,
+        inboxCounter: state.basicUserInfo.inboxCounter
     };
 };
 

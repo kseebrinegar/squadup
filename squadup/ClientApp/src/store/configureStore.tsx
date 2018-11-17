@@ -8,9 +8,13 @@ import {
 import { AppState } from "./types";
 import thunk from "redux-thunk";
 import auth, { Auth } from "../reducers/auth";
-import basicUserInfo, { BasicUserInfo } from "../reducers/basicUserInfo";
+import basicUserInfo, {
+    BasicUserInfo,
+    basicUserInfoDefault
+} from "../reducers/basicUserInfo";
 import modalPopUps from "../reducers/modalPopUps";
-import { loadState, saveState } from "../store/localStorage";
+import { loadState, localStorageOnBeforeUnload } from "../store/localStorage";
+import { webSocketInit, invoke } from "./websocket";
 
 const composeEnhancers =
     // tslint:disable-next-line:no-any
@@ -18,10 +22,10 @@ const composeEnhancers =
 
 const initalState: { auth: Auth; basicUserInfo: BasicUserInfo } = {
     auth: loadState("auth"),
-    basicUserInfo: loadState("basicUserInfo")
+    basicUserInfo: { ...basicUserInfoDefault, ...loadState("basicUserInfo") }
 };
 
-const setStore = () => {
+const setStore = (): Store<AppState> => {
     const store: Store<AppState> = createStore(
         combineReducers({
             auth,
@@ -29,22 +33,12 @@ const setStore = () => {
             modalPopUps
         }),
         initalState,
-        composeEnhancers(applyMiddleware(thunk))
+        composeEnhancers(applyMiddleware(thunk.withExtraArgument(invoke)))
     );
 
-    window.onbeforeunload = (): void => {
-        const {
-            auth,
-            basicUserInfo
-        }: { auth: Auth; basicUserInfo: BasicUserInfo } = store.getState();
+    localStorageOnBeforeUnload(store);
 
-        if (auth.isUserLoggedIn === false) {
-            localStorage.clear();
-        } else {
-            saveState("basicUserInfo", basicUserInfo);
-            saveState("auth", auth);
-        }
-    };
+    webSocketInit(store);
 
     return store;
 };

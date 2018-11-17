@@ -8,6 +8,7 @@ interface IState {}
 
 interface IProps {
     iconData: {
+        messageCount?: number;
         containerClassName: string;
         className: string;
         colorAndSizeClassName: string;
@@ -25,6 +26,26 @@ class Icons extends React.Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
     }
+
+    public renderIfMessageCountExists = () => {
+        const { messageCount } = this.props.iconData;
+
+        if (!messageCount) {
+            return;
+        }
+
+        return (
+            <div
+                className={
+                    messageCount <= 9
+                        ? "new-messages-count new-messages-count--one-digit"
+                        : "new-messages-count new-messages-count--two-digit"
+                }
+            >
+                <p>{messageCount}</p>
+            </div>
+        );
+    };
 
     public customizeIcon = (): React.ReactNode => {
         const {
@@ -73,12 +94,11 @@ class Icons extends React.Component<IProps, IState> {
         const fixed = (toFixed: number) => {
             const divideCounter: number =
                 counter / (counter <= 999999 ? 1000 : 1000000);
-
             return round(parseFloat(divideCounter.toFixed(toFixed)), 1) + unit;
         };
 
         if (counter < 999) {
-            return counter + unit;
+            return counter.toString();
         } else if (counter > 999 && counter <= 99999) {
             return fixed(3);
         } else if (counter > 99999 && counter <= 999999) {
@@ -93,7 +113,7 @@ class Icons extends React.Component<IProps, IState> {
     public renderIfIconCounterExists = (): React.ReactNode | void => {
         const { iconCount } = this.props.iconData;
 
-        if (iconCount) {
+        if (iconCount || iconCount === 0) {
             const count = this.howToDisplayCounterIcon(iconCount);
             return <p className="icon-counter">{count}</p>;
         }
@@ -116,6 +136,7 @@ class Icons extends React.Component<IProps, IState> {
         const { containerClassName } = this.props.iconData;
         return (
             <div className={`icon-container ${containerClassName}`}>
+                {this.renderIfMessageCountExists()}
                 {this.customizeIcon()}
                 {this.renderIfIconCounterExists()}
                 {this.renderIfIconInfoMessageExists()}
@@ -130,8 +151,8 @@ class Icons extends React.Component<IProps, IState> {
 
 export default Icons;
 
-/* 
-*/
+/*
+ */
 
 /*const mapDispatchToProps = (dispatch: Dispatch) => {
     return bindActionCreators({}, dispatch);

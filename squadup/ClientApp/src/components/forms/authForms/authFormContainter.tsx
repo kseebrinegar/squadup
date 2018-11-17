@@ -17,7 +17,7 @@ interface OwnProps extends RouteComponentProps<{}> {
 }
 
 interface DispatchProps {
-    logIn: () => void;
+    logIn: (payload: number) => { type: string; payload: number };
     signUp: () => void;
     toggleLogInPopUp: (payload: boolean) => { type: string; payload: boolean };
     toggleSignUpPopUp: (payload: boolean) => { type: string; payload: boolean };
@@ -173,7 +173,7 @@ const authFormContainer = <P extends WrappedComponentProps>(
             inputValues;
             axios.post("https://reqres.in/api/users?delay=5").then(
                 () => {
-                    this.props.logIn();
+                    this.props.logIn(89);
                     this.props.notifyUserOfSuccess(() => {
                         this.props.history.push("/dashboard");
                     });

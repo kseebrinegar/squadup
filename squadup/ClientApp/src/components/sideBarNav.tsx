@@ -11,10 +11,11 @@ import ProjectAndUserImg from "./images/projectAndUserImg";
 import UserAndProjectImgCta from "./images/userAndProjectImgCta";
 import Icon from "./icons/icon";
 import UploadImgFile from "./forms/uploadFile/UploadImgFile";
+import LoaderAnimation from "./loaderAnimations/loaderAnimation";
 
 interface DispatchProps {
-    requestSideBarIconsData: () => Function;
-    requestAllSideBarData: () => Function;
+    requestSideBarIconsData: (callBack: () => void) => Function;
+    requestAllSideBarData: (callBack: () => void) => Function;
     toggleSideBarNavImgPopUp: () => void;
 }
 
@@ -28,7 +29,7 @@ interface StateProps {
 }
 
 interface State {
-    [propName: string]: boolean;
+    [propName: string]: boolean | number;
 }
 
 type Props = DispatchProps & StateProps;
@@ -38,7 +39,8 @@ type navList = Record<string, string | number>[];
 class SideBarNav extends React.Component<Props, State> {
     public state: State = {
         isSideBarHidden: false,
-        isInboxNavHidden: true
+        isInboxNavHidden: true,
+        isComponentLoading: true
     };
 
     constructor(props: Props) {
@@ -146,18 +148,26 @@ class SideBarNav extends React.Component<Props, State> {
     };
 
     public onComponentLoadGetData = (): void => {
-        const defaultUserImg = "/images/default-user-img.jpg";
+        const defaultUserImg = "images/default-user-img.jpg";
         const defaultUserName = "";
 
         if (
             this.props.userImg === defaultUserImg &&
             this.props.userName === defaultUserName
         ) {
-            this.props.requestAllSideBarData();
+            this.props.requestAllSideBarData(() => {
+                this.setState(() => {
+                    return { isComponentLoading: false };
+                });
+            });
             return;
         }
 
-        this.props.requestSideBarIconsData();
+        this.props.requestSideBarIconsData(() => {
+            this.setState(() => {
+                return { isComponentLoading: false };
+            });
+        });
     };
 
     public componentWillMount(): void {
@@ -232,6 +242,7 @@ class SideBarNav extends React.Component<Props, State> {
                                 />
                             </div>
                         </div>
+
                         <div
                             style={{
                                 transform: this.state.isSideBarHidden
@@ -240,27 +251,33 @@ class SideBarNav extends React.Component<Props, State> {
                             }}
                             className="sidebar"
                         >
-                            <ProjectAndUserImg
-                                userName={this.props.userName}
-                                img={this.props.userImg}
-                            >
-                                <UserAndProjectImgCta
-                                    toggleDisplayPopUpModal={() => {
-                                        this.props.toggleSideBarNavImgPopUp();
-                                    }}
-                                />
-                            </ProjectAndUserImg>
-                            <div className="sidebar-nav-icons-container">
-                                <Icon iconData={iconData1} />
-                                <Icon iconData={iconData2} />
-                                <Icon iconData={iconData3} />
-                                <Icon iconData={iconData4} />
-                            </div>
-                            <nav className="sidebar-nav">
-                                <ul className="sidebar-nav-items">
-                                    {this.renderNavList()}
-                                </ul>
-                            </nav>
+                            {this.state.isComponentLoading ? (
+                                <LoaderAnimation displayLoader={true} />
+                            ) : (
+                                <React.Fragment>
+                                    <ProjectAndUserImg
+                                        userName={this.props.userName}
+                                        img={this.props.userImg}
+                                    >
+                                        <UserAndProjectImgCta
+                                            toggleDisplayPopUpModal={() => {
+                                                this.props.toggleSideBarNavImgPopUp();
+                                            }}
+                                        />
+                                    </ProjectAndUserImg>
+                                    <div className="sidebar-nav-icons-container">
+                                        <Icon iconData={iconData1} />
+                                        <Icon iconData={iconData2} />
+                                        <Icon iconData={iconData3} />
+                                        <Icon iconData={iconData4} />
+                                    </div>
+                                    <nav className="sidebar-nav">
+                                        <ul className="sidebar-nav-items">
+                                            {this.renderNavList()}
+                                        </ul>
+                                    </nav>
+                                </React.Fragment>
+                            )}
                         </div>
                     </div>
                 </div>

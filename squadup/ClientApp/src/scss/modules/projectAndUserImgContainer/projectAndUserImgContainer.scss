@@ -1,6 +1,19 @@
 .users-and-projects-img {
     margin-bottom: 1rem;
     position: relative;
+    width: 15rem;
+    height: 15rem;
+    border-radius: 3px;
+
+    @include respond(mq-1500) {
+        width: 17.9rem;
+        height: 17.9rem;
+    }
+
+    @include respond(mq-1800) {
+        width: 20rem;
+        height: 20rem;
+    }
 
     @include respond(mq-1500) {
         margin-bottom: 1.5rem;

@@ -3,8 +3,11 @@ import {
     ActionUserGetSideBarIconsData
 } from "../actions/sideBarNav";
 import { ActionImgUpload } from "../actions/uploadImg";
+import { ActionLogIn } from "../actions/auth";
+import { ActionInboxCounter } from "../actions/inboxCounter";
 
-export type BasicUserInfo = {
+export interface BasicUserInfo {
+    inboxCounter: number;
     userProfileLikesCount: number;
     userProfileViewsCount: number;
     userIsfollowingCount: number;
@@ -63,16 +66,19 @@ export type BasicUserInfo = {
         email: string;
         phone: string;
     };*/
-};
+}
 
 type Action =
     | ActionImgUpload
     | ActionUserAllSideBarData
-    | ActionUserGetSideBarIconsData;
+    | ActionUserGetSideBarIconsData
+    | ActionLogIn
+    | ActionInboxCounter;
 
-const basicUserInfoDefault: BasicUserInfo = {
-    imgSrc: "/images/default-user-img.jpg",
-    userName: "xxxcaseyxxx",
+export const basicUserInfoDefault: BasicUserInfo = {
+    inboxCounter: 0,
+    imgSrc: "images/default-user-img.jpg",
+    userName: "",
     userProfileLikesCount: 0,
     userProfileViewsCount: 0,
     userIsfollowingCount: 0,
@@ -149,6 +155,12 @@ export default (
             for (let prop in action.payload) {
                 newState[prop] = action.payload[prop];
             }
+            return newState;
+        case "LOG_IN":
+            newState.inboxCounter = action.payload;
+            return newState;
+        case "GET_INBOX_COUNTER":
+            newState.inboxCounter = action.payload;
             return newState;
         default:
             return state;

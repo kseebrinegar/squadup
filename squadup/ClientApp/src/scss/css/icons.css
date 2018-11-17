@@ -141,25 +141,67 @@
     border-right: 6px solid transparent;
     border-bottom: 6px solid #de101d; }
 
+/*.new-messages-count {
+    /*height: 1.6rem;
+    width: 1.6rem;*/
+/* height: 1.8rem;
+    width: 1.8rem;
+    background: $new-messages-count;
+    border-radius: 50%;
+    top: -50%;
+    left: 50%;
+    pointer-events: none;
+
+    /* p {
+        font-size: 0.9rem;
+        height: 0.8rem;
+        width: 0.6rem;
+        color: white;
+        @include center-container-x-and-y;
+    }*/
+/*  p {
+        font-size: 0.9rem;
+        height: 0.8rem;
+        width: 1.1rem;
+        color: white;
+        // background: darkblue;
+        @include center-container-x-and-y;
+    }
+}*/
 .new-messages-count {
-  height: 1.6rem;
-  width: 1.6rem;
   background: #de101d;
   border-radius: 50%;
   top: -50%;
   left: 50%;
   pointer-events: none; }
   .new-messages-count p {
-    font-size: 0.9rem;
     color: white;
+    font-size: 0.9rem;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%); }
 
+.new-messages-count--one-digit {
+  height: 1.6rem;
+  width: 1.6rem; }
+  .new-messages-count--one-digit p {
+    height: 0.8rem;
+    width: 0.6rem; }
+
+.new-messages-count--two-digit {
+  height: 1.8rem;
+  width: 1.8rem; }
+  .new-messages-count--two-digit p {
+    height: 0.8rem;
+    width: 1.1rem; }
+
 @media (max-width: 768px) {
   .new-messages-count p {
     font-size: 0.8rem; }
+  .new-messages--one-digit p {
+    height: 0.8rem;
+    width: 0.5rem; }
   .close-icon {
     height: 2.2rem;
     width: 2.2rem; }
@@ -171,6 +213,8 @@
     left: -11px; } }
 
 @media (max-width: 480px) {
+  .new-messages-count p {
+    right: 0%; }
   .icon-white-xlg,
   .icon-black-xlg,
   .icon-green-xlg {
@@ -227,11 +271,20 @@
   .icon-red-md,
   .icon-green-md {
     font-size: 18px !important; }
-  .new-messages-count {
+  .new-messages-count p {
+    font-size: 1.1rem; }
+  .new-messages--one-digit {
     height: 1.8rem;
     width: 1.8rem; }
-    .new-messages-count p {
-      font-size: 1.1rem; }
+    .new-messages--one-digit p {
+      height: 1rem;
+      width: 0.8rem; }
+  .new-messages-count--two-digit {
+    height: 2rem;
+    width: 2rem; }
+    .new-messages-count--two-digit p {
+      height: 1rem;
+      width: 1.2rem; }
   .icon-info-dashboard p,
   .icon-info-inbox p,
   .icon-info-logout p,
@@ -284,11 +337,20 @@
   .icon-red-md,
   .icon-green-md {
     font-size: 20px !important; }
-  .new-messages-count {
+  .new-messages-count p {
+    font-size: 1.3rem; }
+  .new-messages--one-digit {
     height: 2.1rem;
     width: 2.1rem; }
-    .new-messages-count p {
-      font-size: 1.3rem; }
+    .new-messages--one-digit p {
+      height: 1.3rem;
+      width: 1rem; }
+  .new-messages-count--two-digit {
+    height: 2.3rem;
+    width: 2.3rem; }
+    .new-messages-count--two-digit p {
+      height: 1.2rem;
+      width: 1.5rem; }
   .icon-info-dashboard p,
   .icon-info-inbox p,
   .icon-info-logout p,

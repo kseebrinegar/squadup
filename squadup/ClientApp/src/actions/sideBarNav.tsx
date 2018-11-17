@@ -4,40 +4,43 @@ import types, { PayloadedAction } from "./types";
 
 export interface ActionUserAllSideBarData
     extends PayloadedAction<
-            types.GET_All_SIDERBAR_DATA,
-            { [prop: string]: number | string }
-        > {}
+        types.GET_All_SIDERBAR_DATA,
+        { [prop: string]: number | string }
+    > {}
 
 export interface ActionUserGetSideBarIconsData
     extends PayloadedAction<
-            types.GET_SIDERBAR_ICONS_DATA,
-            { [prop: string]: number }
-        > {}
+        types.GET_SIDERBAR_ICONS_DATA,
+        { [prop: string]: number }
+    > {}
 
-const requestAllSideBarData = (): Function => {
+const requestAllSideBarData = (stopLoader: () => void): Function => {
     const testData = {
         userProfileLikesCount: 1111,
         userProfileViewsCount: 10555,
         userIsfollowingCount: 23099,
         userProjectsCount: 1199,
         userName: "xxxCaseyxxx",
-        imgSrc: "/images/default-user-img.jpg"
+        imgSrc: "images/default-user-img.jpg"
     };
 
     return (dispatch: Dispatch) => {
         axios
-            .get("https://reqres.in/api/unknown/2")
+            .get("https://reqres.in/api/users?delay=1")
             .then(() => {
                 dispatch<ActionUserAllSideBarData>({
                     type: types.GET_All_SIDERBAR_DATA,
                     payload: { ...testData }
                 });
+                stopLoader();
             })
-            .catch(() => {});
+            .catch(() => {
+                stopLoader();
+            });
     };
 };
 
-const requestSideBarIconsData = (): Function => {
+const requestSideBarIconsData = (stopLoader: () => void): Function => {
     const testData = {
         userProfileLikesCount: 111,
         userProfileViewsCount: 10555,
@@ -47,14 +50,17 @@ const requestSideBarIconsData = (): Function => {
 
     return (dispatch: Dispatch) => {
         axios
-            .get("https://reqres.in/api/unknown/2")
+            .get("https://reqres.in/api/users?delay=0")
             .then(() => {
                 dispatch<ActionUserGetSideBarIconsData>({
                     type: types.GET_SIDERBAR_ICONS_DATA,
                     payload: { ...testData }
                 });
+                stopLoader();
             })
-            .catch(() => {});
+            .catch(() => {
+                stopLoader();
+            });
     };
 };
 

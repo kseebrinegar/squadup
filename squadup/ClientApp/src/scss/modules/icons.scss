@@ -160,9 +160,36 @@
     }
 }
 
+/*.new-messages-count {
+    /*height: 1.6rem;
+    width: 1.6rem;*/
+/* height: 1.8rem;
+    width: 1.8rem;
+    background: $new-messages-count;
+    border-radius: 50%;
+    top: -50%;
+    left: 50%;
+    pointer-events: none;
+
+    /* p {
+        font-size: 0.9rem;
+        height: 0.8rem;
+        width: 0.6rem;
+        color: white;
+        @include center-container-x-and-y;
+    }*/
+
+/*  p {
+        font-size: 0.9rem;
+        height: 0.8rem;
+        width: 1.1rem;
+        color: white;
+        // background: darkblue;
+        @include center-container-x-and-y;
+    }
+}*/
+
 .new-messages-count {
-    height: 1.6rem;
-    width: 1.6rem;
     background: $new-messages-count;
     border-radius: 50%;
     top: -50%;
@@ -170,9 +197,29 @@
     pointer-events: none;
 
     p {
-        font-size: 0.9rem;
         color: white;
+        font-size: 0.9rem;
         @include center-container-x-and-y;
+    }
+}
+
+.new-messages-count--one-digit {
+    height: 1.6rem;
+    width: 1.6rem;
+
+    p {
+        height: 0.8rem;
+        width: 0.6rem;
+    }
+}
+
+.new-messages-count--two-digit {
+    height: 1.8rem;
+    width: 1.8rem;
+
+    p {
+        height: 0.8rem;
+        width: 1.1rem;
     }
 }
 
@@ -180,6 +227,13 @@
     .new-messages-count {
         p {
             font-size: 0.8rem;
+        }
+    }
+
+    .new-messages--one-digit {
+        p {
+            height: 0.8rem;
+            width: 0.5rem;
         }
     }
 
@@ -202,6 +256,12 @@
 }
 
 @include respond(mq-480) {
+    .new-messages-count {
+        p {
+            right: 0%;
+        }
+    }
+
     .icon-white-xlg,
     .icon-black-xlg,
     .icon-green-xlg {
@@ -281,11 +341,28 @@
     }
 
     .new-messages-count {
+        p {
+            font-size: 1.1rem;
+        }
+    }
+
+    .new-messages--one-digit {
         height: 1.8rem;
         width: 1.8rem;
 
         p {
-            font-size: 1.1rem;
+            height: 1rem;
+            width: 0.8rem;
+        }
+    }
+
+    .new-messages-count--two-digit {
+        height: 2rem;
+        width: 2rem;
+
+        p {
+            height: 1rem;
+            width: 1.2rem;
         }
     }
 
@@ -364,11 +441,28 @@
     }
 
     .new-messages-count {
+        p {
+            font-size: 1.3rem;
+        }
+    }
+
+    .new-messages--one-digit {
         height: 2.1rem;
         width: 2.1rem;
 
         p {
-            font-size: 1.3rem;
+            height: 1.3rem;
+            width: 1rem;
+        }
+    }
+
+    .new-messages-count--two-digit {
+        height: 2.3rem;
+        width: 2.3rem;
+
+        p {
+            height: 1.2rem;
+            width: 1.5rem;
         }
     }
 

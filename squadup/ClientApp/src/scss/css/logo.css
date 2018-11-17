@@ -1,0 +1,25 @@
+/* START .................................. MEDIA QUERIES */
+/* END .................................... MEDIA QUERIES */
+.logo,
+.logo-container {
+  display: block;
+  width: 4rem;
+  height: 5.3rem; }
+
+@media (max-width: 480px) {
+  .logo,
+  .logo-container {
+    width: 3.5rem;
+    height: 4.7rem; } }
+
+@media (min-width: 1500px) {
+  .logo,
+  .logo-container {
+    width: 4.5rem;
+    height: 6rem; } }
+
+@media (min-width: 1800px) {
+  .logo,
+  .logo-container {
+    width: 5rem;
+    height: 6.7rem; } }

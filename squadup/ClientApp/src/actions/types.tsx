@@ -3,6 +3,7 @@ enum types {
     LOG_IN = "LOG_IN",
     LOG_OUT = "LOG_OUT",
     UPLOAD_IMG = "UPLOAD_IMG",
+    GET_INBOX_COUNTER = "GET_INBOX_COUNTER",
     GET_SIDERBAR_ICONS_DATA = "GET_SIDERBAR_ICONS_DATA",
     GET_All_SIDERBAR_DATA = "GET_All_SIDERBAR_DATA",
     IS_LOG_OUT_POP_UP_SHOWN = "IS_LOG_OUT_POP_UP_SHOWN",
@@ -38,14 +39,6 @@ export function createPayloadedAction<
 export function createAction<TAction extends Action<TAction["type"]>>(
     type: TAction["type"]
 ): () => Action<TAction["type"]> {
-    return () => ({
-        type: type
-    });
-}
-
-export function createActionMulti<TAction extends Action<TAction["type"]>>(
-    type: TAction["type"]
-): () => Action<TAction["type"][]> {
     return () => ({
         type: type
     });
